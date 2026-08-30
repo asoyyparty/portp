@@ -1,0 +1,106 @@
+/* Hallmark · macrostructure: Editorial Portfolio Grid · theme: Majd Framer aesthetic
+ * paper: #FAF7F3 (warm oat) · ink: #111111 (deep charcoal) · accent: #EB4D6D (coral rose) / #111111
+ * display: Archivo / Clash Grotesk · body: Geist / Inter · mono: Geist Mono
+ * nav: N5 Floating pill · footer: Big Impact Statement ("Let's talk.")
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Geist:wght@350;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Light Mode (Signature Framer Warm Oat) ── */
+  --color-paper:        #FAF7F3;
+  --color-paper-2:      #FFFFFF;
+  --color-paper-3:      #F2EFEB;
+  --color-paper-elev:   #FFFFFF;
+
+  --color-ink:          #111111;
+  --color-ink-2:        #555555;
+  --color-ink-muted:    #888888;
+
+  --color-rule:         rgba(0, 0, 0, 0.08);
+  --color-rule-2:       rgba(0, 0, 0, 0.04);
+  --color-muted:        #888888;
+  --color-neutral:      #666666;
+
+  --color-accent:       #111111;
+  --color-accent-rose:  #EB4D6D;
+  --color-accent-dim:   rgba(235, 77, 109, 0.08);
+  --color-accent-ink:   #FAF7F3;
+  --color-focus:        #EB4D6D;
+
+  --glass-bg:           rgba(250, 247, 243, 0.85);
+  --glass-border:       rgba(0, 0, 0, 0.08);
+  --card-shadow:        0 10px 30px -10px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover:  0 20px 40px -12px rgba(0, 0, 0, 0.08);
+
+  /* ── Typography ── */
+  --font-display: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body:    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, monospace;
+
+  /* ── Type Scale (Major Third 1.25) ── */
+  --text-xs:      0.75rem;    /* 12px */
+  --text-sm:      0.875rem;   /* 14px */
+  --text-base:    1rem;       /* 16px */
+  --text-md:      1.125rem;   /* 18px */
+  --text-lg:      1.375rem;   /* 22px */
+  --text-xl:      1.75rem;    /* 28px */
+  --text-2xl:     2.25rem;    /* 36px */
+  --text-3xl:     3rem;       /* 48px */
+  --text-4xl:     4rem;       /* 64px */
+  --text-display: clamp(2.5rem, 6vw + 1rem, 5.5rem);
+
+  /* ── Spacing ── */
+  --space-3xs:  0.25rem;
+  --space-2xs:  0.5rem;
+  --space-xs:   0.75rem;
+  --space-sm:   1rem;
+  --space-md:   1.5rem;
+  --space-lg:   2rem;
+  --space-xl:   3rem;
+  --space-2xl:  4.5rem;
+  --space-3xl:  6.5rem;
+  --space-4xl:  9rem;
+
+  /* ── Motion ── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro:   120ms;
+  --dur-short:   240ms;
+  --dur-long:    450ms;
+
+  /* ── Radii ── */
+  --radius-card:  16px;
+  --radius-pill:  999px;
+  --radius-input: 8px;
+  --radius-tag:   6px;
+}
+
+/* ── Dark Mode Preference / Class ── */
+[data-theme="dark"] {
+  --color-paper:        #0E0E11;
+  --color-paper-2:      #16161B;
+  --color-paper-3:      #1F1F26;
+  --color-paper-elev:   #1A1A22;
+
+  --color-ink:          #FAF7F3;
+  --color-ink-2:        #A0A0AA;
+  --color-ink-muted:    #71717A;
+
+  --color-rule:         rgba(255, 255, 255, 0.08);
+  --color-rule-2:       rgba(255, 255, 255, 0.04);
+  --color-muted:        #71717A;
+  --color-neutral:      #A0A0AA;
+
+  --color-accent:       #FAF7F3;
+  --color-accent-rose:  #EB4D6D;
+  --color-accent-dim:   rgba(235, 77, 109, 0.12);
+  --color-accent-ink:   #0E0E11;
+  --color-focus:        #EB4D6D;
+
+  --glass-bg:           rgba(14, 14, 17, 0.85);
+  --glass-border:       rgba(255, 255, 255, 0.08);
+  --card-shadow:        0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover:  0 20px 40px -12px rgba(0, 0, 0, 0.7);
+}
