@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qois Abdul Qudus — Software Engineer & IT Infrastructure Officer</title>
-  <meta name="description" content="Software engineer and IT infrastructure officer with a strong focus on building modern, scalable, and reliable enterprise systems and web experiences." />
+  <title>Qois Abdul Qudus — Software Engineer & IT Infrastructure</title>
+  <meta name="description" content="Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi." />
 
   <!-- Favicon -->
   <link rel="icon" href="assets/images/profile.png" />
@@ -870,6 +870,12 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      text-decoration: none;
+      transition: opacity var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .thumb-back-cta:hover {
+      opacity: 0.9;
+      transform: scale(1.04);
     }
 
     .project-badge-pill {
@@ -951,6 +957,54 @@
       background: var(--color-paper-3);
       border-radius: var(--radius-tag);
       padding: 3px 8px;
+    }
+
+    .project-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--color-rule-2);
+      flex-wrap: wrap;
+    }
+
+    .project-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      transition: background-color var(--dur-short) var(--ease-out),
+                  border-color var(--dur-short) var(--ease-out),
+                  transform var(--dur-micro) var(--ease-out),
+                  opacity var(--dur-micro) var(--ease-out);
+    }
+
+    .project-btn-primary {
+      background: var(--color-ink);
+      color: var(--color-accent-ink);
+      border: 1px solid transparent;
+      box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.15);
+    }
+    .project-btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .project-btn-secondary {
+      background: var(--color-paper-3);
+      color: var(--color-ink);
+      border: 1px solid var(--color-rule);
+    }
+    .project-btn-secondary:hover {
+      background: var(--color-paper-hover);
+      border-color: var(--color-ink);
+      transform: translateY(-1px);
     }
 
     /* ════════════════════════════════════════
@@ -1260,7 +1314,7 @@
 
         <!-- Top Tracked Meta Bar -->
         <div class="hero-meta-bar reveal" style="--i:0">
-          <span>SOFTWARE ENGINEER & IT OFFICER</span>
+          <span>SOFTWARE ENGINEER & IT INFRASTRUCTURE</span>
           <span>©2026</span>
           <span>/CREATING SINCE 2020</span>
         </div>
@@ -1272,16 +1326,16 @@
             <div class="hero-intro-tag reveal" style="--i:1">Hey!</div>
 
             <p class="hero-lede reveal" style="--i:2">
-              I’m <strong>Qois Abdul Qudus</strong>, a software engineer and IT infrastructure specialist based in Indonesia, currently managing industrial networks & enterprise systems at PT CBA Chemical Industry.
+              I’m <strong>Qois Abdul Qudus</strong>, a Software Engineer and IT Infrastructure specialist based in Indonesia, currently managing industrial network architectures & enterprise systems at PT CBA Chemical Industry.
             </p>
 
             <h1 class="hero-manifesto reveal" id="hero-title" style="--i:3">
-              From idea to launch. Clean, scalable digital products built to move fast, stay reliable, and perform.
+              Resilient IT infrastructure. Scalable software systems. Built to run 24/7, perform reliably, and scale.
             </h1>
 
             <div class="hero-actions reveal" style="--i:4">
               <a href="#contact" class="btn-pill-dark">
-                Get Started
+                Get in Touch
                 <span aria-hidden="true">↗</span>
               </a>
               <a href="#projects" class="btn-pill-outline">
@@ -1294,7 +1348,7 @@
             <div class="hero-quick-stats reveal" style="--i:5">
               <div class="quick-stat-item">
                 <div class="quick-stat-val">3+ Years</div>
-                <div class="quick-stat-label">IT & Engineering</div>
+                <div class="quick-stat-label">Software & Infra</div>
               </div>
               <div class="quick-stat-item">
                 <div class="quick-stat-val">11+ Systems</div>
@@ -1317,7 +1371,7 @@
                 <div class="hero-photo-caption">
                   <div>
                     <span class="status-dot" aria-hidden="true"></span>
-                    <span>Available for Projects</span>
+                    <span>Available for Opportunities</span>
                   </div>
                   <span>Serang, Banten</span>
                 </div>
@@ -1327,18 +1381,18 @@
               <div class="hero-flip-back">
                 <div class="id-card-header">
                   <span class="id-chip">ENGINEER SPEC // ID-2026</span>
-                  <span class="id-badge-code">PT CBA / INFRA</span>
+                  <span class="id-badge-code">PT CBA / INFRA & DEV</span>
                 </div>
 
                 <div class="id-card-body">
                   <div class="id-name">Qois Abdul Qudus</div>
-                  <div class="id-role">IT Infrastructure Officer & Dev</div>
+                  <div class="id-role">Software Engineer & IT Infrastructure</div>
                   <ul class="id-spec-list">
                     <li>24/7 Factory Network & CCTV Ops</li>
                     <li>Laravel 12 & Next.js Fullstack</li>
-                    <li>Database & Helpdesk Ticketing</li>
+                    <li>Database & Enterprise Systems</li>
+                    <li>AWS Cloud Practitioner & Linux</li>
                     <li>S1 Informatika · Univ Bina Bangsa</li>
-                    <li>AWS Certified Cloud Practitioner</li>
                   </ul>
                 </div>
 
@@ -1358,28 +1412,30 @@
     <div class="marquee-container reveal" style="--i:1" aria-label="Core Technologies Marquee">
       <div class="marquee-track">
         <div class="marquee-item">Network Infrastructure</div>
-        <div class="marquee-item">IT Asset Management</div>
-        <div class="marquee-item">TypeScript</div>
-        <div class="marquee-item">Next.js & React</div>
+        <div class="marquee-item">IT Asset Management (ITAM)</div>
+        <div class="marquee-item">Enterprise Web Systems</div>
         <div class="marquee-item">Laravel 12</div>
-        <div class="marquee-item">Docker</div>
+        <div class="marquee-item">Next.js & React</div>
+        <div class="marquee-item">TypeScript</div>
+        <div class="marquee-item">Linux & Server Ops</div>
         <div class="marquee-item">PostgreSQL & MySQL</div>
         <div class="marquee-item">AWS Cloud</div>
+        <div class="marquee-item">Docker & CI/CD</div>
         <div class="marquee-item">Leaflet GIS</div>
-        <div class="marquee-item">Midtrans Payment</div>
-        <div class="marquee-item">Unity 3D Android</div>
+        <div class="marquee-item">CCTV & Surveillance Ops</div>
         <!-- Duplicate for infinite continuous flow -->
         <div class="marquee-item">Network Infrastructure</div>
-        <div class="marquee-item">IT Asset Management</div>
-        <div class="marquee-item">TypeScript</div>
-        <div class="marquee-item">Next.js & React</div>
+        <div class="marquee-item">IT Asset Management (ITAM)</div>
+        <div class="marquee-item">Enterprise Web Systems</div>
         <div class="marquee-item">Laravel 12</div>
-        <div class="marquee-item">Docker</div>
+        <div class="marquee-item">Next.js & React</div>
+        <div class="marquee-item">TypeScript</div>
+        <div class="marquee-item">Linux & Server Ops</div>
         <div class="marquee-item">PostgreSQL & MySQL</div>
         <div class="marquee-item">AWS Cloud</div>
+        <div class="marquee-item">Docker & CI/CD</div>
         <div class="marquee-item">Leaflet GIS</div>
-        <div class="marquee-item">Midtrans Payment</div>
-        <div class="marquee-item">Unity 3D Android</div>
+        <div class="marquee-item">CCTV & Surveillance Ops</div>
       </div>
     </div>
 
@@ -1389,40 +1445,40 @@
         <header class="section-header reveal" style="--i:0">
           <span class="section-eyebrow">/Capabilities</span>
           <h2 class="section-title" id="services-title">Services & Expertise</h2>
-          <p class="section-subtitle">Pondasi teknis dan solusi digital yang saya kembangkan untuk otomasi proses bisnis dan keandalan sistem.</p>
+          <p class="section-subtitle">Pondasi infrastruktur IT yang kokoh dan rekayasa perangkat lunak enterprise untuk efisiensi bisnis serta keandalan sistem tanpa downtime.</p>
         </header>
 
         <div class="services-grid">
 
           <div class="spotlight-card service-card reveal" style="--i:1">
-            <div class="service-card__num">01 / NETWORK & INFRASTRUCTURE</div>
+            <div class="service-card__num">01 / IT INFRASTRUCTURE & NETWORK</div>
             <div>
-              <h3 class="service-card__title">Factory Network Control</h3>
-              <p class="service-card__desc">Perancangan arsitektur jaringan LAN industri, monitoring topologi perangkat real-time, SLA uptime, dan sistem pengawasan CCTV pabrik 24/7.</p>
+              <h3 class="service-card__title">Industrial Network & Surveillance</h3>
+              <p class="service-card__desc">Perancangan arsitektur jaringan LAN industri, monitoring topologi perangkat real-time, manajemen bandwidth, SLA uptime tinggi, dan sistem pengawasan CCTV 24/7.</p>
             </div>
           </div>
 
           <div class="spotlight-card service-card reveal" style="--i:2">
-            <div class="service-card__num">02 / ENTERPRISE SOLUTIONS</div>
+            <div class="service-card__num">02 / ENTERPRISE SOFTWARE</div>
             <div>
-              <h3 class="service-card__title">ITAM & Helpdesk Ticketing</h3>
-              <p class="service-card__desc">Pengembangan platform manajemen aset IT (ITAM), sistem logistik armada, modul pelacakan inventaris EHS, dan aplikasi evaluasi kinerja SDM.</p>
+              <h3 class="service-card__title">Enterprise Applications & ITAM</h3>
+              <p class="service-card__desc">Pengembangan platform web internal berskala pabrik seperti IT Asset Management (ITAM), sistem logistik armada, modul inventaris EHS/P3K digital, dan aplikasi evaluasi SDM.</p>
             </div>
           </div>
 
           <div class="spotlight-card service-card reveal" style="--i:3">
             <div class="service-card__num">03 / FULLSTACK DEVELOPMENT</div>
             <div>
-              <h3 class="service-card__title">Web Apps & Payment Gateways</h3>
-              <p class="service-card__desc">Aplikasi web modern berbasis Next.js, React, TypeScript, dan Laravel dengan integrasi payment gateway Midtrans dan basis data relasional.</p>
+              <h3 class="service-card__title">Scalable Web Apps & Clean APIs</h3>
+              <p class="service-card__desc">Aplikasi web modern berbasis Laravel 12, Next.js, React, dan TypeScript dengan arsitektur RESTful API yang aman, clean architecture, serta integrasi payment gateway.</p>
             </div>
           </div>
 
           <div class="spotlight-card service-card reveal" style="--i:4">
-            <div class="service-card__num">04 / CIVIC TECH & MOBILE</div>
+            <div class="service-card__num">04 / CLOUD & AUTOMATION</div>
             <div>
-              <h3 class="service-card__title">Interactive GIS & Mobile Edu-Games</h3>
-              <p class="service-card__desc">Platform aduan publik berbasis peta geospasial Leaflet, serta game edukasi Android berbasis Unity 3D dengan publikasi riset terindeks.</p>
+              <h3 class="service-card__title">Cloud Ops & Interactive GIS</h3>
+              <p class="service-card__desc">Implementasi komputasi awan AWS, otomatisasi alur kerja operasional pabrik, sistem pelaporan publik berbasis peta geospasial Leaflet, serta riset mobile game edukasi terindeks.</p>
             </div>
           </div>
 
@@ -1436,13 +1492,13 @@
         <header class="section-header reveal" style="--i:0">
           <span class="section-eyebrow">/Selected Work</span>
           <h2 class="section-title" id="projects-title">Featured Projects</h2>
-          <p class="section-subtitle">Koleksi aplikasi industri, platform web enterprise, dan proyek inovatif yang telah saya selesaikan.</p>
+          <p class="section-subtitle">Koleksi sistem infrastruktur industri, aplikasi enterprise internal, dan platform web modern yang telah saya rancang serta kembangkan.</p>
         </header>
 
         <!-- Filter Bar -->
         <div class="filter-bar reveal" style="--i:1" role="group" aria-label="Filter Projects">
-          <button class="filter-pill" aria-pressed="true" data-filter="all" id="filter-all">All Projects (11)</button>
-          <button class="filter-pill" aria-pressed="false" data-filter="enterprise" id="filter-enterprise">Enterprise (CBA)</button>
+          <button class="filter-pill" aria-pressed="true" data-filter="all" id="filter-all">All Systems (11)</button>
+          <button class="filter-pill" aria-pressed="false" data-filter="enterprise" id="filter-enterprise">Infra & Enterprise</button>
           <button class="filter-pill" aria-pressed="false" data-filter="web" id="filter-web">Web Applications</button>
           <button class="filter-pill" aria-pressed="false" data-filter="mobile" id="filter-mobile">Mobile & Research</button>
         </div>
@@ -1451,7 +1507,7 @@
         <div class="projects-grid" id="projects-grid">
 
           <!-- 1. Factory Network Control System -->
-          <a href="https://networkfactory.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:2">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:2">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Aug 2026 – Present</span>
               <div class="project-thumb-inner">
@@ -1460,27 +1516,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Factory Network Control</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://networkfactory.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                Factory Network Control System
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Factory Network Control System</h3>
               <p class="project-desc">Aplikasi monitoring & kontrol perangkat jaringan pabrik berbasis web (LAN). Memantau topologi dan kondisi perangkat jaringan secara real-time, grafik SLA, serta sistem alert otomatis.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Network Infrastructure</li>
                 <li class="tech-pill">LAN Control</li>
                 <li class="tech-pill">Real-time Monitoring</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://networkfactory.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/network-factory" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 2. ITAM Enterprise -->
-          <a href="https://itam.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:3">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:3">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Jun 2026 – Present</span>
               <div class="project-thumb-inner">
@@ -1489,27 +1552,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">IT Asset Management</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://itam.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                IT Asset Management (ITAM) Enterprise
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">IT Asset Management (ITAM) Enterprise</h3>
               <p class="project-desc">Sistem Manajemen Aset IT & Helpdesk komprehensif berbasis Laravel 12. Membantu pelacakan aset IT, alokasi IP address, manajemen lisensi software, serta operasional layanan ticketing helpdesk.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Laravel 12</li>
                 <li class="tech-pill">ITAM Enterprise</li>
                 <li class="tech-pill">Helpdesk Ticketing</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://itam.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/itam" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 3. Kotak P3K Digital -->
-          <a href="https://kotakp3k.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:4">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:4">
             <div class="project-thumb-box">
               <span class="project-badge-pill">May 2026 – Present</span>
               <div class="project-thumb-inner">
@@ -1518,27 +1588,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">P3K Digital Monitoring</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://kotakp3k.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                P3K Digital Monitoring System
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">P3K Digital Monitoring System</h3>
               <p class="project-desc">Solusi manajemen inventaris cerdas yang mentransformasi pemantauan kotak P3K konvensional di seluruh area pabrik menjadi platform digital yang efisien, transparan, dan akurat.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Safety & EHS</li>
                 <li class="tech-pill">Inventory Tracking</li>
                 <li class="tech-pill">Digital Monitoring</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://kotakp3k.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/kotakp3k" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 4. Sistem Sarana Prasarana -->
-          <a href="https://saranaprasarana.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:5">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:5">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Apr 2026 – Present</span>
               <div class="project-thumb-inner">
@@ -1547,27 +1624,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Sistem Sarana Prasarana</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://saranaprasarana.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                Sistem Sarana Prasarana
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Sistem Sarana Prasarana</h3>
               <p class="project-desc">Aplikasi web internal perusahaan untuk memantau dan mencatat pemeliharaan fasilitas serta infrastruktur pabrik. Memudahkan tim maintenance mencatat inspeksi dan mencetak kartu riwayat.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Facility Maintenance</li>
                 <li class="tech-pill">Asset Management</li>
                 <li class="tech-pill">Enterprise Web App</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://saranaprasarana.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/saranaprasarana" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 5. Patroli Keamanan Pabrik -->
-          <a href="https://patrolikeamanan.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:6">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:6">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Sep 2025 – Present</span>
               <div class="project-thumb-inner">
@@ -1576,27 +1660,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Patroli Keamanan Pabrik</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://patroli.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                Patroli Keamanan Pabrik
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Patroli Keamanan Pabrik</h3>
               <p class="project-desc">Sistem pencatatan log patroli keamanan terpusat. Petugas mencatat jadwal shift, rute patroli, timestamp, dan laporan kejadian yang dilengkapi bukti foto serta tanda tangan digital.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Security Operations</li>
                 <li class="tech-pill">Digital Signatures</li>
                 <li class="tech-pill">Audit Trail</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://patroli.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/doelkussoy/patroli" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 6. Tracking Bongkar Muat -->
-          <a href="https://tracking.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:7">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:7">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Aug 2025 – Present</span>
               <div class="project-thumb-inner">
@@ -1605,27 +1696,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Tracking Bongkar Muat</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://tracking.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                Tracking Bongkar Muat
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Tracking Bongkar Muat</h3>
               <p class="project-desc">Aplikasi pelacakan logistik real-time untuk mengonsolidasi dan mengoptimalkan alur kerja kendaraan di pabrik. Memantau durasi setiap tahapan dari gate check-in hingga pemuatan barang.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Logistics Tracking</li>
                 <li class="tech-pill">Workflow Optimization</li>
                 <li class="tech-pill">Real-time Monitoring</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://tracking.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/tracking" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 7. E-Raport System -->
-          <a href="https://eraport.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="enterprise" style="--i:8">
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:8">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Dec 2024 – Present</span>
               <div class="project-thumb-inner">
@@ -1634,27 +1732,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">E-Raport System</div>
-                  <span class="thumb-back-cta">Open Application ↗</span>
+                  <a href="https://eraport.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
-              <h3 class="project-title">
-                E-Raport System (Kinerja Karyawan)
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">E-Raport System (Kinerja Karyawan)</h3>
               <p class="project-desc">Sistem pelacakan kinerja karyawan HR yang mengelola kehadiran, pengajuan cuti, keterlambatan, riwayat training, serta evaluasi berkala dengan fitur ekspor laporan resmi.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">HR Tech</li>
                 <li class="tech-pill">Performance Assessment</li>
                 <li class="tech-pill">Enterprise Reporting</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://eraport.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/doelkussoy/eraport" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 8. Tiara Games -->
-          <a href="https://tiaragames.netlify.app/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="web" style="--i:9">
+          <article class="spotlight-card project-card reveal" data-category="web" style="--i:9">
             <div class="project-thumb-box">
               <span class="project-badge-pill">2025 · Live</span>
               <div class="project-thumb-inner">
@@ -1663,16 +1768,13 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Tiara Games Platform</div>
-                  <span class="thumb-back-cta">Visit Live Site ↗</span>
+                  <a href="https://tiaragames.netlify.app/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Visit Live Site ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">Independent Project</div>
-              <h3 class="project-title">
-                Tiara Games - Digital Top-Up Platform
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Tiara Games - Digital Top-Up Platform</h3>
               <p class="project-desc">Platform top-up voucher game digital dengan integrasi payment gateway Midtrans, validasi otomatis, export invoice PDF, dan modul manajemen admin.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Next.js</li>
@@ -1680,11 +1782,21 @@
                 <li class="tech-pill">Tailwind CSS</li>
                 <li class="tech-pill">Midtrans</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://tiaragames.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/doelkussoy/backend-tiara" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 9. Esthetic Cafe -->
-          <a href="https://estheticcafe.my.id" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="web" style="--i:10">
+          <article class="spotlight-card project-card reveal" data-category="web" style="--i:10">
             <div class="project-thumb-box">
               <span class="project-badge-pill">May 2025 – Aug 2025</span>
               <div class="project-thumb-inner">
@@ -1693,27 +1805,34 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Esthetic Cafe POS</div>
-                  <span class="thumb-back-cta">Visit Live App ↗</span>
+                  <a href="https://estheticcafe.my.id" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Visit Live App ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">Independent Project</div>
-              <h3 class="project-title">
-                Esthetic Cafe - Food Ordering Platform
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Esthetic Cafe - Food Ordering Platform</h3>
               <p class="project-desc">Platform pemesanan makanan berbasis web dengan fitur live order tracking dan admin panel manajemen menu, memungkinkan pelanggan memesan secara mandiri tanpa antrean manual.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Node.js</li>
                 <li class="tech-pill">Laravel</li>
                 <li class="tech-pill">Order Tracking</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://estheticcafe.my.id" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/doelkussoy" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 10. SerenityHub -->
-          <a href="https://serenityhub.cbapabrik.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="web" style="--i:11">
+          <article class="spotlight-card project-card reveal" data-category="web" style="--i:11">
             <div class="project-thumb-box">
               <span class="project-badge-pill">May 2024 – Sep 2024</span>
               <div class="project-thumb-inner">
@@ -1722,56 +1841,71 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">SerenityHub Civic Tech</div>
-                  <span class="thumb-back-cta">Open Platform ↗</span>
+                  <a href="https://serenityhub.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Platform ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">Univ Bina Bangsa & Serang City Gov</div>
-              <h3 class="project-title">
-                SerenityHub - Platform Pengaduan Kota Serang
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">SerenityHub - Platform Pengaduan Kota Serang</h3>
               <p class="project-desc">Platform pengaduan publik yang dibangun bekerja sama dengan Dishub / Pemkot Serang. Warga dapat melaporkan masalah jalan & fasilitas dengan peta interaktif Leaflet.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">React</li>
                 <li class="tech-pill">Vite</li>
                 <li class="tech-pill">Leaflet GIS</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://serenityhub.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/serenityhub" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 11. BBQ Al-Kahfi -->
-          <a href="https://bbqalkahfiserang.com/" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="web" style="--i:12">
+          <article class="spotlight-card project-card reveal" data-category="web" style="--i:12">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Jan 2024 – Mar 2024</span>
               <div class="project-thumb-inner">
                 <div class="project-thumb-front">
-                  <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop" alt="BBQ Al-Kahfi Serang" loading="lazy" decoding="async" />
+                  <img src="assets/images/bbqalkahfi.png" alt="BBQ Al-Kahfi Serang - Portal Bimbel" loading="lazy" decoding="async" />
                 </div>
                 <div class="project-thumb-back">
-                  <div class="thumb-back-title">BBQ Al-Kahfi Serang</div>
-                  <span class="thumb-back-cta">Visit Website ↗</span>
+                  <div class="thumb-back-title">BBQ Al-Kahfi Portal</div>
+                  <a href="https://bbqalkahfi.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Visit Website ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">Yayasan Al-Kahfi Serang</div>
-              <h3 class="project-title">
-                BBQ Al-Kahfi Serang - Company Profile
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
-              <p class="project-desc">Website company profile yang modern, responsif, dan mobile-first, dirancang untuk meningkatkan kredibilitas brand dan menyajikan navigasi produk yang intuitif.</p>
+              <h3 class="project-title">BBQ Al-Kahfi - Portal Bimbel</h3>
+              <p class="project-desc">Platform portal siswa & e-learning terpadu untuk Yayasan Al-Kahfi. Menghadirkan modul materi belajar, scan absen digital, smart raport, try out, dan gamifikasi progres siswa.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">PHP</li>
-                <li class="tech-pill">MySQL</li>
-                <li class="tech-pill">UI/UX Design</li>
+                <li class="tech-pill">React & Vite</li>
+                <li class="tech-pill">Tailwind CSS</li>
+                <li class="tech-pill">E-Learning Portal</li>
+                <li class="tech-pill">Education Tech</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://bbqalkahfi.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/asoyyparty/bbqalkahfi" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
           <!-- 12. Petualangan Barudak -->
-          <a href="https://garuda.kemdiktisaintek.go.id/documents/detail/4509823" target="_blank" rel="noopener noreferrer" class="spotlight-card project-card reveal" data-category="mobile" style="--i:13">
+          <article class="spotlight-card project-card reveal" data-category="mobile" style="--i:13">
             <div class="project-thumb-box">
               <span class="project-badge-pill">May 2024 – Aug 2024</span>
               <div class="project-thumb-inner">
@@ -1780,24 +1914,31 @@
                 </div>
                 <div class="project-thumb-back">
                   <div class="thumb-back-title">Petualangan Barudak</div>
-                  <span class="thumb-back-cta">View Publication ↗</span>
+                  <a href="https://garuda.kemdiktisaintek.go.id/documents/detail/4509823" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">View Publication ↗</a>
                 </div>
               </div>
             </div>
             <div class="project-content-box">
               <div class="project-org">Research Publication & Univ Bina Bangsa</div>
-              <h3 class="project-title">
-                Petualangan Barudak - Ethnomathematics Edu-Game
-                <span class="project-arrow" aria-hidden="true">↗</span>
-              </h3>
+              <h3 class="project-title">Petualangan Barudak - Ethnomathematics Edu-Game</h3>
               <p class="project-desc">Game edukasi Android interaktif yang mengajarkan konsep geometri melalui kebudayaan lokal Banten. Dipublikasikan resmi di Histogram: Jurnal Pendidikan Matematika (2024).</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">Unity 3D</li>
                 <li class="tech-pill">Android C#</li>
                 <li class="tech-pill">Research Paper</li>
               </ul>
+              <div class="project-actions">
+                <a href="https://garuda.kemdiktisaintek.go.id/documents/detail/4509823" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Read Paper
+                </a>
+                <a href="https://github.com/doelkussoy" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Source Code
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
 
         </div>
       </div>
@@ -1816,9 +1957,9 @@
           <div class="timeline-row reveal" style="--i:1">
             <div class="timeline-time">Nov 2024 – Present<br><span style="color:var(--color-ink-muted)">Cikande, Serang</span></div>
             <div>
-              <h3 class="timeline-heading">Information Technology Officer</h3>
+              <h3 class="timeline-heading">IT Infrastructure & Software Engineer</h3>
               <div class="timeline-sub">PT Centa Brasindo Abadi Chemical Industry</div>
-              <p class="timeline-text">Menangani IT secara end-to-end. Mengelola jaringan CCTV & infrastruktur pengawasan pabrik 24/7 agar selalu online dan sesuai standar. Merancang serta memelihara aplikasi web internal operasional pabrik (pemeliharaan fasilitas, security patrol logging, monitoring logistik, dan asesmen kinerja karyawan), serta mengelola dukungan teknis hardware, software, dan jaringan.</p>
+              <p class="timeline-text">Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen perangkat keras/server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi web enterprise internal seperti Factory Network Control, IT Asset Management (ITAM), monitoring inventaris EHS/P3K, dan logistik armada pabrik).</p>
             </div>
           </div>
 
@@ -1834,9 +1975,9 @@
           <div class="timeline-row reveal" style="--i:3">
             <div class="timeline-time">Oct 2020 – Present<br><span style="color:var(--color-ink-muted)">Kota Serang</span></div>
             <div>
-              <h3 class="timeline-heading">Information Technology & Private Teacher</h3>
+              <h3 class="timeline-heading">IT Specialist & Web Developer</h3>
               <div class="timeline-sub">Yayasan Al-Kahfi</div>
-              <p class="timeline-text">Membangun dan memelihara aplikasi web untuk operasional yayasan serta company profile BBQ Al-Kahfi, sekaligus memberikan bimbingan belajar secara privat untuk siswa.</p>
+              <p class="timeline-text">Mengelola infrastruktur IT yayasan, membangun dan memelihara aplikasi web untuk operasional yayasan serta company profile BBQ Al-Kahfi, sekaligus membimbing siswa dalam penguasaan literasi teknologi.</p>
             </div>
           </div>
 
@@ -1984,7 +2125,7 @@
       <div class="container">
         <span class="section-eyebrow reveal" style="--i:0">/Contact</span>
         <h2 class="cta-heading reveal" id="cta-title" style="--i:1">Let’s talk.</h2>
-        <p class="cta-sub reveal" style="--i:2">Scaling systems for growth & reliability. Open to collaborations, software development inquiries, and technical roles.</p>
+        <p class="cta-sub reveal" style="--i:2">Bridging scalable software engineering and reliable IT infrastructure. Open to engineering roles, technical consultations, and collaborations.</p>
 
         <div class="contact-grid reveal" style="--i:3">
 
@@ -2050,7 +2191,7 @@
         <div>
           <div class="footer-brand">Qois Abdul Qudus</div>
           <p class="footer-bio">
-            Software engineer and IT infrastructure specialist building clean, reliable, and performance-driven web & enterprise systems.
+            Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable dan arsitektur infrastruktur jaringan industri dengan keandalan tinggi.
           </p>
         </div>
 

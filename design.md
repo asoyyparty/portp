@@ -9,7 +9,7 @@ to it. Amend intentionally — the file is the rule.
 
 ## Brief
 
-Personal portfolio for Qois Abdul Qudus — Full-Stack Developer & IT Specialist.
+Personal portfolio for Qois Abdul Qudus — Software Engineer & IT Infrastructure Specialist.
 Audience: technical recruiters, engineering leads, collaborators.
 One job: showcase technical projects & systems, then connect via LinkedIn/GitHub.
 
