@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#1B1C24" />
+      <stop offset="60%" stop-color="#0E0F14" />
+      <stop offset="100%" stop-color="#070709" />
+    </radialGradient>
+
+    <!-- Metallic Rim Gradient -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A3D4D" />
+      <stop offset="50%" stop-color="#1E202A" />
+      <stop offset="100%" stop-color="#2D303E" />
+    </linearGradient>
+
+    <!-- Chrome / Silver Gradient for 'Q' Monogram -->
+    <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#E2E4EB" />
+      <stop offset="70%" stop-color="#9BA1B5" />
+      <stop offset="100%" stop-color="#CED2DE" />
+    </linearGradient>
+
+    <!-- Shadow for Depth -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+
+    <!-- Red/Rose Glowing Node -->
+    <radialGradient id="glowRed" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6B8B" />
+      <stop offset="40%" stop-color="#EB4D6D" />
+      <stop offset="100%" stop-color="#A31836" />
+    </radialGradient>
+
+    <filter id="nodeHalo" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base / App Icon Frame -->
+  <rect x="16" y="16" width="480" height="480" rx="112" ry="112" fill="url(#bgGlow)" stroke="url(#rimGrad)" stroke-width="4" />
+
+  <!-- Inner Soft Bevel Ring -->
+  <rect x="22" y="22" width="468" height="468" rx="106" ry="106" fill="none" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="1.5" />
+
+  <!-- Monogram Elements -->
+  <g filter="url(#dropShadow)">
+    <!-- LEFT HALF: Software Engineer '<' Bracket -->
+    <path d="M 242 148 L 134 256 L 242 364" 
+          fill="none" 
+          stroke="url(#chromeGrad)" 
+          stroke-width="30" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+
+    <!-- RIGHT HALF: Curved Arc for 'Q' -->
+    <path d="M 256 146 A 110 110 0 0 1 366 256 A 110 110 0 0 1 316 348" 
+          fill="none" 
+          stroke="url(#chromeGrad)" 
+          stroke-width="30" 
+          stroke-linecap="round" />
+
+    <!-- IT INFRASTRUCTURE: Circuit Trace Bus / Q Tail -->
+    <!-- Secondary Upper Trace -->
+    <line x1="250" y1="272" x2="322" y2="344" 
+          stroke="url(#chromeGrad)" 
+          stroke-width="12" 
+          stroke-linecap="round" />
+
+
+    <line x1="268" y1="290" x2="350" y2="372" 
+          stroke="url(#chromeGrad)" 
+          stroke-width="18" 
+          stroke-linecap="round" />
+
+    <!-- Trace to Glowing Network Node -->
+    <path d="M 350 372 L 366 388" 
+          stroke="#EB4D6D" 
+          stroke-width="16" 
+          stroke-linecap="round" />
+
+    <!-- Lower Parallel Bus Trace -->
+    <path d="M 306 358 L 332 384 L 332 400" 
+          fill="none" 
+          stroke="url(#chromeGrad)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+    <circle cx="332" cy="406" r="6" fill="url(#chromeGrad)" />
+
+    <!-- Glowing Rose IT Network Node -->
+    <!-- Outer Glow Aura -->
+    <circle cx="366" cy="388" r="24" fill="#EB4D6D" opacity="0.35" filter="url(#nodeHalo)" />
+    <!-- Main Node Bead -->
+    <circle cx="366" cy="388" r="14" fill="url(#glowRed)" stroke="#FFFFFF" stroke-width="2.5" />
+    <!-- Node Core Specular Light -->
+    <circle cx="363" cy="385" r="4" fill="#FFFFFF" opacity="0.85" />
+  </g>
+</svg>

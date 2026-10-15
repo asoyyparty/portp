@@ -6,8 +6,23 @@
   <title>Qois Abdul Qudus — Software Engineer & IT Infrastructure</title>
   <meta name="description" content="Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi." />
 
-  <!-- Favicon -->
-  <link rel="icon" href="assets/images/profile.png" />
+  <!-- Favicons & App Icons -->
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+
+  <!-- PWA & Add to Home Screen Support -->
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0E0E12" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Qois Qudus" />
+  <meta name="application-name" content="Qois Qudus" />
+  <meta name="msapplication-TileColor" content="#0E0E12" />
+
 
   <!-- Fonts: Archivo (Display) + Geist (Body) + Geist Mono (Labels) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -157,7 +172,20 @@
       letter-spacing: -0.01em;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+    }
+    .nav-brand-logo {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: block;
+      flex-shrink: 0;
+      transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+    .nav-brand:hover .nav-brand-logo {
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 3px 10px rgba(235, 77, 109, 0.35);
     }
     .nav-brand::after {
       content: "·";
@@ -1285,7 +1313,10 @@
   <!-- ══════════════ FLOATING NAVBAR ══════════════ -->
   <div class="navbar-wrapper">
     <nav class="nav-pill" aria-label="Main Navigation">
-      <a href="#" class="nav-brand">Qois Abdul Qudus</a>
+      <a href="#" class="nav-brand" aria-label="Qois Abdul Qudus - Home">
+        <img src="assets/icons/icon-192.png" alt="Q Logo" class="nav-brand-logo" width="22" height="22" />
+        <span>Qois Abdul Qudus</span>
+      </a>
 
       <ul class="nav-menu" role="list">
         <li><a href="#about" class="is-active">About</a></li>
@@ -2189,7 +2220,10 @@
       <div class="footer-layout">
 
         <div>
-          <div class="footer-brand">Qois Abdul Qudus</div>
+          <div class="footer-brand" style="display: inline-flex; align-items: center; gap: 10px;">
+            <img src="assets/icons/icon-192.png" alt="Q Logo" style="width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" />
+            <span>Qois Abdul Qudus</span>
+          </div>
           <p class="footer-bio">
             Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable dan arsitektur infrastruktur jaringan industri dengan keandalan tinggi.
           </p>
@@ -2331,6 +2365,13 @@
     }, { threshold: 0.3 });
 
     sections.forEach(s => navObserver.observe(s));
+
+    // ── Register Service Worker for PWA / Add to Home Screen ──
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
   </script>
 
 </body>
