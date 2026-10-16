@@ -1635,43 +1635,16 @@ function h($str) {
         </header>
 
         <div class="timeline-container">
-
-          <div class="timeline-row reveal" style="--i:1">
-            <div class="timeline-time">Nov 2024 – Present<br><span style="color:var(--color-ink-muted)">Cikande, Serang</span></div>
+          <?php foreach (($experience ?? []) as $idx => $exp): ?>
+          <div class="timeline-row reveal" style="--i:<?= $idx + 1 ?>">
+            <div class="timeline-time"><?= h($exp['period'] ?? '') ?><?php if (!empty($exp['location'])): ?><br><span style="color:var(--color-ink-muted)"><?= h($exp['location']) ?></span><?php endif; ?></div>
             <div>
-              <h3 class="timeline-heading">IT Infrastructure & Software Engineer</h3>
-              <div class="timeline-sub">PT Centa Brasindo Abadi Chemical Industry</div>
-              <p class="timeline-text">Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN & fiber optik industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen rack server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi enterprise internal seperti CBA Network Digital Twin 3D, Factory Network Control, IT Asset Management (ITAM), tracking logistik armada, dan sistem pemantauan sarana prasarana/K3).</p>
+              <h3 class="timeline-heading"><?= h($exp['role'] ?? '') ?></h3>
+              <div class="timeline-sub"><?= h($exp['company'] ?? '') ?></div>
+              <p class="timeline-text"><?= $exp['desc'] ?? '' ?></p>
             </div>
           </div>
-
-          <div class="timeline-row reveal" style="--i:2">
-            <div class="timeline-time">Aug 2023 – Jan 2024<br><span style="color:var(--color-ink-muted)">Bandung</span></div>
-            <div>
-              <h3 class="timeline-heading">Back End & Front End Web Developer (Internship)</h3>
-              <div class="timeline-sub">Dicoding Indonesia · Kampus Merdeka SIB Angkatan 5</div>
-              <p class="timeline-text">Program magang 6 bulan sebagai Fullstack Developer. Membangun fitur frontend responsif dan layanan backend (API & database), serta aktif mengikuti siklus kerja Agile dan code review profesional bersama tim engineering.</p>
-            </div>
-          </div>
-
-          <div class="timeline-row reveal" style="--i:3">
-            <div class="timeline-time">Oct 2020 – Present<br><span style="color:var(--color-ink-muted)">Kota Serang</span></div>
-            <div>
-              <h3 class="timeline-heading">IT Specialist & Web Developer</h3>
-              <div class="timeline-sub">Yayasan Al-Kahfi</div>
-              <p class="timeline-text">Mengelola infrastruktur IT yayasan, membangun dan memelihara aplikasi web untuk operasional yayasan serta company profile BBQ Al-Kahfi, sekaligus membimbing siswa dalam penguasaan literasi teknologi.</p>
-            </div>
-          </div>
-
-          <div class="timeline-row reveal" style="--i:4">
-            <div class="timeline-time">Jan 2022 – Jan 2023<br><span style="color:var(--color-ink-muted)">Serang</span></div>
-            <div>
-              <h3 class="timeline-heading">Direct Sales Area</h3>
-              <div class="timeline-sub">PT Smartfren Telecom Tbk</div>
-              <p class="timeline-text">Peran sales lapangan dalam memasarkan produk telekomunikasi secara langsung kepada pelanggan, mengasah komunikasi profesional dan pencapaian target.</p>
-            </div>
-          </div>
-
+          <?php endforeach; ?>
         </div>
       </div>
     </section>
@@ -1685,14 +1658,16 @@ function h($str) {
         </header>
 
         <div class="timeline-container">
-          <div class="timeline-row reveal" style="--i:1">
-            <div class="timeline-time">2020 – 2024</div>
+          <?php foreach (($education ?? []) as $idx => $edu): ?>
+          <div class="timeline-row reveal" style="--i:<?= $idx + 1 ?>">
+            <div class="timeline-time"><?= h($edu['period'] ?? '') ?></div>
             <div>
-              <h3 class="timeline-heading">Sarjana Komputer (S.Kom) — Teknik Informatika</h3>
-              <div class="timeline-sub">Universitas Bina Bangsa, Serang</div>
-              <p class="timeline-text">Bachelor's degree in Computer Science. Mempelajari rekayasa perangkat lunak, sistem basis data, arsitektur komputasi awan, dan kecerdasan buatan. Mengembangkan platform SerenityHub sebagai skripsi dan mempublikasikan riset edukasi game.</p>
+              <h3 class="timeline-heading"><?= h($edu['degree'] ?? '') ?></h3>
+              <div class="timeline-sub"><?= h($edu['institution'] ?? '') ?></div>
+              <p class="timeline-text"><?= $edu['desc'] ?? '' ?></p>
             </div>
           </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </section>
@@ -1702,102 +1677,21 @@ function h($str) {
       <div class="container">
         <header class="section-header reveal" style="--i:0">
           <span class="section-eyebrow">/Credentials</span>
-          <h2 class="section-title" id="cert-title">Certifications & Licenses (10)</h2>
+          <h2 class="section-title" id="cert-title">Certifications & Licenses (<?= count($certifications ?? []) ?>)</h2>
           <p class="section-subtitle">Sertifikasi resmi dan kredensial profesional yang telah divalidasi oleh institusi global & nasional.</p>
         </header>
 
         <div class="cert-grid">
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:1">
+          <?php foreach (($certifications ?? []) as $idx => $cert): ?>
+          <a href="<?= h(!empty($cert['url']) ? $cert['url'] : '#') ?>" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:<?= $idx + 1 ?>">
             <div>
-              <div class="cert-issuer-tag">AWS &bull; Dicoding Indonesia</div>
-              <h3 class="cert-name">Cloud Practitioner Essentials (Dasar AWS Cloud)</h3>
-              <p class="cert-summary">Arsitektur komputasi awan AWS, keamanan cloud, layanan komputasi, dan manajemen infrastruktur cloud modern.</p>
+              <div class="cert-issuer-tag"><?= h($cert['issuer'] ?? '') ?></div>
+              <h3 class="cert-name"><?= h($cert['title'] ?? '') ?></h3>
+              <p class="cert-summary"><?= h($cert['summary'] ?? '') ?></p>
             </div>
-            <span class="cert-action">Show Credential ↗</span>
+            <span class="cert-action"><?= h(!empty($cert['action_text']) ? $cert['action_text'] : 'Show Credential ↗') ?></span>
           </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:2">
-            <div>
-              <div class="cert-issuer-tag">Kemendikbudristek &bull; Dicoding</div>
-              <h3 class="cert-name">SIB Dicoding X Kampus Merdeka Angkatan 5</h3>
-              <p class="cert-summary">Studi Independen Bersertifikat intensif 6 bulan berfokus pada Fullstack Web Development & Microservices.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
-          <a href="https://www.dicoding.com/certificates/6RPNG7NO8Z2M" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:3">
-            <div>
-              <div class="cert-issuer-tag">Dicoding &bull; ID: 6RPNG7NO8Z2M</div>
-              <h3 class="cert-name">Belajar Dasar AI (Artificial Intelligence)</h3>
-              <p class="cert-summary">Konsep dasar kecerdasan buatan, Machine Learning, pemrosesan data AI, dan penerapannya dalam solusi modern.</p>
-            </div>
-            <span class="cert-action">Verify Credential ↗</span>
-          </a>
-
-          <a href="https://www.dicoding.com/certificates/2VX35034JPYQ" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:4">
-            <div>
-              <div class="cert-issuer-tag">Dicoding &bull; ID: 2VX35034JPYQ</div>
-              <h3 class="cert-name">Data Science dengan Microsoft Fabric</h3>
-              <p class="cert-summary">Penerapan analisis data science, pipeline data analytics, dan visualisasi tingkat lanjut ekosistem Microsoft Fabric.</p>
-            </div>
-            <span class="cert-action">Verify Credential ↗</span>
-          </a>
-
-          <a href="https://www.dicoding.com/certificates/MEPJ2O0QWP3V" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:5">
-            <div>
-              <div class="cert-issuer-tag">DBS Foundation &bull; ID: MEPJ2O0QWP3V</div>
-              <h3 class="cert-name">Introduction to Financial Literacy</h3>
-              <p class="cert-summary">Prinsip literasi keuangan, pengelolaan anggaran proyek, dan perencanaan strategi finansial jangka panjang.</p>
-            </div>
-            <span class="cert-action">Verify Credential ↗</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:6">
-            <div>
-              <div class="cert-issuer-tag">Dicoding Indonesia</div>
-              <h3 class="cert-name">Dasar Pemrograman Software Engineering</h3>
-              <p class="cert-summary">Fondasi rekayasa perangkat lunak, logika algoritma, alur kerja pengembangan software, dan best practices sintaks.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:7">
-            <div>
-              <div class="cert-issuer-tag">Dicoding Indonesia</div>
-              <h3 class="cert-name">Belajar Dasar Visualisasi Data</h3>
-              <p class="cert-summary">Teknik analisis data, perancangan grafik intuitif, serta penyajian informasi dan wawasan data yang efektif.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:8">
-            <div>
-              <div class="cert-issuer-tag">Dicoding Indonesia</div>
-              <h3 class="cert-name">Memulai Pemrograman dengan Python</h3>
-              <p class="cert-summary">Penguasaan dasar bahasa pemrograman Python, struktur data, pemrosesan variabel, dan skrip otomatisasi.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:9">
-            <div>
-              <div class="cert-issuer-tag">Dicoding Indonesia</div>
-              <h3 class="cert-name">Belajar Dasar Git dengan GitHub</h3>
-              <p class="cert-summary">Manajemen versi kode terdistribusi, branching strategy, pull requests, dan kolaborasi tim engineering berbasis GitHub.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/qoisabdulqudus/details/certifications/" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:10">
-            <div>
-              <div class="cert-issuer-tag">Dicoding Indonesia</div>
-              <h3 class="cert-name">Aplikasi Web Interaktif dengan React</h3>
-              <p class="cert-summary">Pengembangan komponen frontend interaktif, React Hooks, manajemen state, dan konsumsi RESTful APIs.</p>
-            </div>
-            <span class="cert-action">Show Credential ↗</span>
-          </a>
-
+          <?php endforeach; ?>
         </div>
       </div>
     </section>

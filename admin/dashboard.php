@@ -529,7 +529,13 @@ $flash = get_flash();
 
       <button class="nav-tab-btn" data-target="tab-experience">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-        <span>Pengalaman & Karier</span>
+        <span>Pengalaman & Edukasi</span>
+      </button>
+
+      <button class="nav-tab-btn" data-target="tab-certifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+        <span>Sertifikasi & Lisensi</span>
+        <span class="nav-tab-badge" id="badgeCertCount"><?= count($content['certifications'] ?? []) ?></span>
       </button>
 
       <button class="nav-tab-btn" data-target="tab-services">
@@ -659,45 +665,155 @@ $flash = get_flash();
         </div>
       </section>
 
-      <!-- ══════════ TAB 3: EXPERIENCE ══════════ -->
+      <!-- ══════════ TAB 3: EXPERIENCE & EDUCATION ══════════ -->
       <section id="tab-experience" class="tab-pane">
         <div class="admin-card">
           <div class="card-header-bar">
             <div>
-              <h2 class="card-header-title">Riwayat Pengalaman Kerja & Pendidikan</h2>
+              <h2 class="card-header-title">Pengalaman Kerja (Work Experience)</h2>
               <p class="card-header-desc">Perbarui linimasa karier profesional Anda di PT Centa Brasindo Abadi dan organisasi lainnya.</p>
             </div>
-            <button class="btn-primary-sm" id="btnSaveExperience">
-              <span>Simpan Pengalaman</span>
-            </button>
+            <div style="display:flex; gap:10px;">
+              <button class="btn-secondary-sm" id="btnAddExperience" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Tambah Pengalaman</span>
+              </button>
+              <button class="btn-primary-sm" id="btnSaveExperience" type="button">
+                <span>Simpan Pengalaman & Edukasi</span>
+              </button>
+            </div>
           </div>
 
           <div id="experienceList">
             <?php foreach (($content['experience'] ?? []) as $i => $exp): ?>
-              <div class="admin-card" style="background:var(--bg-card); margin-bottom:16px;">
+              <div class="admin-card exp-card-item" style="background:var(--bg-card); margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+                  <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Pengalaman #<?= $i + 1 ?></span>
+                  <button type="button" class="btn-secondary-sm btn-delete-exp" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+                </div>
                 <div class="form-grid-2">
                   <div class="form-group">
                     <label class="form-label">Perusahaan / Organisasi</label>
-                    <input type="text" class="form-control exp-company" value="<?= htmlspecialchars($exp['company']) ?>" />
+                    <input type="text" class="form-control exp-company" value="<?= htmlspecialchars($exp['company'] ?? '') ?>" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Jabatan / Posisi</label>
-                    <input type="text" class="form-control exp-role" value="<?= htmlspecialchars($exp['role']) ?>" />
+                    <input type="text" class="form-control exp-role" value="<?= htmlspecialchars($exp['role'] ?? '') ?>" />
                   </div>
                 </div>
                 <div class="form-grid-2">
                   <div class="form-group">
                     <label class="form-label">Periode Waktu</label>
-                    <input type="text" class="form-control exp-period" value="<?= htmlspecialchars($exp['period']) ?>" />
+                    <input type="text" class="form-control exp-period" value="<?= htmlspecialchars($exp['period'] ?? '') ?>" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">Lokasi</label>
-                    <input type="text" class="form-control exp-location" value="<?= htmlspecialchars($exp['location']) ?>" />
+                    <input type="text" class="form-control exp-location" value="<?= htmlspecialchars($exp['location'] ?? '') ?>" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Deskripsi Pekerjaan</label>
-                  <textarea class="form-control exp-desc" rows="3"><?= htmlspecialchars($exp['desc']) ?></textarea>
+                  <textarea class="form-control exp-desc" rows="3"><?= htmlspecialchars($exp['desc'] ?? '') ?></textarea>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+
+          <!-- Section Education -->
+          <div style="margin-top:40px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08);">
+            <div class="card-header-bar" style="margin-bottom:16px;">
+              <div>
+                <h2 class="card-header-title">Riwayat Pendidikan (Education)</h2>
+                <p class="card-header-desc">Kelola gelar sarjana, institusi perguruan tinggi, periode, dan keterangan riset.</p>
+              </div>
+              <button class="btn-secondary-sm" id="btnAddEducation" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Tambah Pendidikan</span>
+              </button>
+            </div>
+
+            <div id="educationList">
+              <?php foreach (($content['education'] ?? []) as $i => $edu): ?>
+                <div class="admin-card edu-card-item" style="background:var(--bg-card); margin-bottom:16px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+                    <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Pendidikan #<?= $i + 1 ?></span>
+                    <button type="button" class="btn-secondary-sm btn-delete-edu" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Jenjang & Program Studi</label>
+                      <input type="text" class="form-control edu-degree" value="<?= htmlspecialchars($edu['degree'] ?? '') ?>" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Institusi / Universitas</label>
+                      <input type="text" class="form-control edu-institution" value="<?= htmlspecialchars($edu['institution'] ?? '') ?>" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Periode Waktu</label>
+                    <input type="text" class="form-control edu-period" value="<?= htmlspecialchars($edu['period'] ?? '') ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Deskripsi / Detail Pendidikan</label>
+                    <textarea class="form-control edu-desc" rows="3"><?= htmlspecialchars($edu['desc'] ?? '') ?></textarea>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════ TAB: CERTIFICATIONS ══════════ -->
+      <section id="tab-certifications" class="tab-pane">
+        <div class="admin-card">
+          <div class="card-header-bar">
+            <div>
+              <h2 class="card-header-title">Sertifikasi & Lisensi Profesional</h2>
+              <p class="card-header-desc">Kelola 10+ sertifikasi resmi (AWS, Dicoding, Kemendikbudristek SIB, DBS, dll) beserta link kredensial.</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn-secondary-sm" id="btnAddCert" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Tambah Sertifikasi</span>
+              </button>
+              <button class="btn-primary-sm" id="btnSaveCertifications" type="button">
+                <span>Simpan Sertifikasi</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="certificationsList">
+            <?php foreach (($content['certifications'] ?? []) as $i => $cert): ?>
+              <div class="admin-card cert-card-item" style="background:var(--bg-card); margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+                  <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Sertifikasi #<span class="cert-item-num"><?= $i + 1 ?></span></span>
+                  <button type="button" class="btn-secondary-sm btn-delete-cert" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Nama Sertifikasi / Lisensi</label>
+                    <input type="text" class="form-control cert-title" value="<?= htmlspecialchars($cert['title'] ?? '') ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Penerbit / Institusi / ID</label>
+                    <input type="text" class="form-control cert-issuer" value="<?= htmlspecialchars($cert['issuer'] ?? '') ?>" />
+                  </div>
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Link Kredensial (Verify URL / LinkedIn)</label>
+                    <input type="text" class="form-control cert-url" value="<?= htmlspecialchars($cert['url'] ?? '') ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Teks Tombol Aksi</label>
+                    <input type="text" class="form-control cert-action-text" value="<?= htmlspecialchars($cert['action_text'] ?? 'Show Credential ↗') ?>" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Ringkasan Materi / Cakupan Kompetensi</label>
+                  <textarea class="form-control cert-summary" rows="2"><?= htmlspecialchars($cert['summary'] ?? '') ?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -1019,6 +1135,259 @@ $flash = get_flash();
         }
       } catch (err) {
         showToast(err.message, 'error');
+      }
+    });
+
+    // ── Save Experience & Education ──
+    document.getElementById('btnSaveExperience').addEventListener('click', async () => {
+      const btn = document.getElementById('btnSaveExperience');
+      btn.disabled = true;
+      btn.innerText = 'Menyimpan...';
+
+      const expCards = document.querySelectorAll('#experienceList .exp-card-item');
+      const experience = [];
+      expCards.forEach(card => {
+        const company = card.querySelector('.exp-company')?.value.trim() || '';
+        const role = card.querySelector('.exp-role')?.value.trim() || '';
+        const period = card.querySelector('.exp-period')?.value.trim() || '';
+        const location = card.querySelector('.exp-location')?.value.trim() || '';
+        const desc = card.querySelector('.exp-desc')?.value.trim() || '';
+        if (company || role) {
+          experience.push({
+            id: 'exp-' + Math.random().toString(36).substr(2, 6),
+            company,
+            role,
+            period,
+            location,
+            desc
+          });
+        }
+      });
+
+      const eduCards = document.querySelectorAll('#educationList .edu-card-item');
+      const education = [];
+      eduCards.forEach(card => {
+        const degree = card.querySelector('.edu-degree')?.value.trim() || '';
+        const institution = card.querySelector('.edu-institution')?.value.trim() || '';
+        const period = card.querySelector('.edu-period')?.value.trim() || '';
+        const desc = card.querySelector('.edu-desc')?.value.trim() || '';
+        if (degree || institution) {
+          education.push({
+            id: 'edu-' + Math.random().toString(36).substr(2, 6),
+            degree,
+            institution,
+            period,
+            desc
+          });
+        }
+      });
+
+      try {
+        const res = await fetch('/admin/api.php?action=save_experience', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ experience, education })
+        });
+        const json = await res.json();
+        showToast(json.message, json.success ? 'success' : 'error');
+      } catch (err) {
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Simpan Pengalaman & Edukasi</span>';
+      }
+    });
+
+    // Add Experience Card
+    document.getElementById('btnAddExperience').addEventListener('click', () => {
+      const list = document.getElementById('experienceList');
+      const count = list.querySelectorAll('.exp-card-item').length + 1;
+      const card = document.createElement('div');
+      card.className = 'admin-card exp-card-item';
+      card.style.background = 'var(--bg-card)';
+      card.style.marginBottom = '16px';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+          <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Pengalaman #${count}</span>
+          <button type="button" class="btn-secondary-sm btn-delete-exp" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Perusahaan / Organisasi</label>
+            <input type="text" class="form-control exp-company" placeholder="PT Contoh Industri" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jabatan / Posisi</label>
+            <input type="text" class="form-control exp-role" placeholder="Software Engineer" />
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Periode Waktu</label>
+            <input type="text" class="form-control exp-period" placeholder="Nov 2024 – Present" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lokasi</label>
+            <input type="text" class="form-control exp-location" placeholder="Kota Serang" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi Pekerjaan</label>
+          <textarea class="form-control exp-desc" rows="3" placeholder="Deskripsi tugas dan pencapaian..."></textarea>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+
+    // Delegated delete for experience
+    document.getElementById('experienceList').addEventListener('click', (e) => {
+      if (e.target.closest('.btn-delete-exp')) {
+        if (confirm('Hapus item pengalaman ini?')) {
+          e.target.closest('.exp-card-item').remove();
+        }
+      }
+    });
+
+    // Add Education Card
+    document.getElementById('btnAddEducation').addEventListener('click', () => {
+      const list = document.getElementById('educationList');
+      const count = list.querySelectorAll('.edu-card-item').length + 1;
+      const card = document.createElement('div');
+      card.className = 'admin-card edu-card-item';
+      card.style.background = 'var(--bg-card)';
+      card.style.marginBottom = '16px';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+          <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Pendidikan #${count}</span>
+          <button type="button" class="btn-secondary-sm btn-delete-edu" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Jenjang & Program Studi</label>
+            <input type="text" class="form-control edu-degree" placeholder="Sarjana Komputer (S.Kom) — Teknik Informatika" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Institusi / Universitas</label>
+            <input type="text" class="form-control edu-institution" placeholder="Universitas Bina Bangsa, Serang" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Periode Waktu</label>
+          <input type="text" class="form-control edu-period" placeholder="2020 – 2024" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi / Detail Pendidikan</label>
+          <textarea class="form-control edu-desc" rows="3" placeholder="Fokus riset, skripsi, atau prestasi..."></textarea>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+
+    // Delegated delete for education
+    document.getElementById('educationList').addEventListener('click', (e) => {
+      if (e.target.closest('.btn-delete-edu')) {
+        if (confirm('Hapus riwayat pendidikan ini?')) {
+          e.target.closest('.edu-card-item').remove();
+        }
+      }
+    });
+
+    // ── Save Certifications ──
+    document.getElementById('btnSaveCertifications').addEventListener('click', async () => {
+      const btn = document.getElementById('btnSaveCertifications');
+      btn.disabled = true;
+      btn.innerText = 'Menyimpan...';
+
+      const certCards = document.querySelectorAll('#certificationsList .cert-card-item');
+      const certifications = [];
+      certCards.forEach((card, idx) => {
+        const title = card.querySelector('.cert-title')?.value.trim() || '';
+        const issuer = card.querySelector('.cert-issuer')?.value.trim() || '';
+        const url = card.querySelector('.cert-url')?.value.trim() || '';
+        const action_text = card.querySelector('.cert-action-text')?.value.trim() || 'Show Credential ↗';
+        const summary = card.querySelector('.cert-summary')?.value.trim() || '';
+        if (title || issuer) {
+          certifications.push({
+            id: 'cert-' + (idx + 1),
+            title,
+            issuer,
+            url,
+            action_text,
+            summary
+          });
+        }
+      });
+
+      try {
+        const res = await fetch('/admin/api.php?action=save_certifications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ certifications })
+        });
+        const json = await res.json();
+        showToast(json.message, json.success ? 'success' : 'error');
+        if (json.success) {
+          const badge = document.getElementById('badgeCertCount');
+          if (badge) badge.innerText = certifications.length;
+        }
+      } catch (err) {
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Simpan Sertifikasi</span>';
+      }
+    });
+
+    // Add Certification Card
+    document.getElementById('btnAddCert').addEventListener('click', () => {
+      const list = document.getElementById('certificationsList');
+      const count = list.querySelectorAll('.cert-card-item').length + 1;
+      const card = document.createElement('div');
+      card.className = 'admin-card cert-card-item';
+      card.style.background = 'var(--bg-card)';
+      card.style.marginBottom = '16px';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:8px;">
+          <span style="font-size:13px; font-weight:600; color:var(--color-primary-light);">Sertifikasi Baru #${count}</span>
+          <button type="button" class="btn-secondary-sm btn-delete-cert" style="color:#F87171; padding:4px 10px; font-size:12px;">Hapus</button>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Nama Sertifikasi / Lisensi</label>
+            <input type="text" class="form-control cert-title" placeholder="Misal: AWS Certified Solutions Architect" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Penerbit / Institusi / ID</label>
+            <input type="text" class="form-control cert-issuer" placeholder="Misal: AWS • Amazon Web Services" />
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Link Kredensial (Verify URL / LinkedIn)</label>
+            <input type="text" class="form-control cert-url" placeholder="https://..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teks Tombol Aksi</label>
+            <input type="text" class="form-control cert-action-text" value="Show Credential ↗" placeholder="Show Credential ↗ / Verify Credential ↗" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ringkasan Materi / Cakupan Kompetensi</label>
+          <textarea class="form-control cert-summary" rows="2" placeholder="Ringkasan materi atau kompetensi yang dicakup..."></textarea>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+
+    // Delegated delete for certifications
+    document.getElementById('certificationsList').addEventListener('click', (e) => {
+      if (e.target.closest('.btn-delete-cert')) {
+        if (confirm('Hapus sertifikasi ini?')) {
+          e.target.closest('.cert-card-item').remove();
+          document.querySelectorAll('#certificationsList .cert-item-num').forEach((el, i) => {
+            el.innerText = i + 1;
+          });
+        }
       }
     });
 
