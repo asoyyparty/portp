@@ -1705,7 +1705,7 @@ function h($str) {
 
         <div class="contact-grid reveal" style="--i:3">
 
-          <a href="https://www.linkedin.com/in/qoisabdulqudus" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+          <a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
             <span class="contact-card-label">LinkedIn</span>
             <div class="contact-card-value">
               Qois Abdul Qudus
@@ -1713,31 +1713,31 @@ function h($str) {
             </div>
           </a>
 
-          <a href="mailto:doelkussoy@gmail.com" class="contact-card-link">
+          <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>" class="contact-card-link">
             <span class="contact-card-label">Email</span>
             <div class="contact-card-value">
-              doelkussoy@gmail.com
+              <?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>
               <span aria-hidden="true">↗</span>
             </div>
           </a>
 
-          <a href="https://wa.me/6285195300828" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+          <a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
             <span class="contact-card-label">WhatsApp / Call</span>
             <div class="contact-card-value">
-              +62 851-9530-0828
+              <?= h(!empty($contact['whatsapp']) ? $contact['whatsapp'] : '+62 851-9530-0828') ?>
               <span aria-hidden="true">↗</span>
             </div>
           </a>
 
-          <a href="https://github.com/doelkussoy" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+          <a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
             <span class="contact-card-label">GitHub</span>
             <div class="contact-card-value">
-              @doelkussoy
+              @<?= h(preg_replace('#^https?://github\.com/#i', '', rtrim($contact['github'] ?? 'asoyyparty', '/'))) ?>
               <span aria-hidden="true">↗</span>
             </div>
           </a>
 
-          <a href="https://t.me/doelkussoy" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+          <a href="<?= h(!empty($contact['telegram']) ? $contact['telegram'] : 'https://t.me/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
             <span class="contact-card-label">Telegram</span>
             <div class="contact-card-value">
               @doelkussoy
@@ -1745,10 +1745,10 @@ function h($str) {
             </div>
           </a>
 
-          <a href="https://instagram.com/doelkussoy" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+          <a href="<?= h($contact['instagram'] ?? 'https://instagram.com/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
             <span class="contact-card-label">Instagram</span>
             <div class="contact-card-value">
-              @doelkussoy
+              @<?= h(preg_replace('#^https?://instagram\.com/#i', '', rtrim($contact['instagram'] ?? 'doelkussoy', '/'))) ?>
               <span aria-hidden="true">↗</span>
             </div>
           </a>
@@ -1788,10 +1788,10 @@ function h($str) {
         <div>
           <div class="footer-col-title">/Connect</div>
           <ul class="footer-link-list">
-            <li><a href="https://www.linkedin.com/in/qoisabdulqudus" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
-            <li><a href="https://github.com/doelkussoy" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
-            <li><a href="https://wa.me/6285195300828" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></li>
-            <li><a href="mailto:doelkussoy@gmail.com">Email ↗</a></li>
+            <li><a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            <li><a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+            <li><a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></li>
+            <li><a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>">Email ↗</a></li>
           </ul>
         </div>
 
