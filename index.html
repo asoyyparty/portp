@@ -1528,7 +1528,7 @@
 
         <!-- Filter Bar -->
         <div class="filter-bar reveal" style="--i:1" role="group" aria-label="Filter Projects">
-          <button class="filter-pill" aria-pressed="true" data-filter="all" id="filter-all">All Systems (11)</button>
+          <button class="filter-pill" aria-pressed="true" data-filter="all" id="filter-all">All Systems (13)</button>
           <button class="filter-pill" aria-pressed="false" data-filter="enterprise" id="filter-enterprise">Infra & Enterprise</button>
           <button class="filter-pill" aria-pressed="false" data-filter="web" id="filter-web">Web Applications</button>
           <button class="filter-pill" aria-pressed="false" data-filter="mobile" id="filter-mobile">Mobile & Research</button>
@@ -1537,8 +1537,45 @@
         <!-- Projects Grid with 3D Flip Image Previews -->
         <div class="projects-grid" id="projects-grid">
 
-          <!-- 1. Factory Network Control System -->
+          <!-- 1. CBA Network Map & Factory Digital Twin 3D -->
           <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:2">
+            <div class="project-thumb-box">
+              <span class="project-badge-pill">2026 – Present</span>
+              <div class="project-thumb-inner">
+                <div class="project-thumb-front">
+                  <img src="assets/images/mapcba.png" alt="CBA Network Map & Factory Digital Twin 3D" loading="lazy" decoding="async" />
+                </div>
+                <div class="project-thumb-back">
+                  <div class="thumb-back-title">CBA Network Digital Twin 3D</div>
+                  <a href="https://github.com/asoyyparty/map-cba.git" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">View Repository ↗</a>
+                </div>
+              </div>
+            </div>
+            <div class="project-content-box">
+              <div class="project-org">PT Centa Brasindo Abadi Chemical Industry</div>
+              <h3 class="project-title">CBA Network Map & Factory Digital Twin 3D</h3>
+              <p class="project-desc">Platform digital twin & GIS infrastruktur pabrik berbasis 3D. Menghadirkan visualisasi denah pabrik, penelusuran rute kabel fiber optik antar gedung, visualizer rak server interaktif, topologi ReactFlow, serta simulasi dampak kabel putus (Trace Impact Tool).</p>
+              <ul class="project-tech-tags">
+                <li class="tech-pill">React 18 & Vite</li>
+                <li class="tech-pill">Three.js / 3D Canvas</li>
+                <li class="tech-pill">ReactFlow Topology</li>
+                <li class="tech-pill">Impact Simulation</li>
+              </ul>
+              <div class="project-actions">
+                <a href="https://github.com/asoyyparty/map-cba.git" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                  Repository
+                </a>
+                <a href="https://github.com/asoyyparty/map-cba.git" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary" title="Running on factory local network / port 8004">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  Factory LAN / Local
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Factory Network Control System -->
+          <article class="spotlight-card project-card reveal" data-category="enterprise" style="--i:3">
             <div class="project-thumb-box">
               <span class="project-badge-pill">Aug 2026 – Present</span>
               <div class="project-thumb-inner">
@@ -1556,9 +1593,10 @@
               <h3 class="project-title">Factory Network Control System</h3>
               <p class="project-desc">Aplikasi monitoring & kontrol perangkat jaringan pabrik berbasis web (LAN). Memantau topologi dan kondisi perangkat jaringan secara real-time, grafik SLA, serta sistem alert otomatis.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">Network Infrastructure</li>
-                <li class="tech-pill">LAN Control</li>
-                <li class="tech-pill">Real-time Monitoring</li>
+                <li class="tech-pill">Node.js & Express</li>
+                <li class="tech-pill">WebSocket Real-time</li>
+                <li class="tech-pill">SSH2 & Ping SLA</li>
+                <li class="tech-pill">LAN Infrastructure</li>
               </ul>
               <div class="project-actions">
                 <a href="https://networkfactory.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1592,9 +1630,10 @@
               <h3 class="project-title">IT Asset Management (ITAM) Enterprise</h3>
               <p class="project-desc">Sistem Manajemen Aset IT & Helpdesk komprehensif berbasis Laravel 12. Membantu pelacakan aset IT, alokasi IP address, manajemen lisensi software, serta operasional layanan ticketing helpdesk.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">Laravel 12</li>
-                <li class="tech-pill">ITAM Enterprise</li>
-                <li class="tech-pill">Helpdesk Ticketing</li>
+                <li class="tech-pill">Laravel 12 & PHP 8.2</li>
+                <li class="tech-pill">Spatie RBAC & AdminLTE</li>
+                <li class="tech-pill">VLAN & IP Ping Monitor</li>
+                <li class="tech-pill">QR Code & Helpdesk</li>
               </ul>
               <div class="project-actions">
                 <a href="https://itam.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1628,9 +1667,10 @@
               <h3 class="project-title">P3K Digital Monitoring System</h3>
               <p class="project-desc">Solusi manajemen inventaris cerdas yang mentransformasi pemantauan kotak P3K konvensional di seluruh area pabrik menjadi platform digital yang efisien, transparan, dan akurat.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">Safety & EHS</li>
-                <li class="tech-pill">Inventory Tracking</li>
-                <li class="tech-pill">Digital Monitoring</li>
+                <li class="tech-pill">PHP & MySQL</li>
+                <li class="tech-pill">PWA Standalone</li>
+                <li class="tech-pill">K3 Industrial Compliance</li>
+                <li class="tech-pill">Stock Alerts & Logs</li>
               </ul>
               <div class="project-actions">
                 <a href="https://kotakp3k.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1664,9 +1704,10 @@
               <h3 class="project-title">Sistem Sarana Prasarana</h3>
               <p class="project-desc">Aplikasi web internal perusahaan untuk memantau dan mencatat pemeliharaan fasilitas serta infrastruktur pabrik. Memudahkan tim maintenance mencatat inspeksi dan mencetak kartu riwayat.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">Facility Maintenance</li>
-                <li class="tech-pill">Asset Management</li>
-                <li class="tech-pill">Enterprise Web App</li>
+                <li class="tech-pill">PHP & MySQL</li>
+                <li class="tech-pill">PWA Standalone</li>
+                <li class="tech-pill">APAR & Hydrant Maintenance</li>
+                <li class="tech-pill">Kartu Riwayat Cetak</li>
               </ul>
               <div class="project-actions">
                 <a href="https://saranaprasarana.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1736,9 +1777,10 @@
               <h3 class="project-title">Tracking Bongkar Muat</h3>
               <p class="project-desc">Aplikasi pelacakan logistik real-time untuk mengonsolidasi dan mengoptimalkan alur kerja kendaraan di pabrik. Memantau durasi setiap tahapan dari gate check-in hingga pemuatan barang.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">Logistics Tracking</li>
-                <li class="tech-pill">Workflow Optimization</li>
-                <li class="tech-pill">Real-time Monitoring</li>
+                <li class="tech-pill">Laravel 10</li>
+                <li class="tech-pill">Livewire 3</li>
+                <li class="tech-pill">Logistics Tracking SLA</li>
+                <li class="tech-pill">MySQL & Excel</li>
               </ul>
               <div class="project-actions">
                 <a href="https://tracking.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1881,9 +1923,10 @@
               <h3 class="project-title">SerenityHub - Platform Pengaduan Kota Serang</h3>
               <p class="project-desc">Platform pengaduan publik yang dibangun bekerja sama dengan Dishub / Pemkot Serang. Warga dapat melaporkan masalah jalan & fasilitas dengan peta interaktif Leaflet.</p>
               <ul class="project-tech-tags">
-                <li class="tech-pill">React</li>
-                <li class="tech-pill">Vite</li>
+                <li class="tech-pill">Monorepo React</li>
+                <li class="tech-pill">Node & Express</li>
                 <li class="tech-pill">Leaflet GIS</li>
+                <li class="tech-pill">Civic Tech</li>
               </ul>
               <div class="project-actions">
                 <a href="https://serenityhub.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1918,9 +1961,9 @@
               <p class="project-desc">Platform portal siswa & e-learning terpadu untuk Yayasan Al-Kahfi. Menghadirkan modul materi belajar, scan absen digital, smart raport, try out, dan gamifikasi progres siswa.</p>
               <ul class="project-tech-tags">
                 <li class="tech-pill">React & Vite</li>
-                <li class="tech-pill">Tailwind CSS</li>
-                <li class="tech-pill">E-Learning Portal</li>
-                <li class="tech-pill">Education Tech</li>
+                <li class="tech-pill">KaTeX & Math CBT</li>
+                <li class="tech-pill">QR Absensi & jsPDF</li>
+                <li class="tech-pill">Gamifikasi & UTBK</li>
               </ul>
               <div class="project-actions">
                 <a href="https://bbqalkahfi.asoyydev.id/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
@@ -1990,7 +2033,7 @@
             <div>
               <h3 class="timeline-heading">IT Infrastructure & Software Engineer</h3>
               <div class="timeline-sub">PT Centa Brasindo Abadi Chemical Industry</div>
-              <p class="timeline-text">Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen perangkat keras/server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi web enterprise internal seperti Factory Network Control, IT Asset Management (ITAM), monitoring inventaris EHS/P3K, dan logistik armada pabrik).</p>
+              <p class="timeline-text">Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN & fiber optik industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen rack server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi enterprise internal seperti CBA Network Digital Twin 3D, Factory Network Control, IT Asset Management (ITAM), tracking logistik armada, dan sistem pemantauan sarana prasarana/K3).</p>
             </div>
           </div>
 
