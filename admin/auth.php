@@ -37,7 +37,7 @@ function is_authenticated() {
 // Require authentication guard
 function require_auth() {
     if (!is_authenticated()) {
-        header('Location: login.php');
+        header('Location: /admin/login.php');
         exit;
     }
 }

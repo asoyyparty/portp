@@ -2,8 +2,8 @@
 require_once __DIR__ . '/auth.php';
 
 if (is_authenticated()) {
-    header('Location: dashboard.php');
+    header('Location: /admin/dashboard.php');
 } else {
-    header('Location: login.php');
+    header('Location: /admin/login.php');
 }
 exit;

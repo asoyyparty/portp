@@ -17,11 +17,11 @@ $flash = get_flash();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Control Center — Qois Abdul Qudus</title>
-  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@350;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../tokens.css" />
+  <link rel="stylesheet" href="/tokens.css" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -482,8 +482,8 @@ $flash = get_flash();
 
   <!-- Top Bar -->
   <header class="topbar">
-    <a href="../" class="topbar-brand" target="_blank" title="Buka website portfolio utama">
-      <img src="../assets/icons/icon-192.png" alt="Q Logo" class="topbar-logo" />
+    <a href="/" class="topbar-brand" target="_blank" title="Buka website portfolio utama">
+      <img src="/assets/icons/icon-192.png" alt="Q Logo" class="topbar-logo" />
       <span class="topbar-title">Qois Portfolio Manager</span>
       <span class="topbar-badge">Admin</span>
     </a>
@@ -494,7 +494,7 @@ $flash = get_flash();
         <span>Sync index.html</span>
       </button>
 
-      <a href="../" target="_blank" class="btn-secondary-sm">
+      <a href="/" target="_blank" class="btn-secondary-sm">
         <span>Lihat Live Portfolio</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
@@ -504,7 +504,7 @@ $flash = get_flash();
         <span><?= htmlspecialchars($username) ?></span>
       </div>
 
-      <a href="logout.php" class="btn-secondary-sm" style="color:#F87171;" title="Logout">
+      <a href="/admin/logout.php" class="btn-secondary-sm" style="color:#F87171;" title="Logout">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
         <span>Logout</span>
       </a>
@@ -568,7 +568,7 @@ $flash = get_flash();
           <div id="projectsListContainer">
             <?php foreach (($content['projects'] ?? []) as $p): ?>
               <div class="project-item" data-id="<?= htmlspecialchars($p['id']) ?>">
-                <img src="../<?= htmlspecialchars(!empty($p['image']) ? $p['image'] : 'assets/images/mapcba.png') ?>" alt="Cover" class="project-item-thumb" />
+                <img src="/<?= htmlspecialchars(!empty($p['image']) ? $p['image'] : 'assets/images/mapcba.png') ?>" alt="Cover" class="project-item-thumb" />
                 <div class="project-item-info">
                   <div class="project-item-title"><?= htmlspecialchars($p['title']) ?></div>
                   <div class="project-item-meta">
@@ -825,7 +825,7 @@ $flash = get_flash();
               <p class="card-header-desc">Unduh seluruh konten portofolio Anda dalam format file JSON untuk arsip cadangan.</p>
             </div>
           </div>
-          <a href="api.php?action=export_backup" class="btn-secondary-sm" style="padding:10px 18px;">
+          <a href="/admin/api.php?action=export_backup" class="btn-secondary-sm" style="padding:10px 18px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             <span>Unduh File Backup JSON</span>
           </a>
@@ -966,7 +966,7 @@ $flash = get_flash();
       btn.disabled = true;
       btn.innerText = 'Menyinkronkan...';
       try {
-        const res = await fetch('api.php?action=sync_html');
+        const res = await fetch('/admin/api.php?action=sync_html');
         const json = await res.json();
         if (json.success) {
           showToast(json.message, 'success');
@@ -1006,7 +1006,7 @@ $flash = get_flash();
       });
 
       try {
-        const res = await fetch('api.php?action=save_profile', {
+        const res = await fetch('/admin/api.php?action=save_profile', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ profile, metrics })
@@ -1039,7 +1039,7 @@ $flash = get_flash();
       });
 
       try {
-        const res = await fetch('api.php?action=save_services', {
+        const res = await fetch('/admin/api.php?action=save_services', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ services })
@@ -1058,7 +1058,7 @@ $flash = get_flash();
       const contact = Object.fromEntries(formData.entries());
 
       try {
-        const res = await fetch('api.php?action=save_contact', {
+        const res = await fetch('/admin/api.php?action=save_contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contact })
@@ -1083,7 +1083,7 @@ $flash = get_flash();
       }
 
       try {
-        const res = await fetch('api.php?action=change_password', {
+        const res = await fetch('/admin/api.php?action=change_password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ old_password: oldPw, new_password: newPw })
@@ -1121,7 +1121,7 @@ $flash = get_flash();
         document.getElementById('projImage').value = data.image || '';
 
         if (data.image) {
-          document.getElementById('imgPreview').src = '../' + data.image;
+          document.getElementById('imgPreview').src = '/' + data.image;
           document.getElementById('imagePreviewBox').style.display = 'block';
         } else {
           document.getElementById('imagePreviewBox').style.display = 'none';
@@ -1163,7 +1163,7 @@ $flash = get_flash();
         const title = btn.getAttribute('data-title');
         if (confirm(`Yakin ingin menghapus proyek "${title}"?`)) {
           try {
-            const res = await fetch('api.php?action=delete_project', {
+            const res = await fetch('/admin/api.php?action=delete_project', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ id })
@@ -1194,14 +1194,14 @@ $flash = get_flash();
 
       showToast('Mengunggah gambar...', 'success');
       try {
-        const res = await fetch('api.php?action=upload_image', {
+        const res = await fetch('/admin/api.php?action=upload_image', {
           method: 'POST',
           body: formData
         });
         const json = await res.json();
         if (json.success) {
           document.getElementById('projImage').value = json.file_path;
-          document.getElementById('imgPreview').src = '../' + json.file_path;
+          document.getElementById('imgPreview').src = '/' + json.file_path;
           document.getElementById('imagePreviewBox').style.display = 'block';
           showToast(json.message, 'success');
         } else {
@@ -1231,7 +1231,7 @@ $flash = get_flash();
       };
 
       try {
-        const res = await fetch('api.php?action=save_project', {
+        const res = await fetch('/admin/api.php?action=save_project', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ project })

@@ -3,7 +3,7 @@ require_once __DIR__ . '/auth.php';
 
 // Redirect if already logged in
 if (is_authenticated()) {
-    header('Location: dashboard.php');
+    header('Location: /admin/dashboard.php');
     exit;
 }
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Harap masukkan username dan password.";
         } else {
             if (attempt_login($username, $password, $error)) {
-                header('Location: dashboard.php');
+                header('Location: /admin/dashboard.php');
                 exit;
             }
         }
@@ -36,11 +36,11 @@ $csrf_token = get_csrf_token();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Login — Qois Abdul Qudus Portfolio</title>
-  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@350;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../tokens.css" />
+  <link rel="stylesheet" href="/tokens.css" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -259,7 +259,7 @@ $csrf_token = get_csrf_token();
 
   <div class="login-card">
     <div class="brand-box">
-      <img src="../assets/icons/icon-192.png" alt="Q Logo" class="brand-logo" />
+      <img src="/assets/icons/icon-192.png" alt="Q Logo" class="brand-logo" />
       <h1 class="brand-title">Control Center</h1>
       <p class="brand-sub">Portfolio Management System</p>
     </div>
@@ -271,7 +271,7 @@ $csrf_token = get_csrf_token();
       </div>
     <?php endif; ?>
 
-    <form method="POST" action="login.php" autocomplete="off">
+    <form method="POST" action="/admin/login.php" autocomplete="off">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>" />
 
       <div class="form-group">
@@ -314,7 +314,7 @@ $csrf_token = get_csrf_token();
     </form>
 
     <div class="back-box">
-      <a href="../" class="back-link">
+      <a href="/" class="back-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         <span>Kembali ke Halaman Portfolio</span>
       </a>
