@@ -250,6 +250,38 @@ $csrf_token = get_csrf_token();
     .back-link:hover {
       color: #CBD5E1;
     }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 14px;
+      }
+      .login-card {
+        padding: 30px 18px;
+        border-radius: 16px;
+      }
+      .brand-box {
+        margin-bottom: 22px;
+      }
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+      }
+      .brand-title {
+        font-size: 18px;
+      }
+      .form-input {
+        padding: 12px 14px;
+        font-size: 14.5px;
+        min-height: 44px;
+      }
+      .btn-submit {
+        padding: 13px 18px;
+        font-size: 14px;
+        min-height: 44px;
+      }
+    }
   </style>
 </head>
 <body>

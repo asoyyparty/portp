@@ -262,7 +262,7 @@
     ],
     "experience": [
         {
-            "id": "cba",
+            "id": "exp-eyesy5",
             "company": "PT Centa Brasindo Abadi Chemical Industry",
             "role": "IT Infrastructure & Software Engineer",
             "period": "Nov 2024 – Present",
@@ -270,7 +270,7 @@
             "desc": "Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN & fiber optik industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen rack server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi enterprise internal seperti CBA Network Digital Twin 3D, Factory Network Control, IT Asset Management (ITAM), tracking logistik armada, dan sistem pemantauan sarana prasarana/K3)."
         },
         {
-            "id": "dicoding",
+            "id": "exp-ptszu2",
             "company": "Dicoding Indonesia · Kampus Merdeka SIB Angkatan 5",
             "role": "Back End & Front End Web Developer (Internship)",
             "period": "Aug 2023 – Jan 2024",
@@ -278,7 +278,7 @@
             "desc": "Program magang 6 bulan sebagai Fullstack Developer. Membangun fitur frontend responsif dan layanan backend (API & database), serta aktif mengikuti siklus kerja Agile dan code review profesional bersama tim engineering."
         },
         {
-            "id": "alkahfi",
+            "id": "exp-40kvx7",
             "company": "Yayasan Al-Kahfi",
             "role": "IT Specialist & Web Developer",
             "period": "Oct 2020 – Present",
@@ -286,7 +286,7 @@
             "desc": "Mengelola infrastruktur IT yayasan, membangun dan memelihara aplikasi web untuk operasional yayasan serta company profile BBQ Al-Kahfi, sekaligus membimbing siswa dalam penguasaan literasi teknologi."
         },
         {
-            "id": "smartfren",
+            "id": "exp-kofn1k",
             "company": "PT Smartfren Telecom Tbk",
             "role": "Direct Sales Area",
             "period": "Jan 2022 – Jan 2023",
@@ -296,8 +296,8 @@
     ],
     "education": [
         {
-            "id": "unbaja",
-            "degree": "Sarjana Komputer (S.Kom) — Teknik Informatika",
+            "id": "edu-dva19n",
+            "degree": "Sarjana Komputer (S.Kom) — Ilmu Komputer",
             "institution": "Universitas Bina Bangsa, Serang",
             "period": "2020 – 2024",
             "desc": "Bachelor's degree in Computer Science. Mempelajari rekayasa perangkat lunak, sistem basis data, arsitektur komputasi awan, dan kecerdasan buatan. Mengembangkan platform SerenityHub sebagai skripsi dan mempublikasikan riset edukasi game."
@@ -386,12 +386,11 @@
         }
     ],
     "contact": {
-        "email": "doelkussoy@gmail.com",
+        "email": "qoisabdulquduss@gmail.com",
         "whatsapp": "+6285195300828",
         "whatsapp_url": "https://wa.me/6285195300828",
         "linkedin": "https://www.linkedin.com/in/qoisabdulqudus",
-        "github": "https://github.com/doelkussoy",
-        "instagram": "https://instagram.com/doelkussoy",
-        "location": "Serang, Banten, Indonesia"
+        "github": "https://github.com/asoyyparty",
+        "instagram": "https://instagram.com/doelkussoy"
     }
 }

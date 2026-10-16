@@ -476,6 +476,282 @@ $flash = get_flash();
       from { opacity: 0; transform: translateX(30px); }
       to { opacity: 1; transform: translateX(0); }
     }
+
+    /* ── Mobile Layout & Touch Utilities ── */
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .card-actions-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .upload-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-container {
+        flex-direction: column;
+        padding: 12px 14px;
+        gap: 14px;
+      }
+      .sidebar-nav {
+        position: sticky;
+        top: 56px;
+        z-index: 95;
+        width: calc(100% + 28px);
+        margin: -12px -14px 14px -14px;
+        padding: 10px 14px;
+        background: rgba(10, 12, 16, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .sidebar-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-tab-btn {
+        flex-shrink: 0;
+        padding: 8px 14px;
+        font-size: 13px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-color);
+      }
+      .nav-tab-btn svg {
+        width: 15px;
+        height: 15px;
+      }
+      .nav-tab-btn.is-active {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: #FFF;
+        box-shadow: 0 4px 14px rgba(235, 77, 109, 0.4);
+      }
+      .nav-tab-btn.is-active .nav-tab-badge {
+        background: rgba(255, 255, 255, 0.25);
+        color: #FFF;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        height: 56px;
+        padding: 0 12px;
+      }
+      .topbar-brand {
+        gap: 8px;
+      }
+      .topbar-logo {
+        width: 28px;
+        height: 28px;
+      }
+      .topbar-title {
+        font-size: 13.5px;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .topbar-badge {
+        display: none;
+      }
+      .topbar-actions {
+        gap: 6px;
+      }
+      .topbar-actions .btn-text,
+      .user-pill .user-name {
+        display: none;
+      }
+      .user-pill {
+        padding: 6px 8px;
+      }
+      .topbar-actions .btn-secondary-sm {
+        padding: 7px 9px;
+        min-height: 36px;
+      }
+
+      .admin-card {
+        padding: 16px 14px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+      }
+      .card-header-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+      }
+      .card-header-title {
+        font-size: 16px;
+      }
+      .card-header-desc {
+        font-size: 12px;
+      }
+      .card-header-bar > .btn-primary-sm,
+      .card-header-bar > .btn-secondary-sm {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+        min-height: 42px;
+      }
+      .card-actions-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      .card-actions-group .btn-primary-sm,
+      .card-actions-group .btn-secondary-sm {
+        width: 100%;
+        justify-content: center;
+        min-height: 40px;
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+      .form-control {
+        font-size: 14px;
+        padding: 10px 12px;
+        min-height: 42px;
+      }
+      textarea.form-control {
+        min-height: 80px;
+      }
+      #formChangePw button,
+      #tab-security a.btn-secondary-sm {
+        width: 100%;
+        justify-content: center;
+        min-height: 42px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .project-item {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        grid-template-areas:
+          "thumb info"
+          "actions actions";
+        gap: 10px 12px;
+        padding: 12px;
+        border-radius: 12px;
+      }
+      .project-item-thumb {
+        grid-area: thumb;
+        width: 56px;
+        height: 44px;
+      }
+      .project-item-info {
+        grid-area: info;
+        min-width: 0;
+      }
+      .project-item-title {
+        font-size: 13.5px;
+        white-space: normal;
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+      .project-item-meta {
+        font-size: 10.5px;
+        gap: 6px;
+      }
+      .project-item-actions {
+        grid-area: actions;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .project-item-actions .btn-secondary-sm {
+        width: 100%;
+        justify-content: center;
+        padding: 8px;
+        min-height: 38px;
+      }
+
+      .modal-backdrop {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .modal-box {
+        max-height: 88vh;
+        border-radius: 20px 20px 0 0;
+        padding: 20px 16px 28px;
+        width: 100%;
+        animation: slideUpModal 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes slideUpModal {
+        from { opacity: 0; transform: translateY(100%); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .modal-header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+      }
+      .upload-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .upload-row .btn-secondary-sm {
+        width: 100%;
+        justify-content: center;
+        min-height: 42px;
+      }
+      .modal-footer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .modal-footer button {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+      }
+
+      .toast-container {
+        top: 66px;
+        left: 14px;
+        right: 14px;
+        width: auto;
+      }
+      .toast-pill {
+        padding: 10px 14px;
+        font-size: 12.5px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-title {
+        max-width: 110px;
+      }
+      .card-actions-group {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -491,22 +767,22 @@ $flash = get_flash();
     <div class="topbar-actions">
       <button class="btn-secondary-sm" id="btnSyncHtml" title="Re-generate index.html untuk sinkronisasi GitHub Pages">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-        <span>Sync index.html</span>
+        <span class="btn-text">Sync index.html</span>
       </button>
 
-      <a href="/" target="_blank" class="btn-secondary-sm">
-        <span>Lihat Live Portfolio</span>
+      <a href="/" target="_blank" class="btn-secondary-sm" title="Lihat Live Portfolio">
+        <span class="btn-text">Lihat Live</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
 
-      <div class="user-pill">
+      <div class="user-pill" title="Login sebagai <?= htmlspecialchars($username) ?>">
         <span class="user-dot"></span>
-        <span><?= htmlspecialchars($username) ?></span>
+        <span class="user-name"><?= htmlspecialchars($username) ?></span>
       </div>
 
       <a href="/admin/logout.php" class="btn-secondary-sm" style="color:#F87171;" title="Logout">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        <span>Logout</span>
+        <span class="btn-text">Logout</span>
       </a>
     </div>
   </header>
@@ -673,7 +949,7 @@ $flash = get_flash();
               <h2 class="card-header-title">Pengalaman Kerja (Work Experience)</h2>
               <p class="card-header-desc">Perbarui linimasa karier profesional Anda di PT Centa Brasindo Abadi dan organisasi lainnya.</p>
             </div>
-            <div style="display:flex; gap:10px;">
+            <div class="card-actions-group">
               <button class="btn-secondary-sm" id="btnAddExperience" type="button">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>Tambah Pengalaman</span>
@@ -773,7 +1049,7 @@ $flash = get_flash();
               <h2 class="card-header-title">Sertifikasi & Lisensi Profesional</h2>
               <p class="card-header-desc">Kelola 10+ sertifikasi resmi (AWS, Dicoding, Kemendikbudristek SIB, DBS, dll) beserta link kredensial.</p>
             </div>
-            <div style="display:flex; gap:10px;">
+            <div class="card-actions-group">
               <button class="btn-secondary-sm" id="btnAddCert" type="button">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>Tambah Sertifikasi</span>
@@ -1017,7 +1293,7 @@ $flash = get_flash();
         <!-- Image Upload Section -->
         <div class="form-group">
           <label class="form-label">Path Gambar Cover</label>
-          <div style="display:flex; gap:10px; align-items:center;">
+          <div class="upload-row">
             <input type="text" class="form-control" id="projImage" placeholder="assets/images/..." />
             <label class="btn-secondary-sm" style="cursor:pointer; flex-shrink:0; height:40px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -1030,7 +1306,7 @@ $flash = get_flash();
           </div>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
+        <div class="modal-footer">
           <button type="button" class="btn-secondary-sm" id="btnCancelModal">Batal</button>
           <button type="submit" class="btn-primary-sm" style="padding:10px 22px;">Simpan Proyek</button>
         </div>
@@ -1073,6 +1349,9 @@ $flash = get_flash();
         const targetId = btn.getAttribute('data-target');
         const targetPane = document.getElementById(targetId);
         if (targetPane) targetPane.classList.add('is-active');
+        if (window.innerWidth <= 900) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
     });
 
@@ -1093,7 +1372,7 @@ $flash = get_flash();
         showToast('Gagal menyinkronkan: ' + e.message, 'error');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg><span>Sync index.html</span>`;
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg><span class="btn-text">Sync index.html</span>`;
       }
     });
 
