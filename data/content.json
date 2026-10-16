@@ -1,0 +1,405 @@
+{
+    "profile": {
+        "name": "Qois Abdul Qudus",
+        "role": "Software Engineer & IT Infrastructure",
+        "tagline": "Membangun Aplikasi Enterprise Scalable & Infrastruktur Jaringan Industri Berkeandalan Tinggi",
+        "bio": "Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi.",
+        "location": "Serang, Banten, Indonesia",
+        "status_text": "OPEN FOR OPPORTUNITIES \u00b7 BASED IN SERANG, ID",
+        "avatar": "assets/images/profile.png",
+        "resume_url": "#contact"
+    },
+    "metrics": [
+        {
+            "value": "13+",
+            "label": "Production Systems Deployed"
+        },
+        {
+            "value": "99.9%",
+            "label": "Network Uptime Maintained"
+        },
+        {
+            "value": "2+ Years",
+            "label": "Industrial IT Experience"
+        },
+        {
+            "value": "1",
+            "label": "National Journal Publication"
+        }
+    ],
+    "services": [
+        {
+            "id": "infra",
+            "number": "01",
+            "title": "IT Infrastructure & Industrial Networking",
+            "desc": "Perancangan dan pemeliharaan arsitektur jaringan LAN & Fiber Optic industri dengan uptime 24/7. Mengelola segmentasi VLAN, routing MikroTik/Fortigate, visualisasi topologi, pemantauan CCTV terpusat, dan manajemen server rack.",
+            "tags": [
+                "LAN & Fiber Optic",
+                "MikroTik & Fortigate",
+                "VLAN Segmentation",
+                "Server Rack Management",
+                "SLA & 24/7 Uptime"
+            ]
+        },
+        {
+            "id": "software",
+            "number": "02",
+            "title": "Enterprise Full-Stack Software Engineering",
+            "desc": "Pengembangan aplikasi web internal skala perusahaan yang aman, cepat, dan scalable. Berpengalaman membangun sistem manajemen aset (ITAM), tracking logistik armada, dan platform digital twin 3D dengan stack Laravel, Node.js, dan React.",
+            "tags": [
+                "Laravel 10 / 12",
+                "React 18 & Vite",
+                "Node.js & Express",
+                "MySQL & Database Schema",
+                "REST API & WebSockets"
+            ]
+        },
+        {
+            "id": "ehs-pwa",
+            "number": "03",
+            "title": "Industrial Systems Automation & EHS Compliance",
+            "desc": "Transformasi digital proses manual pabrik menjadi sistem terotomasi berbasis Progressive Web Apps (PWA). Mencakup digitalisasi kartu inspeksi K3 (APAR, Hydrant, P3K), flow check-in logistik, dan otomasi pelaporan berstandar industri.",
+            "tags": [
+                "PWA Standalone",
+                "K3 & EHS Compliance",
+                "Logistics Flow SLA",
+                "QR Code Generation",
+                "PDF & Excel Automations"
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "id": "map-cba",
+            "title": "CBA Network Map & Factory Digital Twin 3D",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "2026 \u2013 Present",
+            "desc": "Platform digital twin & GIS infrastruktur pabrik berbasis 3D. Menghadirkan visualisasi denah pabrik, penelusuran rute kabel fiber optik antar gedung, visualizer rak server interaktif, topologi ReactFlow, serta simulasi dampak kabel putus (Trace Impact Tool).",
+            "category": "enterprise",
+            "image": "assets/images/mapcba.png",
+            "tech_tags": [
+                "React 18 & Vite",
+                "Three.js / 3D Canvas",
+                "ReactFlow Topology",
+                "Impact Simulation"
+            ],
+            "demo_url": "",
+            "github_url": "https://github.com/asoyyparty/map-cba.git",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "network-factory",
+            "title": "Factory Network Control System",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Aug 2026 \u2013 Present",
+            "desc": "Aplikasi monitoring & kontrol perangkat jaringan pabrik berbasis web (LAN). Memantau topologi dan kondisi perangkat jaringan secara real-time, grafik SLA, serta sistem alert otomatis.",
+            "category": "enterprise",
+            "image": "assets/images/networkfactory.png",
+            "tech_tags": [
+                "Node.js & Express",
+                "WebSocket Real-time",
+                "SSH2 & Ping SLA",
+                "LAN Infrastructure"
+            ],
+            "demo_url": "https://networkfactory.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/network-factory",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "itam",
+            "title": "IT Asset Management (ITAM) Enterprise",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Jun 2026 \u2013 Present",
+            "desc": "Sistem Manajemen Aset IT & Helpdesk komprehensif berbasis Laravel 12. Membantu pelacakan aset IT, alokasi IP address, manajemen lisensi software, serta operasional layanan ticketing helpdesk.",
+            "category": "enterprise",
+            "image": "assets/images/itam.png",
+            "tech_tags": [
+                "Laravel 12 & PHP 8.2",
+                "Spatie RBAC & AdminLTE",
+                "VLAN & IP Ping Monitor",
+                "QR Code & Helpdesk"
+            ],
+            "demo_url": "https://itam.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/itam",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "kotakp3k",
+            "title": "P3K Digital Monitoring System",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "May 2026 \u2013 Present",
+            "desc": "Solusi manajemen inventaris cerdas yang mentransformasi pemantauan kotak P3K konvensional di seluruh area pabrik menjadi platform digital yang efisien, transparan, dan akurat.",
+            "category": "enterprise",
+            "image": "assets/images/kotakp3k.png",
+            "tech_tags": [
+                "PHP & MySQL",
+                "PWA Standalone",
+                "K3 Industrial Compliance",
+                "Stock Alerts & Logs"
+            ],
+            "demo_url": "https://kotakp3k.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/kotakp3k",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "saranaprasarana",
+            "title": "Sistem Sarana Prasarana",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Apr 2026 \u2013 Present",
+            "desc": "Aplikasi web internal perusahaan untuk memantau dan mencatat pemeliharaan fasilitas serta infrastruktur pabrik. Memudahkan tim maintenance mencatat inspeksi dan mencetak kartu riwayat.",
+            "category": "enterprise",
+            "image": "assets/images/saranaprasarana.png",
+            "tech_tags": [
+                "PHP & MySQL",
+                "PWA Standalone",
+                "APAR & Hydrant Maintenance",
+                "Kartu Riwayat Cetak"
+            ],
+            "demo_url": "https://saranaprasarana.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/saranaprasarana",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "patroli",
+            "title": "Patroli Keamanan Pabrik",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Mar 2026 \u2013 Present",
+            "desc": "Sistem pencatatan log patroli keamanan terpusat. Petugas mencatat jadwal shift, rute patroli, timestamp, dan laporan kejadian yang dilengkapi bukti foto serta tanda tangan digital.",
+            "category": "enterprise",
+            "image": "assets/images/patroli.png",
+            "tech_tags": [
+                "PHP Native",
+                "Security Logging",
+                "GPS & Photo Verification",
+                "Digital Signature"
+            ],
+            "demo_url": "https://patroli.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/patroli",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "tracking",
+            "title": "Tracking Bongkar Muat",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Jan 2026 \u2013 Present",
+            "desc": "Aplikasi pelacakan logistik real-time untuk mengonsolidasi dan mengoptimalkan alur kerja kendaraan di pabrik. Memantau durasi setiap tahapan dari gate check-in hingga pemuatan barang.",
+            "category": "enterprise",
+            "image": "assets/images/tracking.png",
+            "tech_tags": [
+                "Laravel 10",
+                "Livewire 3",
+                "Logistics Tracking SLA",
+                "MySQL & Excel"
+            ],
+            "demo_url": "https://tracking.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/tracking",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "eraport",
+            "title": "E-Raport System (Kinerja Karyawan)",
+            "org": "PT Centa Brasindo Abadi Chemical Industry",
+            "period": "Dec 2024 \u2013 Present",
+            "desc": "Sistem pelacakan kinerja karyawan HR yang mengelola kehadiran, pengajuan cuti, keterlambatan, riwayat training, serta evaluasi berkala dengan fitur ekspor laporan resmi.",
+            "category": "enterprise",
+            "image": "assets/images/eraport.png",
+            "tech_tags": [
+                "Laravel",
+                "HR Analytics",
+                "Evaluation Workflow",
+                "PDF Reporting"
+            ],
+            "demo_url": "https://eraport.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/eraport",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "tiara-games",
+            "title": "Tiara Games - Digital Top-Up Platform",
+            "org": "Commercial Project",
+            "period": "Aug 2024",
+            "desc": "Platform top-up voucher game digital dengan integrasi payment gateway Midtrans, validasi otomatis, export invoice PDF, dan modul manajemen admin.",
+            "category": "web",
+            "image": "assets/images/serenityhub.png",
+            "tech_tags": [
+                "Next.js",
+                "Payment Gateway Midtrans",
+                "Tailwind CSS",
+                "Invoice Automation"
+            ],
+            "demo_url": "https://tiaragames.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/tiaragames",
+            "badge": "Completed",
+            "featured": false
+        },
+        {
+            "id": "esthetic-cafe",
+            "title": "Esthetic Cafe - Food Ordering Platform",
+            "org": "Commercial Project",
+            "period": "Jul 2024",
+            "desc": "Platform pemesanan makanan berbasis web dengan fitur live order tracking dan admin panel manajemen menu, memungkinkan pelanggan memesan secara mandiri tanpa antrean manual.",
+            "category": "web",
+            "image": "assets/images/serenityhub.png",
+            "tech_tags": [
+                "Vue.js",
+                "Firebase",
+                "Real-time Order",
+                "Responsive Web"
+            ],
+            "demo_url": "https://estheticcafe.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/estheticcafe",
+            "badge": "Completed",
+            "featured": false
+        },
+        {
+            "id": "serenityhub",
+            "title": "SerenityHub - Platform Pengaduan Kota Serang",
+            "org": "Univ Bina Bangsa & Serang City Gov",
+            "period": "Jun 2024 \u2013 Nov 2024",
+            "desc": "Platform pengaduan publik yang dibangun bekerja sama dengan Dishub / Pemkot Serang. Warga dapat melaporkan masalah jalan & fasilitas dengan peta interaktif Leaflet.",
+            "category": "web",
+            "image": "assets/images/serenityhub.png",
+            "tech_tags": [
+                "Monorepo React",
+                "Node & Express",
+                "Leaflet GIS",
+                "Civic Tech"
+            ],
+            "demo_url": "https://serenityhub.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/serenityhub",
+            "badge": "Deployed",
+            "featured": true
+        },
+        {
+            "id": "bbqalkahfi",
+            "title": "BBQ Al-Kahfi - Portal Bimbel",
+            "org": "Yayasan Al-Kahfi Serang",
+            "period": "Jan 2024 \u2013 Present",
+            "desc": "Platform portal siswa & e-learning terpadu untuk Yayasan Al-Kahfi. Menghadirkan modul materi belajar, scan absen digital, smart raport, try out, dan gamifikasi progres siswa.",
+            "category": "web",
+            "image": "assets/images/bbqalkahfi.png",
+            "tech_tags": [
+                "React & Vite",
+                "KaTeX & Math CBT",
+                "QR Absensi & jsPDF",
+                "Gamifikasi & UTBK"
+            ],
+            "demo_url": "https://bbqalkahfi.asoyydev.id/",
+            "github_url": "https://github.com/asoyyparty/bbqalkahfi",
+            "badge": "Active",
+            "featured": true
+        },
+        {
+            "id": "barudak",
+            "title": "Petualangan Barudak - Ethnomathematics Edu-Game",
+            "org": "Research & Academic Publication",
+            "period": "May 2024 \u2013 Aug 2024",
+            "desc": "Game edukasi Android interaktif yang mengajarkan konsep geometri melalui kebudayaan lokal Banten. Dipublikasikan resmi di Histogram: Jurnal Pendidikan Matematika (2024).",
+            "category": "mobile",
+            "image": "assets/images/barudak.jpg",
+            "tech_tags": [
+                "Android Game",
+                "Unity & C#",
+                "Ethnomathematics",
+                "Published Paper"
+            ],
+            "demo_url": "https://garuda.kemdiktisaintek.go.id/documents/detail/4509823",
+            "github_url": "https://github.com/asoyyparty/petualanganbarudak",
+            "badge": "Published",
+            "featured": true
+        }
+    ],
+    "experience": [
+        {
+            "id": "cba",
+            "period": "Nov 2024 \u2013 Present",
+            "location": "Cikande, Serang",
+            "role": "IT Infrastructure & Software Engineer",
+            "company": "PT Centa Brasindo Abadi Chemical Industry",
+            "desc": "Menangani dua pilar teknis operasional pabrik: <strong>IT Infrastructure</strong> (pemeliharaan infrastruktur jaringan LAN & fiber optik industri 24/7, pengawasan CCTV terpusat, SLA uptime jaringan, dan manajemen rack server) serta <strong>Software Engineering</strong> (merancang arsitektur dan membangun ekosistem aplikasi enterprise internal seperti CBA Network Digital Twin 3D, Factory Network Control, IT Asset Management (ITAM), tracking logistik armada, dan sistem pemantauan sarana prasarana/K3).",
+            "highlights": [
+                "Merancang dan mendeploy CBA Network Digital Twin 3D untuk memetakan seluruh rute fiber optik dan rak server pabrik.",
+                "Menjaga 99.9% uptime konektivitas jaringan industri LAN & Wi-Fi di seluruh area produksi dan gudang pabrik.",
+                "Mengembangkan sistem ITAM dengan manajemen IP/VLAN otomatis dan modul helpdesk ticketing.",
+                "Digitalisasi pemantauan K3 dan fasilitas sarpras (APAR, Hydrant, P3K) berbasis Progressive Web App."
+            ]
+        },
+        {
+            "id": "alkahfi",
+            "period": "Jan 2024 \u2013 Present",
+            "location": "Serang, Banten",
+            "role": "Lead Full-Stack Developer & System Architect",
+            "company": "Yayasan Al-Kahfi Serang",
+            "desc": "Merancang arsitektur sistem dan mengembangkan portal terpadu e-learning BBQ Al-Kahfi. Mengimplementasikan modul Computer Based Test (CBT) berkemampuan rendering rumus matematika kompleks KaTeX, scanner absensi QR code real-time, cetak kwitansi/raport otomatis (jsPDF), serta gamifikasi progres belajar siswa.",
+            "highlights": [
+                "Membangun portal pembelajaran modern berbasis React, Vite, dan arsitektur database terukur.",
+                "Mengotomasi pembuatan dan penilaian CBT try out UTBK berbasis skala nasional.",
+                "Integrasi sistem absensi presensi siswa via scan QR Code instan."
+            ]
+        },
+        {
+            "id": "serenity",
+            "period": "Jun 2024 \u2013 Nov 2024",
+            "location": "Serang, Banten",
+            "role": "Lead Web Developer",
+            "company": "Pemkot Serang & Universitas Bina Bangsa",
+            "desc": "Memimpin pengembangan platform SerenityHub (Civic Tech) untuk sistem pengaduan fasilitas kota Serang yang terintegrasi dengan pemetaan geografis Leaflet GIS.",
+            "highlights": [
+                "Membangun arsitektur monorepo frontend & backend dengan REST API terenkripsi.",
+                "Mengintegrasikan Leaflet map untuk penandaan koordinat GPS kerusakan fasilitas publik."
+            ]
+        }
+    ],
+    "education": [
+        {
+            "degree": "Sarjana Komputer (S.Kom) - Teknologi Informasi",
+            "institution": "Universitas Bina Bangsa",
+            "period": "2020 \u2013 2024",
+            "gpa": "3.80 / 4.00 (Cum Laude)",
+            "desc": "Fokus pada Rekayasa Perangkat Lunak, Arsitektur Jaringan Komputer, dan Sistem Terdistribusi. Berhasil mempublikasikan artikel ilmiah di jurnal terakreditasi nasional."
+        }
+    ],
+    "certifications": [
+        {
+            "title": "MikroTik Certified Network Associate (MTCNA)",
+            "issuer": "MikroTik Official",
+            "period": "2024",
+            "credential_id": "MTCNA-2024-ID-QAQ"
+        },
+        {
+            "title": "Cisco Certified Network Associate (CCNA) Preparation",
+            "issuer": "Cisco Networking Academy",
+            "period": "2024",
+            "credential_id": "CCNA-TRAIN-2024"
+        },
+        {
+            "title": "Full-Stack Web & Enterprise Architecture",
+            "issuer": "Alibaba Cloud / Dicoding",
+            "period": "2023",
+            "credential_id": "FS-CERT-2023-08"
+        },
+        {
+            "title": "Linux System Administration & Security",
+            "issuer": "Red Hat Academy / LPI",
+            "period": "2023",
+            "credential_id": "LNX-ADM-2023"
+        }
+    ],
+    "contact": {
+        "email": "doelkussoy@gmail.com",
+        "whatsapp": "+6285195300828",
+        "whatsapp_url": "https://wa.me/6285195300828",
+        "linkedin": "https://www.linkedin.com/in/qoisabdulqudus",
+        "github": "https://github.com/doelkussoy",
+        "instagram": "https://instagram.com/doelkussoy",
+        "location": "Serang, Banten, Indonesia"
+    }
+}
