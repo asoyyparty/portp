@@ -439,6 +439,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       background: none;
       border: none;
       padding: 0;
+      pointer-events: auto !important;
+      position: relative;
+      z-index: 30;
     }
     @media (min-width: 640px) {
       .hero-action-link { font-size: 12px; }
@@ -1146,7 +1149,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         <div class="hero-desc-col">
           <p class="hero-bio-snippet"><?= h($profile['bio'] ?? 'Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi.') ?></p>
-          <button type="button" class="hero-action-link" id="btnHeroReadMore">
+          <button type="button" class="hero-action-link" id="btnHeroReadMore" onclick="window.openAboutModal('about-bio')">
             Read full bio, education & achievements →
           </button>
         </div>
@@ -1659,40 +1662,40 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       for (let i = 0; i < count; i++) {
         const item = pool[i] || { u: 0.5, v: 0.5, luminance: 0.5 };
         const seed = prng();
-        const jitterX = (prng() - 0.5) * 0.045;
-        const jitterY = (prng() - 0.5) * 0.045;
+        const jitterX = (prng() - 0.5) * 0.042;
+        const jitterY = (prng() - 0.5) * 0.042;
 
         // 3D Portrait position
         const posX = (item.u - 0.5) * 5.85 + jitterX;
-        const posY = (0.5 - item.v) * 6.8 + 0.15 + jitterY;
+        const posY = (0.5 - item.v) * 7.3 + 0.14 + jitterY;
 
-        // Depth curvature based on facial geometry & brightness
+        // Depth curvature based on facial geometry & brightness (Endang's exact formula)
         const normU = (item.u - 0.5) / 0.19;
         const normV = (item.v - 0.32) / 0.19;
         const rSq = normU * normU + normV * normV;
-        const domeZ = rSq < 1.0 ? 0.44 * Math.sqrt(1.0 - rSq) : 0.0;
+        const domeZ = rSq < 1.0 ? 0.42 * Math.sqrt(1.0 - rSq) : 0.0;
         const normChest = (item.u - 0.5) / 0.46;
         const chestZ = item.v > 0.52 && Math.abs(normChest) < 1.0 ? 0.22 * Math.sqrt(1.0 - normChest * normChest) : 0.0;
-        const posZ = domeZ + chestZ + (item.luminance - 0.35) * 0.28 + (prng() - 0.5) * 0.04;
+        const posZ = domeZ + chestZ + (item.luminance - 0.35) * 0.28 + (prng() - 0.5) * 0.05;
 
-        portraitPositions[i * 3] = posX;
+        portraitPositions[i * 3]     = posX;
         portraitPositions[i * 3 + 1] = posY;
         portraitPositions[i * 3 + 2] = posZ;
 
         // Spiral cosmic tunnel positions along Z
-        const tunnelZ = 4.5 - (i / count) * 215.0 + (prng() - 0.5) * 4.0;
-        const spiralAngle = i * 2.3999632 + (prng() - 0.5) * 0.45;
-        const radius = prng() < 0.8 ? 4.5 + 8.5 * Math.pow(prng(), 0.8) : 13.0 + 6.5 * prng();
+        const tunnelZ = 4.5 - (i / count) * 228.0 + (prng() - 0.5) * 3.5;
+        const spiralAngle = 2.3999632 * i + (prng() - 0.5) * 0.45;
+        const radius = prng() < 0.82 ? 4.5 + 8.5 * Math.pow(prng(), 0.8) : 13.0 + 6.5 * prng();
 
-        tunnelPositions[i * 3] = Math.cos(spiralAngle) * radius * 1.4;
+        tunnelPositions[i * 3]     = Math.cos(spiralAngle) * radius * 1.4;
         tunnelPositions[i * 3 + 1] = Math.sin(spiralAngle) * radius * 1.1;
         tunnelPositions[i * 3 + 2] = tunnelZ;
 
-        const finalLuma = Math.min(1.0, Math.max(0.2, 1.15 * Math.pow(item.luminance, 0.82)));
-        luminances[i] = finalLuma;
+        const finalLuma = Math.min(1.0, Math.max(0.2, 1.12 * Math.pow(item.luminance, 0.82)));
+        luminances[i]   = finalLuma;
         atlasIndices[i] = i % 64;
-        randomSeeds[i] = seed;
-        scales[i] = 0.82 + 0.36 * finalLuma;
+        randomSeeds[i]  = seed;
+        scales[i]       = 0.82 + 0.35 * finalLuma;
       }
 
       return {
@@ -1706,34 +1709,51 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       };
     }
 
-    // ── Generate Procedural Face Fallback ──
-    function generateFallbackFaceData(count = 3200) {
+    // ── Generate Procedural Face Fallback (Endang's Anatomical Sculpt) ──
+    function generateFallbackFaceData(count = 2400) {
       const samples = [];
       const prng = createPRNG(9001);
-      for (let r = 0; r < 100; r++) {
-        for (let c = 0; c < 75; c++) {
-          const u = (c + 0.5) / 75;
-          const v = (r + 0.5) / 100;
+      for (let r = 0; r < 102; r++) {
+        for (let c = 0; c < 76; c++) {
+          const l = (c + 0.5) / 76;
+          const u = (r + 0.5) / 102;
+          const d = (l - 0.5) / 0.195;
+          const h = (u - 0.31) / 0.185;
+          const p = d * d + h * h;
+          const x = (l - 0.5) / 0.225;
+          const v = (u - 0.25) / 0.15;
+          const g = x * x + v * v;
+          const y = Math.abs(l - 0.5) < 0.088 && u >= 0.45 && u <= 0.59;
+          const M = u >= 0.57 + 0.16 * Math.pow(Math.abs(l - 0.5) / 0.48, 1.35) && u <= 0.99 && Math.abs(l - 0.5) < 0.48;
 
-          const dX = (u - 0.5) / 0.20;
-          const dY = (v - 0.35) / 0.22;
-          const distSq = dX * dX + dY * dY;
-          const isBody = v >= 0.56 && Math.abs(u - 0.5) < 0.45;
-
-          if (distSq <= 1.0 || isBody) {
-            let lum = distSq <= 1.0 ? 0.62 - 0.28 * distSq : 0.42;
-            const eyeL = Math.hypot((u - 0.44) / 0.04, (v - 0.32) / 0.025);
-            const eyeR = Math.hypot((u - 0.56) / 0.04, (v - 0.32) / 0.025);
-            if (eyeL < 1.0 || eyeR < 1.0) lum = 0.22;
-            samples.push({ u, v, luminance: lum, priority: lum + (distSq <= 1.0 ? 0.6 : 0.0) });
+          if (p <= 1.0 || g <= 1.0 || y || M) {
+            let b = 0.45;
+            if (g <= 1.0 && u < 0.24) {
+              b = g > 0.72 ? 0.78 : 0.22;
+            } else if (p <= 1.0) {
+              b = 0.58 - 0.25 * p;
+              const eye1 = Math.hypot((l - 0.43) / 0.04, (u - 0.305) / 0.022);
+              const eye2 = Math.hypot((l - 0.57) / 0.04, (u - 0.305) / 0.022);
+              if (eye1 < 1.0 || eye2 < 1.0) b = 0.24;
+              if (eye1 < 0.28 || eye2 < 0.28) b = 0.92;
+              if (Math.abs(l - 0.5) < 0.018 && u > 0.30 && u < 0.38) b = 0.86;
+            } else if (y) {
+              b = 0.34;
+            } else if (M) {
+              const lapel1 = Math.hypot((l - 0.39) / 0.05, (u - 0.59) / 0.06);
+              const lapel2 = Math.hypot((l - 0.61) / 0.05, (u - 0.59) / 0.06);
+              b = lapel1 < 1.0 || lapel2 < 1.0 ? 0.88 : 0.42 + 0.22 * prng();
+            }
+            const s = l > 0.28 && l < 0.72 && u > 0.13 && u < 0.54;
+            samples.push({ u: l, v: u, luminance: b, priority: b + (s ? 0.65 : 0.0) });
           }
         }
       }
       return buildParticleData(samples, count);
     }
 
-    // ── Image Sampling: Converts Qois\'s Photo to 3D Particle Cloud ──
-    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 3200) {
+    // ── Image Sampling: Converts Qois's Photo to 3D Particle Cloud ──
+    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 2400) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -1746,41 +1766,41 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             if (!ctx) return resolve(generateFallbackFaceData(count));
 
-            // Start completely transparent so background pixels have alpha 0
             ctx.clearRect(0, 0, 300, 400);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
 
-            // Maintain true aspect ratio (object-fit: cover) and center
             const nw = img.naturalWidth || 300;
             const nh = img.naturalHeight || 400;
             const hRatio = 300 / nw;
             const vRatio = 400 / nh;
-            const ratio = Math.max(hRatio, vRatio);
-            const shiftX = (300 - nw * ratio) / 2;
-            const shiftY = (400 - nh * ratio) / 2;
-            ctx.drawImage(img, 0, 0, nw, nh, shiftX, shiftY, nw * ratio, nh * ratio);
+            const ratio = Math.min(hRatio, vRatio);
+            const drawW = nw * ratio;
+            const drawH = nh * ratio;
+            const shiftX = (300 - drawW) / 2;
+            const shiftY = 14;
+            ctx.drawImage(img, 0, 0, nw, nh, shiftX, shiftY, drawW, drawH);
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;
             const samples = [];
 
-            // High-density sampling grid: 120 rows by 90 cols for razor-sharp realism
-            for (let row = 0; row < 120; row++) {
-              for (let col = 0; col < 90; col++) {
+            for (let row = 0; row < 100; row++) {
+              for (let col = 0; col < 75; col++) {
                 let sumLuma = 0;
                 let maxLuma = 0;
                 let minLuma = 1;
                 let solidPxCount = 0;
 
-                const startX = Math.floor(col * (300 / 90));
-                const endX = Math.floor((col + 1) * (300 / 90));
-                const startY = Math.floor(row * (400 / 120));
-                const endY = Math.floor((row + 1) * (400 / 120));
+                const startX = col * 4;
+                const endX = (col + 1) * 4;
+                const startY = row * 4;
+                const endY = (row + 1) * 4;
 
                 for (let py = startY; py < endY; py++) {
                   for (let px = startX; px < endX; px++) {
                     const idx = (py * 300 + px) * 4;
                     const a = imgData[idx + 3] / 255;
-                    // Transparent pixels in background are skipped
-                    if (a < 0.2) continue;
+                    if (a < 0.15) continue;
 
                     const r = imgData[idx] / 255;
                     const g = imgData[idx + 1] / 255;
@@ -1793,20 +1813,27 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                   }
                 }
 
-                // Foreground solid condition
-                if (solidPxCount < 2) continue;
+                if (solidPxCount < 1) continue;
 
                 const avgLuma = sumLuma / solidPxCount;
                 const dynamicLuma = 0.55 * avgLuma + 0.45 * maxLuma;
                 const contrast = maxLuma - minLuma;
 
-                const u = (col + 0.5) / 90;
-                const v = (row + 0.5) / 120;
-                if (v > 0.84) continue; // Crop bottom edge
+                const u = (col + 0.5) / 75;
+                const v = (row + 0.5) / 100;
+
+                if (v > 0.81) continue;
+
+                // Tapered anatomical shoulder silhouette to eliminate any flat shelf
+                const distFromCenter = Math.abs(u - 0.5);
+                const shoulderThreshold = 0.52 + 0.22 * Math.pow(distFromCenter / 0.46, 1.35);
+                if (v < 0.50 && distFromCenter > 0.30) continue;
+                if (v >= 0.50 && v < shoulderThreshold && distFromCenter > 0.22) continue;
+                if (distFromCenter > 0.46) continue;
 
                 const isCentralFace = u >= 0.28 && u <= 0.72 && v >= 0.12 && v <= 0.54;
-                const priority = dynamicLuma * 1.35 + (isCentralFace ? 0.55 : 0.0) + (contrast > 0.12 ? 0.4 : 0.0);
-                const cleanLuma = Math.min(1.0, 1.25 * Math.pow(Math.max(0.12, dynamicLuma), 0.85));
+                const priority = dynamicLuma * 1.2 + (isCentralFace ? 0.35 : 0.0) + (contrast > 0.14 ? 0.45 : 0.0);
+                const cleanLuma = Math.min(1.0, 1.2 * Math.pow(Math.max(0.12, dynamicLuma), 0.82));
 
                 samples.push({ u, v, luminance: cleanLuma, priority });
               }
@@ -1903,8 +1930,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         }
 
         // Particle tile scale
-        float portraitTileSize = 0.054 * aScale * (0.4 + 0.6 * introEase);
-        float tunnelTileSize = 0.36 * (0.75 + aSeed * 0.55);
+        float portraitTileSize = 0.082 * aScale * (0.4 + 0.6 * introEase);
+        float tunnelTileSize = 0.38 * (0.75 + aSeed * 0.55);
         float cardScale = mix(portraitTileSize, tunnelTileSize, localMorph);
 
         float tiltAngle = (aSeed - 0.5) * 0.36 * localMorph + burstArc * (aSeed - 0.5) * 1.2;
@@ -1957,7 +1984,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         // Portrait Mode: Crisp Black & White pointillist portrait so facial features are brilliantly sharp
         float texLuma = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
-        vec3 bwShade = vec3(pow(vLuminance, 1.08) * 1.35 * (0.75 + 0.25 * texLuma));
+        vec3 bwShade = vec3(1.15 * vLuminance * (0.52 + 0.52 * texLuma));
 
         // Tunnel Mode: Ultra-vibrant chromatic micro-card artwork
         // Dynamic iridescent rainbow spectral hue based on card seed & time
@@ -2092,7 +2119,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       scene.add(starfieldPoints);
 
       // 2. 3D Holographic Particle Portrait (The Signature Visual)
-      const particleTotal = 3200;
+      const particleTotal = 2400;
       const microAtlas = createMicroCardAtlas();
       const initialData = generateFallbackFaceData(particleTotal);
 
@@ -2243,9 +2270,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }, { passive: true });
 
       window.addEventListener('click', (e) => {
-        // At hero view, projects are never active or clickable
-        if (scrollProgress < 0.04) return;
-        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('.btn-explore-projects')) return;
+        // At hero view or when about modal is active, projects are never active or clickable
+        if (scrollProgress < 0.045) return;
+        if (aboutModal && aboutModal.classList.contains('is-open')) return;
+        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('#btnHeroReadMore') || e.target.closest('.btn-explore-projects')) return;
         if (hoveredProjectMesh && hoveredProjectMesh.userData && hoveredProjectMesh.userData.project) {
           openProjectModal(hoveredProjectMesh.userData.project);
         }
@@ -2435,6 +2463,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     const projectModal = document.getElementById('projectModal');
 
     function openProjectModal(proj) {
+      if (aboutModal && aboutModal.classList.contains('is-open')) return;
+      if (scrollProgress < 0.045) return;
       document.getElementById('modalProjImg').src = proj.image || 'assets/images/mapcba.png';
       document.getElementById('modalProjCategory').innerText = (proj.category || 'ENTERPRISE').toUpperCase() + (proj.badge ? ' · ' + proj.badge.toUpperCase() : '');
       document.getElementById('modalProjTitle').innerText = proj.title;
@@ -2514,28 +2544,28 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       });
     }
 
-    function openAboutModal(targetTab = 'about-bio') {
+    window.openAboutModal = function(targetTab = 'about-bio') {
       closeProjectModal();
       closeContactModal();
       aboutModal.classList.add('is-open');
       switchAboutTab(targetTab);
-    }
-    function closeAboutModal() {
+    };
+    window.closeAboutModal = function() {
       aboutModal.classList.remove('is-open');
-    }
+    };
 
     document.getElementById('btnOpenAbout').addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      openAboutModal('about-bio');
+      window.openAboutModal('about-bio');
     });
     document.getElementById('btnHeroReadMore').addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      openAboutModal('about-bio');
+      window.openAboutModal('about-bio');
     });
-    document.getElementById('btnCloseAbout').addEventListener('click', closeAboutModal);
-    document.getElementById('aboutBackdrop').addEventListener('click', closeAboutModal);
+    document.getElementById('btnCloseAbout').addEventListener('click', window.closeAboutModal);
+    document.getElementById('aboutBackdrop').addEventListener('click', window.closeAboutModal);
 
     const tabButtons = document.querySelectorAll('.modal-tab-pill');
     tabButtons.forEach(btn => {
