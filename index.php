@@ -92,8 +92,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      selection-background-color: #FFFFFF;
-      selection-color: #050505;
     }
 
     ::selection {
@@ -142,7 +140,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     /* ── Virtual Scroll Track ── */
-    /* This invisible spacer creates natural scroll height so touch & mouse wheels trigger 3D flight */
     #virtualScrollSpacer {
       position: relative;
       width: 100%;
@@ -323,7 +320,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       z-index: 20;
       pointer-events: auto;
       transition: opacity 0.25s ease, transform 0.25s ease;
-      select: none;
+      user-select: none;
     }
 
     .hero-top-container {
@@ -750,7 +747,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       transform: rotate(90deg);
     }
 
-    /* Modal Scrollable Body */
     .modal-scroll-body {
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -815,7 +811,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Modal Navigation Tabs */
     .modal-tabs-strip {
       display: flex;
       gap: 6px;
@@ -847,7 +842,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       font-weight: 600;
     }
 
-    /* Focus Area Grid */
     .focus-area-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -875,21 +869,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       gap: 10px;
       margin-bottom: 8px;
     }
-    .focus-badge {
-      font-size: 16px;
-    }
-    .focus-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #FFFFFF;
-    }
-    .focus-desc {
-      font-size: 11.5px;
-      line-height: 1.5;
-      color: rgba(255, 255, 255, 0.65);
-    }
+    .focus-badge { font-size: 16px; }
+    .focus-title { font-size: 13.5px; font-weight: 600; color: #FFFFFF; }
+    .focus-desc { font-size: 11.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.65); }
 
-    /* Timeline Cards */
     .timeline-item {
       position: relative;
       padding-left: 24px;
@@ -907,16 +890,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       background: var(--color-cyan);
       box-shadow: 0 0 10px var(--color-cyan);
     }
-    .timeline-role {
-      font-size: 14px;
-      font-weight: 600;
-      color: #FFFFFF;
-    }
-    .timeline-company {
-      font-size: 12px;
-      color: var(--color-cyan);
-      margin-top: 2px;
-    }
+    .timeline-role { font-size: 14px; font-weight: 600; color: #FFFFFF; }
+    .timeline-company { font-size: 12px; color: var(--color-cyan); margin-top: 2px; }
     .timeline-meta {
       font-family: var(--font-mono);
       font-size: 10.5px;
@@ -924,13 +899,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       margin-top: 2px;
       margin-bottom: 8px;
     }
-    .timeline-desc {
-      font-size: 12px;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.7);
-    }
+    .timeline-desc { font-size: 12px; line-height: 1.6; color: rgba(255, 255, 255, 0.7); }
 
-    /* Certifications Grid */
     .certs-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -962,26 +932,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .cert-title-text {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #FFFFFF;
-      margin: 4px 0 6px;
-    }
-    .cert-summary-text {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-    .cert-verify-link {
-      font-size: 10.5px;
-      font-weight: 600;
-      color: #FFFFFF;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .cert-title-text { font-size: 12.5px; font-weight: 600; color: #FFFFFF; margin: 4px 0 6px; }
+    .cert-summary-text { font-size: 11px; color: rgba(255, 255, 255, 0.6); line-height: 1.4; margin-bottom: 8px; }
+    .cert-verify-link { font-size: 10.5px; font-weight: 600; color: #FFFFFF; display: inline-flex; align-items: center; gap: 4px; }
 
     /* ── Project Detail Modal Specifics ── */
     .proj-detail-hero {
@@ -997,14 +950,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     @media (min-width: 640px) {
       .proj-detail-hero { height: 280px; }
     }
-    .proj-detail-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .proj-detail-header {
-      margin-bottom: 20px;
-    }
+    .proj-detail-img { width: 100%; height: 100%; object-fit: cover; }
+    .proj-detail-header { margin-bottom: 20px; }
     .proj-category-eyebrow {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -1020,17 +967,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       line-height: 1.1;
       color: #FFFFFF;
     }
-    .proj-org-period {
-      font-size: 12.5px;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 4px;
-    }
-    .proj-metrics-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 18px 0;
-    }
+    .proj-org-period { font-size: 12.5px; color: rgba(255, 255, 255, 0.6); margin-top: 4px; }
+    .proj-metrics-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
     .metric-chip {
       border-radius: 9999px;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1039,15 +977,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       font-size: 11px;
       color: #FFFFFF;
     }
-    .metric-chip strong {
-      color: var(--color-cyan);
-    }
-    .proj-tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 16px 0;
-    }
+    .metric-chip strong { color: var(--color-cyan); }
+    .proj-tags-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0; }
     .proj-tag-pill {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -1098,14 +1029,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.45);
     }
-    .contact-val {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #FFFFFF;
-      margin-top: 2px;
-    }
+    .contact-val { font-size: 13.5px; font-weight: 600; color: #FFFFFF; margin-top: 2px; }
 
-    /* Admin Link subtle floating pill */
     .admin-float-pill {
       position: fixed;
       bottom: 16px;
@@ -1137,7 +1062,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
   <div class="ambient-orb orb-cyan"></div>
   <div class="ambient-orb orb-teal"></div>
 
-  <!-- Virtual Scroll Spacer (Allows natural wheel & touch scroll to fly through 3D space) -->
+  <!-- Virtual Scroll Spacer -->
   <div id="virtualScrollSpacer"></div>
 
   <!-- ══════════════ FLOATING TOP BAR ══════════════ -->
@@ -1213,7 +1138,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     <div class="hud-inner">
 
       <div class="hud-left">
-        <!-- Stepper Arrows -->
         <div class="stepper-group">
           <button type="button" class="stepper-btn" id="btnPrevProject" aria-label="Previous project">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1223,7 +1147,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           </button>
         </div>
 
-        <!-- Active Project Chip (Click to open modal) -->
         <div class="active-project-pill" id="btnInspectCurrentProject" title="Klik untuk membuka detail proyek">
           <span class="project-index-tag" id="hudProjectIndex">001</span>
           <span class="project-hud-title" id="hudProjectTitle">Loading...</span>
@@ -1235,7 +1158,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       </div>
 
       <div class="hud-right">
-        <!-- Counter & Progress -->
         <div class="progress-counter-box">
           <span id="hudCounterText"><strong>1</strong> of <?= count($projects ?? []) ?> projects</span>
           <div class="progress-bar-track">
@@ -1243,7 +1165,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           </div>
         </div>
 
-        <!-- Back to Top Button -->
         <button type="button" class="btn-back-home" id="btnHudBackHome">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
           <span>Home</span>
@@ -1260,7 +1181,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       <button type="button" class="modal-close-btn" id="btnCloseAbout" aria-label="Tutup modal">✕</button>
 
       <div class="modal-scroll-body">
-        <!-- Header Banner -->
         <div class="about-header-banner">
           <img src="<?= h(!empty($profile['avatar']) ? $profile['avatar'] : 'assets/images/profile.png') ?>" alt="<?= h($profile['name'] ?? 'Qois') ?>" class="about-avatar-lg" />
           <div class="about-header-text">
@@ -1272,7 +1192,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           </div>
         </div>
 
-        <!-- Tab Controls -->
         <div class="modal-tabs-strip">
           <button type="button" class="modal-tab-pill is-active" data-tab="about-bio">Biography & Focus</button>
           <button type="button" class="modal-tab-pill" data-tab="about-exp">Work Experience (<?= count($experience ?? []) ?>)</button>
@@ -1325,7 +1244,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         <!-- Tab 3: Education & Certifications -->
         <div class="about-tab-content" id="tab-about-certs" style="display: none;">
-          <!-- Education Card -->
           <?php foreach (($education ?? []) as $edu): ?>
           <div style="padding: 18px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 24px;">
             <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.08em;">Pendidikan Formal</div>
@@ -1410,7 +1328,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         </div>
 
         <div class="contact-links-grid">
-          <!-- Email -->
           <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>" class="contact-card-box">
             <div>
               <div class="contact-label">Email</div>
@@ -1419,7 +1336,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
 
-          <!-- WhatsApp -->
           <a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
             <div>
               <div class="contact-label">WhatsApp / Call</div>
@@ -1428,7 +1344,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
 
-          <!-- GitHub -->
           <a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
             <div>
               <div class="contact-label">GitHub</div>
@@ -1437,7 +1352,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
 
-          <!-- LinkedIn -->
           <a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
             <div>
               <div class="contact-label">LinkedIn</div>
@@ -1446,7 +1360,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
 
-          <!-- Instagram -->
           <a href="<?= h($contact['instagram'] ?? 'https://instagram.com/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
             <div>
               <div class="contact-label">Instagram</div>
@@ -1459,23 +1372,20 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     </div>
   </div>
 
-  <!-- Admin Link subtle floating pill -->
   <a href="/admin" class="admin-float-pill" title="Admin Control Center">CMS /admin</a>
 
   <!-- ══════════════ CLIENT-SIDE LOGIC & 3D ENGINE ══════════════ -->
   <script>
-    // Embed project data from PHP
     const portfolioProjects = <?= json_encode($projects, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
     const accentColors = <?= json_encode($accentColors) ?>;
 
-    // Assign 3D coordinates & formatting to each project
     portfolioProjects.forEach((p, idx) => {
       p.indexNumber = idx + 1;
       p.formattedIndex = String(idx + 1).padStart(3, '0');
       p.accentColor = accentColors[idx % accentColors.length];
-      p.zPosition = -12 - (idx * 9.5); // Spaced nicely along Z axis
-      p.offsetX = (idx % 2 === 0) ? -0.4 : 0.4;
-      p.offsetY = 0.05;
+      p.zPosition = -14 - (idx * 10.5);
+      p.offsetX = (idx % 2 === 0) ? -0.5 : 0.5;
+      p.offsetY = 0.08;
     });
 
     let currentActiveIndex = 0;
@@ -1486,13 +1396,504 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     let targetPointerY = 0;
     let currentPointerX = 0;
     let currentPointerY = 0;
+    let introProgress = 0;
 
-    // ── Three.js Spatial Engine ──
-    let scene, camera, renderer, particlesMesh;
-    const projectMeshes = [];
+    // ── Holographic Micro-Card Atlas Generator ──
+    const colorThemes = [
+      ["#00F0FF", "#06121A", "#3B82F6"],
+      ["#10B981", "#061510", "#6EE7B7"],
+      ["#38BDF8", "#07111E", "#BAE6FD"],
+      ["#8B5CF6", "#0E071B", "#C4B5FD"],
+      ["#F59E0B", "#160E05", "#FDE68A"],
+      ["#EC4899", "#160711", "#F472B6"],
+      ["#2DD4BF", "#051414", "#99F6E4"],
+      ["#6366F1", "#0A0A16", "#A5B4FC"]
+    ];
+
+    function createMicroCardAtlas() {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1024;
+      canvas.height = 1024;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return null;
+
+      ctx.fillStyle = "#09090C";
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      for (let i = 0; i < 64; i++) {
+        const col = i % 8;
+        const row = Math.floor(i / 8);
+        const x = col * 128;
+        const y = row * 128;
+        const [accent, bg, light] = colorThemes[i % colorThemes.length];
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, 128, 128);
+        ctx.clip();
+
+        // Dark gradient
+        const grad = ctx.createLinearGradient(x, y, x + 128, y + 128);
+        grad.addColorStop(0, bg);
+        grad.addColorStop(1, "#030406");
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, 128, 128);
+
+        // Tech accent lines
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.45;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x + 14, y + 24);
+        ctx.lineTo(x + 70, y + 24);
+        ctx.moveTo(x + 14, y + 36);
+        ctx.lineTo(x + 110, y + 36);
+        ctx.moveTo(x + 14, y + 48);
+        ctx.lineTo(x + 50, y + 48);
+        ctx.stroke();
+
+        ctx.fillStyle = light;
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.arc(x + 104, y + 24, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      return texture;
+    }
+
+    // ── PRNG helper ──
+    function createPRNG(seed) {
+      let s = seed >>> 0;
+      return () => {
+        s = (s + 0x6D2B79F5) | 0;
+        let t = Math.imul(s ^ (s >>> 15), 1 | s);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t) ^ (t >>> 14);
+        return ((t >>> 0) / 4294967296);
+      };
+    }
+
+    // ── Build Particle Data from Sampled Pixels ──
+    function buildParticleData(samples, count) {
+      const prng = createPRNG(1338042);
+      const sorted = [...samples].sort((a, b) => b.priority - a.priority);
+      const pool = [];
+
+      if (sorted.length >= count) {
+        const topRatio = Math.floor(0.68 * count);
+        for (let i = 0; i < topRatio; i++) pool.push(sorted[i]);
+        const rem = sorted.slice(topRatio);
+        const needed = count - topRatio;
+        for (let i = 0; i < needed; i++) {
+          const pick = Math.min(rem.length - 1, Math.floor((i / needed) * rem.length));
+          pool.push(rem[pick]);
+        }
+      } else {
+        pool.push(...sorted);
+        let idx = 0;
+        while (pool.length < count && sorted.length > 0) {
+          const s = sorted[idx % sorted.length];
+          pool.push({
+            u: s.u + (prng() - 0.5) * 0.008,
+            v: s.v + (prng() - 0.5) * 0.008,
+            luminance: s.luminance * (0.9 + 0.15 * prng()),
+            priority: s.priority
+          });
+          idx++;
+        }
+      }
+
+      const portraitPositions = new Float32Array(count * 3);
+      const tunnelPositions = new Float32Array(count * 3);
+      const luminances = new Float32Array(count);
+      const atlasIndices = new Float32Array(count);
+      const randomSeeds = new Float32Array(count);
+      const scales = new Float32Array(count);
+
+      for (let i = 0; i < count; i++) {
+        const item = pool[i] || { u: 0.5, v: 0.5, luminance: 0.5 };
+        const seed = prng();
+        const jitterX = (prng() - 0.5) * 0.045;
+        const jitterY = (prng() - 0.5) * 0.045;
+
+        // 3D Portrait position
+        const posX = (item.u - 0.5) * 5.85 + jitterX;
+        const posY = (0.5 - item.v) * 6.8 + 0.15 + jitterY;
+
+        // Depth curvature based on facial geometry & brightness
+        const normU = (item.u - 0.5) / 0.22;
+        const normV = (item.v - 0.35) / 0.22;
+        const rSq = normU * normU + normV * normV;
+        const domeZ = rSq < 1.0 ? 0.44 * Math.sqrt(1.0 - rSq) : 0.0;
+        const posZ = domeZ + (item.luminance - 0.35) * 0.32 + (prng() - 0.5) * 0.05;
+
+        portraitPositions[i * 3] = posX;
+        portraitPositions[i * 3 + 1] = posY;
+        portraitPositions[i * 3 + 2] = posZ;
+
+        // Spiral cosmic tunnel positions along Z
+        const tunnelZ = 4.5 - (i / count) * 215.0 + (prng() - 0.5) * 4.0;
+        const spiralAngle = i * 2.3999632 + (prng() - 0.5) * 0.45;
+        const radius = prng() < 0.8 ? 4.5 + 8.5 * Math.pow(prng(), 0.8) : 13.0 + 6.5 * prng();
+
+        tunnelPositions[i * 3] = Math.cos(spiralAngle) * radius * 1.4;
+        tunnelPositions[i * 3 + 1] = Math.sin(spiralAngle) * radius * 1.1;
+        tunnelPositions[i * 3 + 2] = tunnelZ;
+
+        const finalLuma = Math.min(1.0, Math.max(0.2, 1.15 * Math.pow(item.luminance, 0.82)));
+        luminances[i] = finalLuma;
+        atlasIndices[i] = i % 64;
+        randomSeeds[i] = seed;
+        scales[i] = 0.82 + 0.36 * finalLuma;
+      }
+
+      return {
+        count,
+        portraitPositions,
+        tunnelPositions,
+        luminances,
+        atlasIndices,
+        randomSeeds,
+        scales
+      };
+    }
+
+    // ── Generate Procedural Face Fallback ──
+    function generateFallbackFaceData(count = 2400) {
+      const samples = [];
+      const prng = createPRNG(9001);
+      for (let r = 0; r < 100; r++) {
+        for (let c = 0; c < 75; c++) {
+          const u = (c + 0.5) / 75;
+          const v = (r + 0.5) / 100;
+
+          const dX = (u - 0.5) / 0.20;
+          const dY = (v - 0.35) / 0.22;
+          const distSq = dX * dX + dY * dY;
+          const isBody = v >= 0.56 && Math.abs(u - 0.5) < 0.45;
+
+          if (distSq <= 1.0 || isBody) {
+            let lum = distSq <= 1.0 ? 0.62 - 0.28 * distSq : 0.42;
+            const eyeL = Math.hypot((u - 0.44) / 0.04, (v - 0.32) / 0.025);
+            const eyeR = Math.hypot((u - 0.56) / 0.04, (v - 0.32) / 0.025);
+            if (eyeL < 1.0 || eyeR < 1.0) lum = 0.22;
+            samples.push({ u, v, luminance: lum, priority: lum + (distSq <= 1.0 ? 0.6 : 0.0) });
+          }
+        }
+      }
+      return buildParticleData(samples, count);
+    }
+
+    // ── Image Sampling: Converts Qois's Photo to 3D Particle Cloud ──
+    function samplePortraitPhoto(imageSrc = 'assets/images/profile.png', count = 2400) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 300;
+            canvas.height = 400;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            if (!ctx) return resolve(generateFallbackFaceData(count));
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 300, 400);
+
+            // Maintain true aspect ratio (object-fit: cover) and center
+            const nw = img.naturalWidth || 300;
+            const nh = img.naturalHeight || 400;
+            const hRatio = 300 / nw;
+            const vRatio = 400 / nh;
+            const ratio = Math.max(hRatio, vRatio);
+            const shiftX = (300 - nw * ratio) / 2;
+            const shiftY = (400 - nh * ratio) / 2;
+            ctx.drawImage(img, 0, 0, nw, nh, shiftX, shiftY, nw * ratio, nh * ratio);
+
+            const imgData = ctx.getImageData(0, 0, 300, 400).data;
+            const samples = [];
+
+            for (let row = 0; row < 100; row++) {
+              for (let col = 0; col < 75; col++) {
+                let sumLuma = 0;
+                let maxLuma = 0;
+                let minLuma = 1;
+                let pxCount = 0;
+
+                const startX = col * 4;
+                const endX = (col + 1) * 4;
+                const startY = row * 4;
+                const endY = (row + 1) * 4;
+
+                for (let py = startY; py < endY; py++) {
+                  for (let px = startX; px < endX; px++) {
+                    const idx = (py * 300 + px) * 4;
+                    const r = imgData[idx] / 255;
+                    const g = imgData[idx + 1] / 255;
+                    const b = imgData[idx + 2] / 255;
+                    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+                    sumLuma += lum;
+                    if (lum > maxLuma) maxLuma = lum;
+                    if (lum < minLuma) minLuma = lum;
+                    pxCount++;
+                  }
+                }
+
+                const avgLuma = pxCount > 0 ? sumLuma / pxCount : 0;
+                const dynamicLuma = 0.55 * avgLuma + 0.45 * maxLuma;
+                const contrast = maxLuma - minLuma;
+
+                if (dynamicLuma > 0.035 || maxLuma > 0.12) {
+                  const u = (col + 0.5) / 75;
+                  const v = (row + 0.5) / 100;
+                  if (v > 0.84) continue; // Crop bottom edge
+
+                  const isCentralFace = u >= 0.26 && u <= 0.74 && v >= 0.1 && v <= 0.56;
+                  const priority = dynamicLuma * 1.25 + (isCentralFace ? 0.4 : 0.0) + (contrast > 0.15 ? 0.35 : 0.0);
+                  const cleanLuma = Math.min(1.0, 1.2 * Math.pow(dynamicLuma, 0.82));
+
+                  samples.push({ u, v, luminance: cleanLuma, priority });
+                }
+              }
+            }
+
+            if (samples.length < 200) return resolve(generateFallbackFaceData(count));
+            resolve(buildParticleData(samples, count));
+          } catch (e) {
+            resolve(generateFallbackFaceData(count));
+          }
+        };
+
+        img.onerror = () => resolve(generateFallbackFaceData(count));
+        img.src = imageSrc;
+      });
+    }
+
+    // ── Shaders for Holographic Portrait Particle Mesh ──
+    const HologramVertexShader = `
+      attribute vec3 aPortraitPos;
+      attribute vec3 aTunnelPos;
+      attribute float aLuminance;
+      attribute float aAtlasIndex;
+      attribute float aSeed;
+      attribute float aScale;
+
+      uniform float uTime;
+      uniform float uMorph;
+      uniform float uIntro;
+      uniform vec2 uMouseWorld;
+
+      varying vec2 vUv;
+      varying float vLuminance;
+      varying float vAtlasIndex;
+      varying float vMorph;
+      varying float vWorldZ;
+      varying vec3 vWorldCoord;
+      varying float vSeed;
+
+      void main() {
+        vUv = uv;
+        vLuminance = aLuminance;
+        vAtlasIndex = aAtlasIndex;
+        vSeed = aSeed;
+
+        float stagger = aSeed * 0.24;
+        float localMorph = smoothstep(stagger, 0.76 + stagger, uMorph);
+        vMorph = localMorph;
+
+        // Dramatic assembly intro
+        float introEase = smoothstep(0.0, 1.0, clamp((uIntro - aSeed * 0.25) / 0.75, 0.0, 1.0));
+        float introAngle = aSeed * 6.2831853 + (1.0 - introEase) * 2.4;
+        vec3 introOffset = vec3(
+          cos(introAngle) * (1.0 - introEase) * (2.8 + aSeed * 3.5),
+          sin(introAngle) * (1.0 - introEase) * (2.8 + aSeed * 3.5),
+          (1.0 - introEase) * (4.5 + aSeed * 4.0)
+        );
+
+        vec3 portraitPos = aPortraitPos + introOffset;
+
+        // Interactive cursor repulsion
+        vec2 toCursor = portraitPos.xy - uMouseWorld;
+        float cursorDist = length(toCursor);
+        float cursorInfluence = (1.0 - smoothstep(0.0, 1.25, cursorDist)) * (1.0 - localMorph) * introEase;
+        vec2 pushDir = cursorDist > 0.001 ? normalize(toCursor) : vec2(0.0, 1.0);
+        portraitPos.xy += pushDir * cursorInfluence * 0.12;
+        portraitPos.z += cursorInfluence * 0.35;
+
+        // Subtle organic breathing
+        portraitPos.z += sin(uTime * 1.3 + aPortraitPos.y * 1.4 + aSeed * 6.28) * 0.025 * (1.0 - localMorph);
+
+        // Tunnel floating drift
+        vec3 tunnelPos = aTunnelPos;
+        tunnelPos.x += sin(uTime * 0.55 + aSeed * 12.0) * 0.18 * localMorph;
+        tunnelPos.y += cos(uTime * 0.48 + aSeed * 9.0) * 0.18 * localMorph;
+
+        // Spiral vortex burst
+        float burstArc = sin(localMorph * 3.14159265);
+        float swirlAngle = aSeed * 6.2831853 + burstArc * 1.35;
+        vec3 swirlOffset = vec3(
+          cos(swirlAngle) * burstArc * 1.4,
+          sin(swirlAngle) * burstArc * 1.1,
+          -burstArc * 2.2
+        );
+
+        vec3 centerPos = mix(portraitPos, tunnelPos, localMorph) + swirlOffset;
+
+        // Corridor clear for project cards
+        float corridorClear = smoothstep(0.04, 0.40, localMorph);
+        vec2 dirFromCenter = length(centerPos.xy) > 0.001 ? normalize(centerPos.xy) : vec2(cos(aSeed * 6.28), sin(aSeed * 6.28));
+        float currentRadius = length(vec2(centerPos.x / 2.7, centerPos.y / 1.7));
+        if (currentRadius < 1.0) {
+          centerPos.xy += dirFromCenter * (1.0 - currentRadius) * 2.8 * corridorClear;
+        }
+
+        // Particle tile scale
+        float portraitTileSize = 0.082 * aScale * (0.4 + 0.6 * introEase);
+        float tunnelTileSize = 0.38 * (0.75 + aSeed * 0.55);
+        float cardScale = mix(portraitTileSize, tunnelTileSize, localMorph);
+
+        float tiltAngle = (aSeed - 0.5) * 0.36 * localMorph + burstArc * (aSeed - 0.5) * 1.2;
+        float c = cos(tiltAngle);
+        float s = sin(tiltAngle);
+        vec2 rotatedXY = vec2(
+          position.x * c - position.y * s,
+          position.x * s + position.y * c
+        ) * cardScale;
+
+        vec4 worldPosition = vec4(centerPos + vec3(rotatedXY, 0.0), 1.0);
+        vWorldZ = worldPosition.z;
+        vWorldCoord = worldPosition.xyz;
+
+        gl_Position = projectionMatrix * viewMatrix * worldPosition;
+      }
+    `;
+
+    const HologramFragmentShader = `
+      uniform sampler2D uAtlas;
+      uniform float uCameraZ;
+      uniform float uDimFactor;
+      uniform float uIntro;
+
+      varying vec2 vUv;
+      varying float vLuminance;
+      varying float vAtlasIndex;
+      varying float vMorph;
+      varying float vWorldZ;
+      varying vec3 vWorldCoord;
+      varying float vSeed;
+
+      float roundedBoxSDF(vec2 centerPos, vec2 size, float radius) {
+        return length(max(abs(centerPos) - size + radius, 0.0)) - radius;
+      }
+
+      void main() {
+        vec2 centered = vUv - 0.5;
+        float sdf = roundedBoxSDF(centered, vec2(0.48, 0.48), 0.08);
+        if (sdf > 0.0) discard;
+
+        float idx = floor(vAtlasIndex + 0.5);
+        float col = mod(idx, 8.0);
+        float row = floor(idx / 8.0);
+        vec2 innerUv = clamp(vUv, 0.025, 0.975);
+        vec2 atlasUv = (vec2(col, 7.0 - row) + innerUv) / 8.0;
+
+        vec4 texColor = texture2D(uAtlas, atlasUv);
+
+        // Portrait Mode: Crisp Black & White pointillist portrait
+        float texLuma = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
+        vec3 bwShade = vec3(1.18 * vLuminance * (0.5 + 0.52 * texLuma));
+
+        // Tunnel Mode: Vibrant micro-card artwork
+        vec3 tunnelShade = texColor.rgb * 1.15 + vec3(0.04);
+        vec3 cardColor = mix(bwShade, tunnelShade, smoothstep(0.06, 0.62, vMorph));
+
+        // Glass rim highlight
+        float borderMask = smoothstep(-0.045, -0.005, sdf);
+        cardColor += vec3(0.22) * borderMask * (0.35 + 0.65 * vMorph);
+
+        // Distance fog fade
+        float distToCam = abs(uCameraZ - vWorldZ);
+        float fogFactor = exp(-pow(max(0.0, distToCam - 11.0) * 0.024, 1.55));
+        vec3 fogColor = vec3(0.0196, 0.0196, 0.0196);
+        vec3 finalRgb = mix(fogColor, cardColor * uDimFactor, fogFactor);
+
+        float frontDelta = uCameraZ - vWorldZ;
+        float nearLensFade = mix(1.0, smoothstep(0.35, 2.8, frontDelta), smoothstep(0.05, 0.25, vMorph));
+
+        float corridorDist = length(vec2(vWorldCoord.x / 2.5, vWorldCoord.y / 1.65));
+        float corridorMask = mix(1.0, smoothstep(0.70, 1.15, corridorDist), smoothstep(0.05, 0.28, vMorph));
+
+        float alpha = nearLensFade * smoothstep(0.0, 0.25, uIntro) * clamp(fogFactor + 0.08, 0.0, 1.0) * corridorMask;
+        if (alpha < 0.01) discard;
+
+        gl_FragColor = vec4(finalRgb, alpha);
+      }
+    `;
+
+    // ── Shaders for 3D Project Planes (Rounded SDF & Glass Sheen) ──
+    const ProjectCardVertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+
+    const ProjectCardFragmentShader = `
+      uniform sampler2D uTexture;
+      uniform float uOpacity;
+      uniform float uHover;
+      uniform float uSelected;
+      uniform vec3 uAccent;
+      uniform float uTime;
+
+      varying vec2 vUv;
+
+      float roundedBoxSDF(vec2 p, vec2 b, float r) {
+        return length(max(abs(p) - b + r, 0.0)) - r;
+      }
+
+      void main() {
+        if (uOpacity < 0.01) discard;
+
+        vec2 aspectScale = vec2(1.55, 1.0);
+        vec2 centered = (vUv - 0.5) * aspectScale;
+        float sdf = roundedBoxSDF(centered, vec2(0.765, 0.49), 0.045);
+        if (sdf > 0.0) discard;
+
+        vec4 tex = texture2D(uTexture, vUv);
+        vec3 col = tex.rgb;
+
+        // Moving diagonal glass sheen sweep on hover
+        float sheenSweep = sin((vUv.x * 1.4 + vUv.y * 0.9) * 5.0 - uTime * 2.2) * 0.5 + 0.5;
+        col += vec3(0.09) * sheenSweep * max(uHover, uSelected * 0.65);
+
+        // Accent luminous rim border
+        float edgeMask = smoothstep(-0.02, -0.001, sdf);
+        vec3 borderCol = mix(vec3(0.45), uAccent, max(uHover * 0.85, uSelected));
+        col = mix(col, borderCol, edgeMask * (0.55 + 0.45 * max(uHover, uSelected)));
+
+        float alpha = clamp(uOpacity, 0.0, 1.0);
+        gl_FragColor = vec4(col, alpha);
+      }
+    `;
+
+    // ── Three.js Spatial Engine Initialization ──
+    let scene, camera, renderer;
+    let hologramMesh = null;
+    let hologramMaterial = null;
+    let starfieldPoints = null;
+    const projectMeshObjects = [];
     const container = document.getElementById('spatialCanvasContainer');
+    const mouseWorld = new THREE.Vector2(99, 99);
 
-    function initThreeScene() {
+    async function initThreeScene() {
       if (!window.THREE) return;
 
       const width = container.clientWidth || window.innerWidth;
@@ -1511,103 +1912,176 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       renderer.domElement.style.touchAction = 'pan-y';
       container.appendChild(renderer.domElement);
 
-      // 1. Starfield Particles in 3D
-      const particleCount = 1800;
-      const particleGeo = new THREE.BufferGeometry();
-      const posArray = new Float32Array(particleCount * 3);
-      const colorArray = new Float32Array(particleCount * 3);
-
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        posArray[i] = (Math.random() - 0.5) * 36;
-        posArray[i + 1] = (Math.random() - 0.5) * 28;
-        posArray[i + 2] = (Math.random() - 0.5) * 120 - 40;
-
-        // Subtle cyan & white star glow
-        if (Math.random() > 0.4) {
-          colorArray[i] = 0.0;
-          colorArray[i + 1] = 0.94;
-          colorArray[i + 2] = 1.0;
-        } else {
-          colorArray[i] = 0.85;
-          colorArray[i + 1] = 0.9;
-          colorArray[i + 2] = 1.0;
-        }
+      // 1. Background Starfield
+      const starCount = 1400;
+      const starGeo = new THREE.BufferGeometry();
+      const starPositions = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount * 3; i += 3) {
+        starPositions[i] = (Math.random() - 0.5) * 38;
+        starPositions[i + 1] = (Math.random() - 0.5) * 30;
+        starPositions[i + 2] = (Math.random() - 0.5) * 130 - 45;
       }
-
-      particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-      particleGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-      const particleMat = new THREE.PointsMaterial({
-        size: 0.1,
-        vertexColors: true,
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      const starMat = new THREE.PointsMaterial({
+        size: 0.08,
+        color: 0x00F0FF,
         transparent: true,
-        opacity: 0.65,
+        opacity: 0.45,
+        depthWrite: false
+      });
+      starfieldPoints = new THREE.Points(starGeo, starMat);
+      scene.add(starfieldPoints);
+
+      // 2. 3D Holographic Particle Portrait (The Signature Visual)
+      const particleTotal = 2400;
+      const microAtlas = createMicroCardAtlas();
+      const initialData = generateFallbackFaceData(particleTotal);
+
+      const basePlane = new THREE.PlaneGeometry(1, 0.76, 1, 1);
+      const instancedGeo = new THREE.InstancedBufferGeometry();
+      instancedGeo.index = basePlane.index;
+      instancedGeo.attributes.position = basePlane.attributes.position;
+      instancedGeo.attributes.uv = basePlane.attributes.uv;
+
+      const attrPortraitPos = new THREE.InstancedBufferAttribute(initialData.portraitPositions, 3);
+      const attrTunnelPos = new THREE.InstancedBufferAttribute(initialData.tunnelPositions, 3);
+      const attrLuminance = new THREE.InstancedBufferAttribute(initialData.luminances, 1);
+      const attrAtlasIndex = new THREE.InstancedBufferAttribute(initialData.atlasIndices, 1);
+      const attrSeed = new THREE.InstancedBufferAttribute(initialData.randomSeeds, 1);
+      const attrScale = new THREE.InstancedBufferAttribute(initialData.scales, 1);
+
+      instancedGeo.setAttribute('aPortraitPos', attrPortraitPos);
+      instancedGeo.setAttribute('aTunnelPos', attrTunnelPos);
+      instancedGeo.setAttribute('aLuminance', attrLuminance);
+      instancedGeo.setAttribute('aAtlasIndex', attrAtlasIndex);
+      instancedGeo.setAttribute('aSeed', attrSeed);
+      instancedGeo.setAttribute('aScale', attrScale);
+
+      hologramMaterial = new THREE.ShaderMaterial({
+        vertexShader: HologramVertexShader,
+        fragmentShader: HologramFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uMorph: { value: 0 },
+          uIntro: { value: 0 },
+          uMouseWorld: { value: new THREE.Vector2(99, 99) },
+          uCameraZ: { value: 9.5 },
+          uDimFactor: { value: 1.0 },
+          uAtlas: { value: microAtlas }
+        },
+        transparent: true,
         depthWrite: false
       });
 
-      particlesMesh = new THREE.Points(particleGeo, particleMat);
-      scene.add(particlesMesh);
+      hologramMesh = new THREE.InstancedMesh(instancedGeo, hologramMaterial, particleTotal);
+      hologramMesh.frustumCulled = false;
+      const dummy = new THREE.Matrix4();
+      for (let i = 0; i < particleTotal; i++) hologramMesh.setMatrixAt(i, dummy);
+      hologramMesh.instanceMatrix.needsUpdate = true;
+      scene.add(hologramMesh);
 
-      // 2. Interactive 3D Project Planes
+      // Load actual profile photo and update particle points
+      samplePortraitPhoto('assets/images/profile.png', particleTotal).then((sampled) => {
+        attrPortraitPos.copyArray(sampled.portraitPositions);
+        attrPortraitPos.needsUpdate = true;
+        attrTunnelPos.copyArray(sampled.tunnelPositions);
+        attrTunnelPos.needsUpdate = true;
+        attrLuminance.copyArray(sampled.luminances);
+        attrLuminance.needsUpdate = true;
+        attrScale.copyArray(sampled.scales);
+        attrScale.needsUpdate = true;
+      });
+
+      // 3. Interactive 3D Project Planes
       const textureLoader = new THREE.TextureLoader();
-      const planeGeo = new THREE.PlaneGeometry(3.6, 2.25);
+      const projectPlaneGeo = new THREE.PlaneGeometry(3.6, 2.25);
 
       portfolioProjects.forEach((proj, idx) => {
-        // Fallback or real texture
         const imgSrc = proj.image ? proj.image : 'assets/images/mapcba.png';
-        const texture = textureLoader.load(imgSrc);
+        const tex = textureLoader.load(imgSrc);
 
-        const planeMat = new THREE.MeshBasicMaterial({
-          map: texture,
+        const cardMat = new THREE.ShaderMaterial({
+          vertexShader: ProjectCardVertexShader,
+          fragmentShader: ProjectCardFragmentShader,
+          uniforms: {
+            uTexture: { value: tex },
+            uOpacity: { value: 0.0 },
+            uHover: { value: 0.0 },
+            uSelected: { value: 0.0 },
+            uAccent: { value: new THREE.Color(proj.accentColor || '#00F0FF') },
+            uTime: { value: 0.0 }
+          },
           transparent: true,
-          opacity: 0,
           depthWrite: false
         });
 
-        const mesh = new THREE.Mesh(planeGeo, planeMat);
+        const mesh = new THREE.Mesh(projectPlaneGeo, cardMat);
         mesh.position.set(proj.offsetX, proj.offsetY, proj.zPosition);
-        mesh.userData = { project: proj, index: idx, isInteractable: false };
+        mesh.userData = {
+          project: proj,
+          index: idx,
+          isInteractable: false,
+          currentHover: 0.0
+        };
 
         scene.add(mesh);
-        projectMeshes.push(mesh);
+        projectMeshObjects.push(mesh);
       });
 
-      // Pointer Raycaster for 3D card clicks
+      // Pointer Interactivity (Raycaster)
       const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2(99, 99);
+      const pointer = new THREE.Vector2(99, 99);
+      let hoveredProjectMesh = null;
 
-      function checkIntersection(clientX, clientY) {
-        mouse.x = (clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mouse, camera);
+      function updatePointerWorld(clientX, clientY) {
+        pointer.x = (clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(clientY / window.innerHeight) * 2 + 1;
 
-        const interactables = projectMeshes.filter(m => m.userData.isInteractable);
+        const fovRad = (camera.fov * Math.PI) / 180;
+        const distZ = Math.abs(camera.position.z);
+        const planeH = 2 * Math.tan(fovRad / 2) * distZ;
+        const planeW = planeH * camera.aspect;
+
+        mouseWorld.set(pointer.x * (planeW / 2), pointer.y * (planeH / 2));
+        if (hologramMaterial) {
+          hologramMaterial.uniforms.uMouseWorld.value.lerp(mouseWorld, 0.15);
+        }
+
+        raycaster.setFromCamera(pointer, camera);
+        const interactables = projectMeshObjects.filter(m => m.userData.isInteractable);
         const hits = raycaster.intersectObjects(interactables);
-        return hits.length > 0 ? hits[0].object : null;
+
+        if (hits.length > 0) {
+          hoveredProjectMesh = hits[0].object;
+          renderer.domElement.style.cursor = 'pointer';
+        } else {
+          hoveredProjectMesh = null;
+          renderer.domElement.style.cursor = 'auto';
+        }
       }
 
       window.addEventListener('pointermove', (e) => {
         targetPointerX = (e.clientX / window.innerWidth) * 2 - 1;
         targetPointerY = -(e.clientY / window.innerHeight) * 2 + 1;
-
-        const hit = checkIntersection(e.clientX, e.clientY);
-        if (hit) {
-          renderer.domElement.style.cursor = 'pointer';
-        } else {
-          renderer.domElement.style.cursor = 'auto';
-        }
+        updatePointerWorld(e.clientX, e.clientY);
       });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          const t = e.touches[0];
+          targetPointerX = (t.clientX / window.innerWidth) * 2 - 1;
+          targetPointerY = -(t.clientY / window.innerHeight) * 2 + 1;
+          updatePointerWorld(t.clientX, t.clientY);
+        }
+      }, { passive: true });
 
       window.addEventListener('click', (e) => {
-        // Only if clicking on canvas and not inside modal/header
         if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay')) return;
-        const hit = checkIntersection(e.clientX, e.clientY);
-        if (hit && hit.userData && hit.userData.project) {
-          openProjectModal(hit.userData.project);
+        if (hoveredProjectMesh && hoveredProjectMesh.userData && hoveredProjectMesh.userData.project) {
+          openProjectModal(hoveredProjectMesh.userData.project);
         }
       });
 
-      // Window resize
       window.addEventListener('resize', () => {
         const w = window.innerWidth;
         const h = window.innerHeight;
@@ -1616,39 +2090,62 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         renderer.setSize(w, h);
       });
 
-      // Render Loop with smooth lerping
-      let clock = new THREE.Clock();
+      // Render Loop
+      const clock = new THREE.Clock();
 
       function animate() {
         requestAnimationFrame(animate);
         const delta = Math.min(clock.getDelta(), 0.05);
+        const elapsed = clock.getElapsedTime();
 
-        // Smooth camera gliding
+        // Intro animation
+        introProgress = Math.min(1.0, introProgress + 0.65 * delta);
+
+        // Smooth camera lerp
         currentCameraZ += (targetCameraZ - currentCameraZ) * 0.08;
         currentPointerX += (targetPointerX - currentPointerX) * 0.05;
         currentPointerY += (targetPointerY - currentPointerY) * 0.05;
 
-        camera.position.x = currentPointerX * 0.35;
-        camera.position.y = currentPointerY * 0.25;
+        camera.position.x = currentPointerX * 0.42;
+        camera.position.y = currentPointerY * 0.28;
         camera.position.z = currentCameraZ;
 
-        // Subtle particle drift
-        if (particlesMesh) {
-          particlesMesh.rotation.y += 0.0003;
-          particlesMesh.rotation.x += 0.00015;
+        // Update Starfield
+        if (starfieldPoints) {
+          starfieldPoints.rotation.y += 0.00025;
         }
 
-        // Update Project planes opacity & scale based on camera distance
-        projectMeshes.forEach((mesh, i) => {
+        // Calculate morph progress (0.0 in hero -> 1.0 when scrolling into projects)
+        const morphProgress = THREE.MathUtils.clamp((scrollProgress - 0.003) / 0.045, 0.0, 1.0);
+
+        // Update Holographic Portrait Uniforms
+        if (hologramMaterial) {
+          hologramMaterial.uniforms.uTime.value = elapsed;
+          hologramMaterial.uniforms.uMorph.value = THREE.MathUtils.lerp(hologramMaterial.uniforms.uMorph.value, morphProgress, 0.1);
+          hologramMaterial.uniforms.uIntro.value = introProgress;
+          hologramMaterial.uniforms.uCameraZ.value = camera.position.z;
+          hologramMaterial.uniforms.uMouseWorld.value.lerp(mouseWorld, 0.12);
+        }
+
+        // Update Project planes
+        projectMeshObjects.forEach((mesh) => {
           const dist = camera.position.z - mesh.position.z;
-          // In view when distance is between 3 and 16
-          if (dist > 2.5 && dist < 18) {
-            const factor = 1 - Math.abs(dist - 7.5) / 10;
-            mesh.material.opacity = Math.max(0, Math.min(1, factor * 1.3));
-            mesh.scale.setScalar(0.75 + Math.max(0, factor * 0.28));
-            mesh.userData.isInteractable = dist > 4 && dist < 12;
+          const isTarget = hoveredProjectMesh === mesh;
+
+          // Target hover state lerp
+          mesh.userData.currentHover = THREE.MathUtils.lerp(mesh.userData.currentHover, isTarget ? 1.0 : 0.0, 0.15);
+          mesh.material.uniforms.uHover.value = mesh.userData.currentHover;
+          mesh.material.uniforms.uTime.value = elapsed;
+
+          // In view distance range
+          if (dist > 2.5 && dist < 19) {
+            const factor = 1.0 - Math.abs(dist - 8.0) / 10.5;
+            const op = Math.max(0.0, Math.min(1.0, factor * 1.35));
+            mesh.material.uniforms.uOpacity.value = op;
+            mesh.scale.setScalar(0.78 + Math.max(0.0, factor * 0.26) + mesh.userData.currentHover * 0.05);
+            mesh.userData.isInteractable = dist > 4.0 && dist < 13.0;
           } else {
-            mesh.material.opacity = 0;
+            mesh.material.uniforms.uOpacity.value = 0.0;
             mesh.userData.isInteractable = false;
           }
         });
@@ -1674,16 +2171,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
       const firstZ = 9.5;
       const lastProj = portfolioProjects[portfolioProjects.length - 1];
-      const endZ = lastProj ? lastProj.zPosition - 10 : -95;
+      const endZ = lastProj ? lastProj.zPosition - 10 : -110;
 
-      // Map scroll progress to camera Z position
       targetCameraZ = firstZ + (endZ - firstZ) * scrollProgress;
 
-      // Hero overlay fade out
-      if (scrollProgress < 0.04) {
-        const heroAlpha = Math.max(0, 1 - scrollProgress / 0.035);
+      if (scrollProgress < 0.038) {
+        const heroAlpha = Math.max(0, 1 - scrollProgress / 0.032);
         heroOverlay.style.opacity = heroAlpha;
-        heroOverlay.style.transform = `translate3d(0, ${scrollProgress * 400}px, 0)`;
+        heroOverlay.style.transform = `translate3d(0, ${scrollProgress * 420}px, 0)`;
         heroOverlay.style.pointerEvents = heroAlpha > 0.2 ? 'auto' : 'none';
         projectHudBar.classList.remove('is-visible');
       } else {
@@ -1692,12 +2187,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         projectHudBar.classList.add('is-visible');
       }
 
-      // Determine active project based on proximity to camera
       let closestIdx = 0;
       let minDistance = Infinity;
 
       portfolioProjects.forEach((p, idx) => {
-        const idealCamZ = p.zPosition + 7.5;
+        const idealCamZ = p.zPosition + 8.0;
         const d = Math.abs(targetCameraZ - idealCamZ);
         if (d < minDistance) {
           minDistance = d;
@@ -1727,15 +2221,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     window.addEventListener('scroll', updateScrollState, { passive: true });
 
-    // Navigate to project index
     function navigateToProjectIndex(index) {
       if (index < 0 || index >= portfolioProjects.length) return;
       const proj = portfolioProjects[index];
-      const targetZ = proj.zPosition + 7.5;
+      const targetZ = proj.zPosition + 8.0;
 
       const firstZ = 9.5;
       const lastProj = portfolioProjects[portfolioProjects.length - 1];
-      const endZ = lastProj ? lastProj.zPosition - 10 : -95;
+      const endZ = lastProj ? lastProj.zPosition - 10 : -110;
 
       const targetProgress = (targetZ - firstZ) / (endZ - firstZ);
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
@@ -1769,17 +2262,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     // ── Project Modal Logic ──
     const projectModal = document.getElementById('projectModal');
-    let currentlySelectedProject = null;
 
     function openProjectModal(proj) {
-      currentlySelectedProject = proj;
       document.getElementById('modalProjImg').src = proj.image || 'assets/images/mapcba.png';
       document.getElementById('modalProjCategory').innerText = (proj.category || 'ENTERPRISE').toUpperCase() + (proj.badge ? ' · ' + proj.badge.toUpperCase() : '');
       document.getElementById('modalProjTitle').innerText = proj.title;
       document.getElementById('modalProjOrgPeriod').innerText = (proj.org || 'PT Centa Brasindo Abadi Chemical Industry') + (proj.period ? ' · ' + proj.period : '');
       document.getElementById('modalProjDesc').innerHTML = proj.desc || '';
 
-      // Metrics Chips
       const metricsBox = document.getElementById('modalProjMetrics');
       metricsBox.innerHTML = '';
       if (proj.badge) {
@@ -1790,14 +2280,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
       metricsBox.innerHTML += `<div class="metric-chip">Verified: <strong>Production System</strong></div>`;
 
-      // Tags
       const tagsBox = document.getElementById('modalProjTags');
       tagsBox.innerHTML = '';
       (proj.tech_tags || []).forEach(t => {
         tagsBox.innerHTML += `<span class="proj-tag-pill">${t}</span>`;
       });
 
-      // Actions
       const demoBtn = document.getElementById('modalProjDemoBtn');
       if (proj.demo_url) {
         demoBtn.href = proj.demo_url;
@@ -1849,7 +2337,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     document.getElementById('btnCloseAbout').addEventListener('click', closeAboutModal);
     document.getElementById('aboutBackdrop').addEventListener('click', closeAboutModal);
 
-    // Modal Tabs Switching
     const tabButtons = document.querySelectorAll('.modal-tab-pill');
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1881,7 +2368,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     document.getElementById('btnCloseContact').addEventListener('click', closeContactModal);
     document.getElementById('contactBackdrop').addEventListener('click', closeContactModal);
 
-    // Escape Key Handler for all modals
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeProjectModal();
@@ -1890,7 +2376,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
     });
 
-    // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
       initThreeScene();
       updateScrollState();
