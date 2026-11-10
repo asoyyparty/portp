@@ -329,100 +329,122 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     .hero-top-container {
+      position: relative;
+      z-index: 20;
       max-width: 1800px;
       margin: 0 auto;
-      padding: 0 20px 10px;
+      padding: 0 16px;
     }
     @media (min-width: 640px) {
-      .hero-top-container { padding: 0 32px 14px; }
+      .hero-top-container { padding: 0 24px; }
     }
-    @media (min-width: 1024px) {
-      .hero-top-container { padding: 0 48px 18px; }
+    @media (min-width: 768px) {
+      .hero-top-container { padding: 0 40px; }
+    }
+
+    .hero-name-wrap {
+      position: relative;
+      padding-bottom: 8px;
+    }
+    @media (min-width: 640px) {
+      .hero-name-wrap { padding-bottom: 12px; }
     }
 
     .hero-name {
       font-family: var(--font-serif);
       font-style: italic;
-      font-weight: 700;
+      font-weight: 400;
       color: #FFFFFF;
-      font-size: clamp(3.2rem, 7.8vw, 6.8rem);
-      line-height: 0.95;
-      letter-spacing: -0.025em;
-      text-shadow: 0 4px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 255, 255, 0.25);
-      -webkit-text-stroke: 1.5px #FFFFFF;
-      text-stroke: 1.5px #FFFFFF;
-      paint-order: stroke fill;
+      font-size: clamp(2.8rem, 6.4vw, 5.8rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      text-shadow: none;
+      -webkit-text-stroke: 0;
+      text-stroke: 0;
       user-select: none;
+      margin: 0;
     }
 
     .hero-bottom-bar {
       position: relative;
+      z-index: 10;
       width: 100%;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background: #050505;
-      box-shadow: 0 -25px 50px rgba(5, 5, 5, 0.95);
+      box-shadow: 0 -20px 40px rgba(5, 5, 5, 1);
     }
 
     .hero-fade-gradient {
       pointer-events: none;
       position: absolute;
       inset-inline: 0;
-      top: -120px;
-      height: 120px;
-      background: linear-gradient(to top, #050505 0%, rgba(5, 5, 5, 0.6) 50%, transparent 100%);
+      top: -112px;
+      height: 112px;
+      background: linear-gradient(to top, #050505 0%, transparent 100%);
+      z-index: 5;
     }
 
     .hero-bar-inner {
       max-width: 1800px;
       margin: 0 auto;
-      padding: 16px 20px 20px;
+      padding: 12px 16px 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       align-items: flex-start;
       justify-content: space-between;
+    }
+    @media (min-width: 640px) {
+      .hero-bar-inner {
+        padding: 16px 24px 20px;
+        gap: 20px;
+      }
     }
     @media (min-width: 768px) {
       .hero-bar-inner {
         flex-direction: row;
         align-items: flex-end;
-        padding: 20px 32px 26px;
+        padding: 18px 40px 28px;
       }
-    }
-    @media (min-width: 1024px) {
-      .hero-bar-inner { padding: 22px 48px 28px; }
     }
 
     .hero-desc-col {
-      max-width: 580px;
+      max-width: 576px;
     }
 
     .hero-bio-snippet {
-      font-size: 12px;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.72);
-      letter-spacing: -0.01em;
+      font-size: 11px;
+      line-height: 1.625;
+      color: rgba(255, 255, 255, 0.7);
     }
     @media (min-width: 640px) {
-      .hero-bio-snippet { font-size: 13px; }
+      .hero-bio-snippet { font-size: 12px; }
+    }
+    @media (min-width: 768px) {
+      .hero-bio-snippet { font-size: 14px; }
     }
 
     .hero-action-link {
       margin-top: 8px;
-      display: inline-block;
-      font-size: 11.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
       font-weight: 500;
-      color: var(--color-cyan);
+      color: #22d3ee;
       text-decoration: underline;
       text-underline-offset: 4px;
-      transition: color 0.2s ease;
+      transition: color 0.15s ease;
       cursor: pointer;
       background: none;
       border: none;
       padding: 0;
     }
+    @media (min-width: 640px) {
+      .hero-action-link { font-size: 12px; }
+    }
     .hero-action-link:hover {
-      color: #FFFFFF;
+      color: #67e8f9;
     }
 
     .hero-cta-col {
@@ -430,20 +452,21 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       width: 100%;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
-    @media (min-width: 768px) {
+    @media (min-width: 640px) {
       .hero-cta-col {
         width: auto;
         justify-content: flex-end;
+        gap: 16px;
       }
     }
 
     .scroll-hint-label {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       color: rgba(255, 255, 255, 0.35);
       display: none;
     }
@@ -1112,7 +1135,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
   <!-- ══════════════ HERO SECTION OVERLAY ══════════════ -->
   <div id="heroOverlay">
     <div class="hero-top-container">
-      <h1 class="hero-name"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></h1>
+      <div class="hero-name-wrap">
+        <h1 class="hero-name"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></h1>
+      </div>
     </div>
 
     <div class="hero-bottom-bar">
@@ -2319,14 +2344,16 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
       targetCameraZ = firstZ + (endZ - firstZ) * scrollProgress;
 
-      if (scrollProgress < 0.038) {
-        const heroAlpha = Math.max(0, 1 - scrollProgress / 0.032);
+      if (scrollProgress < 0.035) {
+        const heroAlpha = Math.max(0, Math.min(1, 1 - scrollProgress / 0.03));
+        const heroTranslateY = Math.min(60, scrollProgress * 500);
         heroOverlay.style.opacity = heroAlpha;
-        heroOverlay.style.transform = `translate3d(0, ${scrollProgress * 420}px, 0)`;
-        heroOverlay.style.pointerEvents = heroAlpha > 0.2 ? 'auto' : 'none';
+        heroOverlay.style.transform = `translate3d(0, ${heroTranslateY}px, 0)`;
+        heroOverlay.style.pointerEvents = heroAlpha > 0.3 ? 'auto' : 'none';
         projectHudBar.classList.remove('is-visible');
       } else {
         heroOverlay.style.opacity = 0;
+        heroOverlay.style.transform = 'translate3d(0, 60px, 0)';
         heroOverlay.style.pointerEvents = 'none';
         projectHudBar.classList.add('is-visible');
       }
