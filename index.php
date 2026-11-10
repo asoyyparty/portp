@@ -15,14 +15,17 @@ $contact = $c['contact'] ?? [];
 function h($str) {
     return htmlspecialchars($str ?? '', ENT_QUOTES, 'UTF-8');
 }
+
+// Accent colors for projects in 3D space
+$accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24', '#A78BFA', '#2DD4BF', '#60A5FA', '#4ADE80'];
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qois Abdul Qudus — Software Engineer & IT Infrastructure</title>
-  <meta name="description" content="Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?> — <?= h($profile['role'] ?? 'Software Engineer & IT Infrastructure') ?></title>
+  <meta name="description" content="<?= h($profile['bio'] ?? 'Software Engineer & IT Infrastructure Specialist.') ?>" />
 
   <!-- Favicons & App Icons -->
   <link rel="icon" href="favicon.ico" sizes="32x32" />
@@ -31,1892 +34,1868 @@ function h($str) {
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
 
-  <!-- PWA & Add to Home Screen Support -->
+  <!-- PWA Support -->
   <link rel="manifest" href="site.webmanifest" />
-  <meta name="theme-color" content="#0E0E12" />
+  <meta name="theme-color" content="#050505" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Qois Qudus" />
-  <meta name="application-name" content="Qois Qudus" />
-  <meta name="msapplication-TileColor" content="#0E0E12" />
 
-
-  <!-- Fonts: Archivo (Display) + Geist (Body) + Geist Mono (Labels) -->
+  <!-- Google Fonts: Instrument Serif + Plus Jakarta Sans + Geist Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Geist:wght@350;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- Design Tokens -->
-  <link rel="stylesheet" href="tokens.css" />
+  <!-- Three.js from Cloudflare CDN for 3D spatial canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
     /* ── Reset & Baseline ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-canvas: #050505;
+      --bg-panel: rgba(9, 9, 12, 0.88);
+      --bg-card: rgba(18, 20, 28, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --border-focus: rgba(0, 240, 255, 0.45);
+      --color-cyan: #00F0FF;
+      --color-cyan-glow: rgba(0, 240, 255, 0.25);
+      --color-emerald: #10B981;
+      --text-white: #FFFFFF;
+      --text-muted: rgba(255, 255, 255, 0.65);
+      --text-subtle: rgba(255, 255, 255, 0.4);
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Geist Mono', monospace;
+    }
 
     html {
       scroll-behavior: smooth;
+      background-color: var(--bg-canvas);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: none;
     }
 
     body {
-      overflow-x: clip;
-      background-color: var(--color-paper);
-      color: var(--color-ink);
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      font-weight: 400;
-      line-height: 1.6;
+      background-color: var(--bg-canvas);
+      color: var(--text-white);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      position: relative;
-      transition: background-color var(--dur-short) var(--ease-out),
-                  color var(--dur-short) var(--ease-out);
+      selection-background-color: #FFFFFF;
+      selection-color: #050505;
     }
 
-    /* ── Ambient Background Mesh Glow ── */
-    .bg-mesh {
+    ::selection {
+      background: #FFFFFF;
+      color: #050505;
+    }
+
+    /* ── 3D Canvas Background ── */
+    #spatialCanvasContainer {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
+      inset: 0;
       z-index: 0;
-      overflow: hidden;
-    }
-    .bg-mesh-glow-1 {
-      position: absolute;
-      top: -15%;
-      right: -10%;
-      width: 55vw;
-      height: 55vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(235, 77, 109, 0.06) 0%, transparent 65%);
-      filter: blur(80px);
-      animation: pulseGlow 12s var(--ease-in-out) infinite alternate;
-    }
-    .bg-mesh-glow-2 {
-      position: absolute;
-      bottom: -15%;
-      left: -10%;
-      width: 45vw;
-      height: 45vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.04) 0%, transparent 65%);
-      filter: blur(80px);
-      animation: pulseGlow 15s var(--ease-in-out) infinite alternate-reverse;
-    }
-    @keyframes pulseGlow {
-      0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
-      100% { transform: scale(1.15) translate(-20px, 30px); opacity: 1; }
-    }
-
-    /* ── Focus Outline ── */
-    :focus-visible {
-      outline: 2px solid var(--color-focus);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-
-    /* ── Layout Containers ── */
-    .container {
-      width: 100%;
-      max-width: 1160px;
-      margin-inline: auto;
-      padding-inline: var(--space-lg);
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 640px) {
-      .container { padding-inline: var(--space-md); }
-    }
-
-    /* ── Scroll Reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity var(--dur-long) var(--ease-out),
-                  transform var(--dur-long) var(--ease-out);
-      transition-delay: calc(var(--i, 0) * 40ms);
-    }
-    .reveal.is-visible {
-      opacity: 1;
-      transform: none;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal {
-        transition: opacity 150ms linear;
-        transform: none;
-      }
-    }
-
-    /* ════════════════════════════════════════
-       FLOATING PILL NAVBAR (Tight & Polished)
-    ════════════════════════════════════════ */
-    .navbar-wrapper {
-      position: fixed;
-      top: 16px;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      z-index: 1000;
-      pointer-events: none;
-      padding-inline: var(--space-md);
-    }
-
-    .nav-pill {
       pointer-events: auto;
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      padding: 6px 14px 6px 18px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-pill);
-      backdrop-filter: blur(20px) saturate(1.8);
-      -webkit-backdrop-filter: blur(20px) saturate(1.8);
-      box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.12);
-      white-space: nowrap;
+      touch-action: pan-y;
+      background: #050505;
     }
 
-    .nav-brand {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      color: var(--color-ink);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-brand-logo {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
+    #spatialCanvasContainer canvas {
+      width: 100% !important;
+      height: 100% !important;
       display: block;
-      flex-shrink: 0;
-      transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-    .nav-brand:hover .nav-brand-logo {
-      transform: scale(1.08) rotate(-2deg);
-      box-shadow: 0 3px 10px rgba(235, 77, 109, 0.35);
-    }
-    .nav-brand::after {
-      content: "·";
-      color: var(--color-accent-rose);
-      font-weight: 900;
     }
 
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      list-style: none;
+    /* ── Ambient Glow Orbs ── */
+    .ambient-orb {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 9999px;
+      filter: blur(80px);
+      opacity: 0.65;
+    }
+    .orb-cyan {
+      top: -100px;
+      left: 15%;
+      width: 480px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.16) 0%, rgba(56, 189, 248, 0.05) 50%, transparent 75%);
+    }
+    .orb-teal {
+      bottom: 10%;
+      right: 5%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(20, 184, 166, 0.12) 0%, rgba(16, 185, 129, 0.04) 50%, transparent 75%);
     }
 
-    .nav-menu a {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--color-ink-2);
-      text-decoration: none;
-      padding: 6px 10px;
-      border-radius: var(--radius-pill);
-      transition: color var(--dur-short) var(--ease-out),
-                  background-color var(--dur-short) var(--ease-out);
-    }
-    .nav-menu a:hover {
-      color: var(--color-ink);
-      background-color: var(--color-paper-3);
-    }
-    .nav-menu a.is-active {
-      color: var(--color-ink);
-      font-weight: 600;
+    /* ── Virtual Scroll Track ── */
+    /* This invisible spacer creates natural scroll height so touch & mouse wheels trigger 3D flight */
+    #virtualScrollSpacer {
+      position: relative;
+      width: 100%;
+      height: 600vh;
+      pointer-events: none;
+      z-index: -1;
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding-left: 6px;
-      border-left: 1px solid var(--color-rule);
+    /* ── Top Header Navigation ── */
+    .topbar {
+      position: fixed;
+      inset-inline: 0;
+      top: 0;
+      z-index: 40;
+      padding: 16px 20px;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 640px) {
+      .topbar { padding: 22px 32px; }
+    }
+    @media (min-width: 1024px) {
+      .topbar { padding: 28px 48px; }
     }
 
-    .theme-toggle-btn {
-      background: transparent;
-      border: none;
-      color: var(--color-ink-2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      transition: color var(--dur-short) var(--ease-out),
-                  background-color var(--dur-short) var(--ease-out);
-    }
-    .theme-toggle-btn:hover {
-      color: var(--color-ink);
-      background: var(--color-paper-3);
-    }
-
-    .nav-cta-btn {
-      font-family: var(--font-body);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-accent-ink);
-      background: var(--color-ink);
-      text-decoration: none;
-      border-radius: var(--radius-pill);
-      padding: 7px 14px;
-      transition: opacity var(--dur-short) var(--ease-out),
-                  transform var(--dur-micro) var(--ease-out);
-    }
-    .nav-cta-btn:hover {
-      opacity: 0.88;
-      transform: scale(0.97);
-    }
-
-    @media (max-width: 768px) {
-      .nav-menu { display: none; }
-      .nav-pill { gap: var(--space-sm); padding: 6px 12px; }
-    }
-
-    /* ════════════════════════════════════════
-       HERO SECTION (Balanced Spacing)
-    ════════════════════════════════════════ */
-    .hero {
-      padding-top: calc(var(--space-2xl) + 24px);
-      padding-bottom: var(--space-2xl);
-    }
-
-    .hero-meta-bar {
+    .topbar-inner {
+      max-width: 1800px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--color-rule);
-      padding-bottom: var(--space-xs);
-      margin-bottom: var(--space-xl);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 500;
-      color: var(--color-ink-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      position: relative;
     }
 
-    .hero-layout {
-      display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
-      gap: var(--space-2xl);
-      align-items: stretch;
-    }
-
-    @media (max-width: 960px) {
-      .hero-layout {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
-      }
-      .hero-photo-wrapper { order: -1; max-width: 320px; }
-    }
-
-    .hero-intro-tag {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      color: var(--color-ink);
-      margin-bottom: var(--space-sm);
-    }
-
-    .hero-lede {
-      font-family: var(--font-body);
-      font-size: var(--text-md);
-      font-weight: 400;
-      color: var(--color-ink-2);
-      line-height: 1.6;
-      margin-bottom: var(--space-md);
-      max-width: 58ch;
-    }
-
-    .hero-manifesto {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      color: var(--color-ink);
-      margin-bottom: var(--space-lg);
-      max-width: 38ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      flex-wrap: wrap;
-      margin-bottom: var(--space-lg);
-    }
-
-    .btn-pill-dark {
+    .topbar-brand {
+      pointer-events: auto;
       display: inline-flex;
       align-items: center;
-      gap: var(--space-2xs);
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--color-accent-ink);
-      background: var(--color-ink);
+      gap: 12px;
       text-decoration: none;
-      border-radius: var(--radius-pill);
-      padding: 12px 24px;
-      box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.2);
-      transition: opacity var(--dur-short) var(--ease-out),
-                  transform var(--dur-micro) var(--ease-out),
-                  box-shadow var(--dur-short) var(--ease-out);
-    }
-    .btn-pill-dark:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px -4px rgba(0, 0, 0, 0.3);
-    }
-    .btn-pill-dark:active {
-      transform: translateY(1px);
-    }
-
-    .btn-pill-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2xs);
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--color-ink);
-      background: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
-      text-decoration: none;
-      border-radius: var(--radius-pill);
-      padding: 12px 24px;
-      transition: background-color var(--dur-short) var(--ease-out),
-                  border-color var(--dur-short) var(--ease-out),
-                  transform var(--dur-micro) var(--ease-out);
-    }
-    .btn-pill-outline:hover {
-      background: var(--color-paper-3);
-      border-color: var(--color-ink);
-      transform: translateY(-2px);
-    }
-
-    .hero-quick-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: var(--space-md);
-      padding-top: var(--space-md);
-      border-top: 1px solid var(--color-rule);
-    }
-
-    .quick-stat-val {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 800;
-      color: var(--color-ink);
-      line-height: 1.1;
-    }
-    .quick-stat-label {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
-      margin-top: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* ════════════════════════════════════════
-       3D FLIP PROFILE CARD (Aligned with Hey!)
-    ════════════════════════════════════════ */
-    .hero-photo-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 360px;
-      margin-inline: auto;
-      perspective: 1200px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .hero-flip-card {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
       cursor: pointer;
-      border-radius: var(--radius-card);
+      background: none;
+      border: none;
+      padding: 0;
     }
 
-    .hero-photo-wrapper:hover .hero-flip-card,
-    .hero-photo-wrapper.is-flipped .hero-flip-card {
-      transform: rotateY(180deg);
-    }
-
-    .hero-flip-front,
-    .hero-flip-back {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      border-radius: var(--radius-card);
+    .avatar-wrapper {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.06);
       overflow: hidden;
-      background: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
-      box-shadow: var(--card-shadow);
-    }
-
-    /* Front Side */
-    .hero-flip-front {
-      padding: var(--space-sm);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
     }
-
-    .hero-photo-img {
+    .topbar-brand:hover .avatar-wrapper {
+      border-color: var(--color-cyan);
+      transform: scale(1.06);
+    }
+    .avatar-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top center;
-      border-radius: 12px;
-      display: block;
-      background: var(--color-paper-3);
+      object-position: top;
     }
 
-    .flip-pill-floating {
+    .brand-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.95);
+      transition: color 0.2s ease;
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .brand-name { display: inline-block; }
+    }
+    .topbar-brand:hover .brand-name {
+      color: var(--color-cyan);
+    }
+
+    /* Center Pill: About & Credentials */
+    .topbar-center {
+      pointer-events: auto;
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-pill);
-      padding: 4px 10px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--color-ink);
-      backdrop-filter: blur(8px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .glass-pill-btn {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
+      border-radius: 9999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(9, 9, 12, 0.82);
+      padding: 7px 16px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    .glass-pill-btn:hover {
+      border-color: rgba(0, 240, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      transform: scale(1.04);
+      box-shadow: 0 6px 24px rgba(0, 240, 255, 0.2);
+    }
+    .glass-pill-btn:active {
+      transform: scale(0.96);
     }
 
-    .hero-photo-caption {
+    .pill-icon {
+      width: 14px;
+      height: 14px;
+      color: var(--color-cyan);
+      transition: transform 0.3s ease;
+    }
+    .glass-pill-btn:hover .pill-icon {
+      transform: rotate(15deg) scale(1.1);
+    }
+
+    /* Right Pill: Get in touch */
+    .topbar-right {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill-btn-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 7px 16px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #FFFFFF;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    .pill-btn-solid:hover {
+      background: #FFFFFF;
+      color: #050505;
+      border-color: #FFFFFF;
+      transform: scale(1.04);
+      box-shadow: 0 6px 24px rgba(255, 255, 255, 0.25);
+    }
+    .pill-btn-solid:active {
+      transform: scale(0.96);
+    }
+
+    /* ── Hero View Overlay ── */
+    #heroOverlay {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 20;
+      pointer-events: auto;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      select: none;
+    }
+
+    .hero-top-container {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 0 20px 10px;
+    }
+    @media (min-width: 640px) {
+      .hero-top-container { padding: 0 32px 14px; }
+    }
+    @media (min-width: 1024px) {
+      .hero-top-container { padding: 0 48px 18px; }
+    }
+
+    .hero-name {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: #FFFFFF;
+      font-size: clamp(2.8rem, 6.4vw, 5.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
+      user-select: none;
+    }
+
+    .hero-bottom-bar {
+      position: relative;
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: #050505;
+      box-shadow: 0 -25px 50px rgba(5, 5, 5, 0.95);
+    }
+
+    .hero-fade-gradient {
+      pointer-events: none;
       position: absolute;
-      bottom: 14px;
-      left: 14px;
-      right: 14px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-pill);
-      padding: 6px 12px;
+      inset-inline: 0;
+      top: -120px;
+      height: 120px;
+      background: linear-gradient(to top, #050505 0%, rgba(5, 5, 5, 0.6) 50%, transparent 100%);
+    }
+
+    .hero-bar-inner {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 16px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    @media (min-width: 768px) {
+      .hero-bar-inner {
+        flex-direction: row;
+        align-items: flex-end;
+        padding: 20px 32px 26px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .hero-bar-inner { padding: 22px 48px 28px; }
+    }
+
+    .hero-desc-col {
+      max-width: 580px;
+    }
+
+    .hero-bio-snippet {
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: -0.01em;
+    }
+    @media (min-width: 640px) {
+      .hero-bio-snippet { font-size: 13px; }
+    }
+
+    .hero-action-link {
+      margin-top: 8px;
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--color-cyan);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .hero-action-link:hover {
+      color: #FFFFFF;
+    }
+
+    .hero-cta-col {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    @media (min-width: 768px) {
+      .hero-cta-col {
+        width: auto;
+        justify-content: flex-end;
+      }
+    }
+
+    .scroll-hint-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(255, 255, 255, 0.35);
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .scroll-hint-label { display: inline-block; }
+    }
+
+    .btn-explore-projects {
+      display: inline-flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      color: #050505;
+      padding: 11px 22px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    @media (min-width: 640px) {
+      .btn-explore-projects { width: auto; font-size: 13.5px; padding: 12px 26px; }
+    }
+    .btn-explore-projects:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 0 45px rgba(255, 255, 255, 0.35);
+    }
+    .btn-explore-projects:active {
+      transform: scale(0.97);
+    }
+
+    /* ── Bottom Project HUD (Active during 3D flight) ── */
+    #projectHudBar {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 30;
+      pointer-events: none;
+      padding: 12px 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 640px) {
+      #projectHudBar { padding: 18px 32px; }
+    }
+    @media (min-width: 1024px) {
+      #projectHudBar { padding: 24px 48px; }
+    }
+
+    #projectHudBar.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hud-inner {
+      max-width: 1800px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(10px);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink);
+      gap: 12px;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #10B981;
-      display: inline-block;
-      margin-right: 6px;
-      box-shadow: 0 0 8px #10B981;
-      animation: pulseDot 2s infinite;
+    .hud-left {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    @keyframes pulseDot {
+    @media (min-width: 640px) {
+      .hud-left { gap: 14px; }
+    }
+
+    .stepper-group {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(9, 9, 13, 0.85);
+      padding: 3px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .stepper-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.75);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .stepper-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+    }
+    .stepper-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .active-project-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(11, 11, 14, 0.88);
+      padding: 7px 16px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      max-width: 58vw;
+    }
+    @media (min-width: 640px) {
+      .active-project-pill { max-width: 420px; }
+    }
+    .active-project-pill:hover {
+      border-color: rgba(0, 240, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .project-index-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-cyan);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .project-hud-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .inspect-chip {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 2px 8px;
+      font-size: 9.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.8);
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .inspect-chip { display: inline-flex; }
+    }
+
+    .hud-right {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    @media (min-width: 640px) {
+      .hud-right { gap: 12px; }
+    }
+
+    .progress-counter-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(11, 11, 14, 0.88);
+      padding: 7px 14px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .progress-bar-track {
+      width: 50px;
+      height: 4px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .progress-bar-track { display: block; }
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--color-cyan);
+      transition: width 0.3s ease;
+      width: 10%;
+    }
+
+    .btn-back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #FFFFFF;
+      color: #050505;
+      padding: 7px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-back-home:hover {
+      background: rgba(255, 255, 255, 0.88);
+      transform: scale(1.03);
+    }
+
+    /* ── Modals / Drawers (Glass Overlays) ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 640px) {
+      .modal-overlay { padding: 24px; }
+    }
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .modal-content-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      max-height: 88vh;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(9, 9, 12, 0.96);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 0 0 90px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 240, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(18px) scale(0.98);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.is-open .modal-content-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 30;
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: #FFFFFF;
+      color: #050505;
+      transform: rotate(90deg);
+    }
+
+    /* Modal Scrollable Body */
+    .modal-scroll-body {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 24px;
+    }
+    @media (min-width: 640px) {
+      .modal-scroll-body { padding: 32px 36px; }
+    }
+
+    /* ── About Modal Specifics ── */
+    .about-header-banner {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+    .about-avatar-lg {
+      width: 64px;
+      height: 64px;
+      border-radius: 9999px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      object-fit: cover;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+    .about-header-text {
+      flex: 1;
+      min-width: 220px;
+    }
+    .about-name-title {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 26px;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+    .verified-pulse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 9999px;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-emerald);
+      margin-top: 6px;
+    }
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: var(--color-emerald);
+      box-shadow: 0 0 8px var(--color-emerald);
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Back Side (Developer ID Card) */
-    .hero-flip-back {
-      transform: rotateY(180deg);
-      padding: var(--space-md) var(--space-lg);
+    /* Modal Navigation Tabs */
+    .modal-tabs-strip {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background: linear-gradient(135deg, var(--color-paper-2), var(--color-paper-3));
-      border: 1px solid var(--color-ink);
-    }
-
-    .id-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--color-rule);
-      padding-bottom: var(--space-2xs);
-    }
-    .id-chip {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--color-accent-rose);
-      letter-spacing: 0.08em;
-    }
-    .id-badge-code {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--color-ink-muted);
-    }
-
-    .id-card-body {
-      margin-block: var(--space-xs);
-    }
-    .id-name {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 800;
-      color: var(--color-ink);
-      line-height: 1.1;
-      margin-bottom: 2px;
-    }
-    .id-role {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-accent-rose);
-      font-weight: 500;
-      margin-bottom: var(--space-xs);
-    }
-    .id-spec-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--color-ink-2);
-    }
-    .id-spec-list li {
-      display: flex;
-      align-items: center;
       gap: 6px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .id-spec-list li::before {
-      content: "▹";
-      color: var(--color-ink);
-      font-size: 11px;
-    }
-
-    .id-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--color-rule);
-      padding-top: var(--space-2xs);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--color-ink-muted);
-    }
-
-    /* ════════════════════════════════════════
-       INFINITE TICKER / MARQUEE
-    ════════════════════════════════════════ */
-    .marquee-container {
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      overflow: hidden;
-      background: var(--color-paper-2);
-      border-top: 1px solid var(--color-rule);
-      border-bottom: 1px solid var(--color-rule);
-      padding-block: var(--space-sm);
-      user-select: none;
-      position: relative;
-    }
-    .marquee-container:hover .marquee-track {
-      animation-play-state: paused;
-    }
-
-    .marquee-track {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xl);
-      width: max-content;
-      animation: scrollMarquee 32s linear infinite;
-    }
-
-    @keyframes scrollMarquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    .marquee-item {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-ink-2);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+    .modal-tab-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 9999px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      cursor: pointer;
+      transition: all 0.2s;
       white-space: nowrap;
     }
-    .marquee-item::after {
-      content: "✦";
-      color: var(--color-accent-rose);
-      font-size: 10px;
+    .modal-tab-pill:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .modal-tab-pill.is-active {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      font-weight: 600;
     }
 
-    /* ════════════════════════════════════════
-       SPOTLIGHT CARDS & 3D PROJECT FLIP
-    ════════════════════════════════════════ */
-    .spotlight-card {
-      position: relative;
-      background: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-card);
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: transform var(--dur-short) var(--ease-out),
-                  box-shadow var(--dur-short) var(--ease-out),
-                  border-color var(--dur-short) var(--ease-out);
-    }
-    .spotlight-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(400px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(235, 77, 109, 0.07), transparent 75%);
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity var(--dur-short) var(--ease-out);
-    }
-    .spotlight-card:hover::before {
-      opacity: 1;
-    }
-    .spotlight-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--card-shadow-hover);
-      border-color: var(--color-ink);
-    }
-
-    /* ════════════════════════════════════════
-       SECTION HEADER
-    ════════════════════════════════════════ */
-    .section {
-      padding-block: var(--space-3xl);
-      border-top: 1px solid var(--color-rule);
-    }
-
-    .section-header {
-      margin-bottom: var(--space-2xl);
-    }
-
-    .section-eyebrow {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 500;
-      color: var(--color-ink-muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: var(--space-xs);
-      display: block;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-      color: var(--color-ink);
-    }
-
-    .section-subtitle {
-      font-family: var(--font-body);
-      font-size: var(--text-md);
-      color: var(--color-ink-2);
-      max-width: 60ch;
-      margin-top: var(--space-xs);
-    }
-
-    /* ════════════════════════════════════════
-       SERVICES / EXPERTISE GRID
-    ════════════════════════════════════════ */
-    .services-grid {
+    /* Focus Area Grid */
+    .focus-area-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: var(--space-md);
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    @media (min-width: 640px) {
+      .focus-area-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .focus-card {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px 18px;
+      transition: all 0.2s;
+    }
+    .focus-card:hover {
+      border-color: rgba(0, 240, 255, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+    .focus-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .focus-badge {
+      font-size: 16px;
+    }
+    .focus-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    .focus-desc {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.65);
     }
 
-    .service-card {
-      padding: var(--space-lg);
+    /* Timeline Cards */
+    .timeline-item {
+      position: relative;
+      padding-left: 24px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      margin-bottom: 24px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 9999px;
+      background: var(--color-cyan);
+      box-shadow: 0 0 10px var(--color-cyan);
+    }
+    .timeline-role {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    .timeline-company {
+      font-size: 12px;
+      color: var(--color-cyan);
+      margin-top: 2px;
+    }
+    .timeline-meta {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }
+    .timeline-desc {
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Certifications Grid */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 640px) {
+      .certs-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .cert-item-box {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 14px 16px;
+      text-decoration: none;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 220px;
+      transition: all 0.2s;
     }
-
-    .service-card__num {
+    .cert-item-box:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+    }
+    .cert-issuer-label {
       font-family: var(--font-mono);
-      font-size: var(--text-xs);
+      font-size: 9.5px;
+      color: var(--color-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cert-title-text {
+      font-size: 12.5px;
       font-weight: 600;
-      color: var(--color-ink-muted);
-      letter-spacing: 0.06em;
-      margin-bottom: var(--space-md);
-      transition: color var(--dur-short) var(--ease-out);
+      color: #FFFFFF;
+      margin: 4px 0 6px;
     }
-    .service-card:hover .service-card__num {
-      color: var(--color-accent-rose);
+    .cert-summary-text {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
+      margin-bottom: 8px;
     }
-
-    .service-card__title {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 700;
-      color: var(--color-ink);
-      line-height: 1.25;
-      margin-bottom: var(--space-xs);
-    }
-
-    .service-card__desc {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      line-height: 1.55;
-    }
-
-    /* ════════════════════════════════════════
-       PROJECTS GRID WITH 3D FLIP THUMBNAIL
-    ════════════════════════════════════════ */
-    .filter-bar {
-      display: flex;
+    .cert-verify-link {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      display: inline-flex;
       align-items: center;
-      gap: var(--space-xs);
-      flex-wrap: wrap;
-      margin-bottom: var(--space-xl);
+      gap: 4px;
     }
 
-    .filter-pill {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 500;
-      color: var(--color-ink-2);
-      background: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-pill);
-      padding: 8px 16px;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: all var(--dur-short) var(--ease-out);
-    }
-    .filter-pill:hover,
-    .filter-pill[aria-pressed="true"] {
-      color: var(--color-accent-ink);
-      background: var(--color-ink);
-      border-color: var(--color-ink);
-      transform: scale(1.02);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: var(--space-lg);
-    }
-
-    @media (max-width: 640px) {
-      .projects-grid { grid-template-columns: 1fr; }
-    }
-
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-    }
-    .project-card[data-hidden="true"] {
-      display: none;
-    }
-
-    /* 3D Flip Image Header */
-    .project-thumb-box {
+    /* ── Project Detail Modal Specifics ── */
+    .proj-detail-hero {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 10;
-      background: var(--color-paper-3);
-      perspective: 1000px;
+      height: 220px;
+      border-radius: 18px;
       overflow: hidden;
-      border-bottom: 1px solid var(--color-rule);
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #000;
     }
-
-    .project-thumb-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    @media (min-width: 640px) {
+      .proj-detail-hero { height: 280px; }
     }
-
-    .project-card:hover .project-thumb-inner {
-      transform: rotateY(180deg);
-    }
-
-    .project-thumb-front,
-    .project-thumb-back {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-    }
-
-    .project-thumb-front img {
+    .proj-detail-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
-
-    .project-thumb-back {
-      transform: rotateY(180deg);
-      background: var(--color-paper-3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-md);
-      text-align: center;
-      gap: var(--space-xs);
+    .proj-detail-header {
+      margin-bottom: 20px;
     }
-
-    .thumb-back-title {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 700;
-      color: var(--color-ink);
-    }
-    .thumb-back-cta {
+    .proj-category-eyebrow {
       font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-accent-ink);
-      background: var(--color-ink);
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      text-decoration: none;
-      transition: opacity var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
-    }
-    .thumb-back-cta:hover {
-      opacity: 0.9;
-      transform: scale(1.04);
-    }
-
-    .project-badge-pill {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-pill);
-      padding: 4px 10px;
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 500;
-      color: var(--color-ink);
-      backdrop-filter: blur(8px);
-      z-index: 2;
-    }
-
-    .project-content-box {
-      padding: var(--space-lg);
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      position: relative;
-      z-index: 2;
-    }
-
-    .project-org {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
-      letter-spacing: 0.04em;
+      font-size: 10px;
       text-transform: uppercase;
-      margin-bottom: var(--space-3xs);
+      letter-spacing: 0.15em;
+      color: var(--color-cyan);
+      margin-bottom: 6px;
     }
-
-    .project-title {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 700;
-      color: var(--color-ink);
-      line-height: 1.25;
-      margin-bottom: var(--space-xs);
+    .proj-title-serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.1;
+      color: #FFFFFF;
+    }
+    .proj-org-period {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+    }
+    .proj-metrics-row {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
     }
-    .project-arrow {
-      font-size: var(--text-sm);
-      color: var(--color-ink-muted);
-      transition: color var(--dur-short) var(--ease-out),
-                  transform var(--dur-short) var(--ease-out);
+    .metric-chip {
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 5px 14px;
+      font-size: 11px;
+      color: #FFFFFF;
     }
-    .project-card:hover .project-arrow {
-      color: var(--color-accent-rose);
-      transform: translate(3px, -3px);
+    .metric-chip strong {
+      color: var(--color-cyan);
     }
-
-    .project-desc {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      line-height: 1.6;
-      flex: 1;
-      margin-bottom: var(--space-md);
-    }
-
-    .project-tech-tags {
+    .proj-tags-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      list-style: none;
+      margin: 16px 0;
     }
-
-    .tech-pill {
+    .proj-tag-pill {
       font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-2);
-      background: var(--color-paper-3);
-      border-radius: var(--radius-tag);
-      padding: 3px 8px;
+      font-size: 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 4px 9px;
+      color: rgba(255, 255, 255, 0.8);
     }
-
-    .project-actions {
+    .proj-actions-footer {
       display: flex;
-      align-items: center;
-      gap: var(--space-xs);
-      margin-top: var(--space-md);
-      padding-top: var(--space-sm);
-      border-top: 1px solid var(--color-rule-2);
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       flex-wrap: wrap;
     }
 
-    .project-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      text-decoration: none;
-      padding: 7px 14px;
-      border-radius: var(--radius-pill);
-      transition: background-color var(--dur-short) var(--ease-out),
-                  border-color var(--dur-short) var(--ease-out),
-                  transform var(--dur-micro) var(--ease-out),
-                  opacity var(--dur-micro) var(--ease-out);
-    }
-
-    .project-btn-primary {
-      background: var(--color-ink);
-      color: var(--color-accent-ink);
-      border: 1px solid transparent;
-      box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.15);
-    }
-    .project-btn-primary:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .project-btn-secondary {
-      background: var(--color-paper-3);
-      color: var(--color-ink);
-      border: 1px solid var(--color-rule);
-    }
-    .project-btn-secondary:hover {
-      background: var(--color-paper-hover);
-      border-color: var(--color-ink);
-      transform: translateY(-1px);
-    }
-
-    /* ════════════════════════════════════════
-       TIMELINE
-    ════════════════════════════════════════ */
-    .timeline-container {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-lg);
-    }
-
-    .timeline-row {
+    /* ── Contact Modal Specifics ── */
+    .contact-links-grid {
       display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: var(--space-lg);
-      padding-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--color-rule-2);
-      transition: transform var(--dur-short) var(--ease-out);
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 20px;
     }
-    .timeline-row:hover {
-      transform: translateX(4px);
+    @media (min-width: 640px) {
+      .contact-links-grid { grid-template-columns: 1fr 1fr; }
     }
-    .timeline-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    @media (max-width: 640px) {
-      .timeline-row { grid-template-columns: 1fr; gap: var(--space-2xs); }
-    }
-
-    .timeline-time {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
-      letter-spacing: 0.04em;
-    }
-
-    .timeline-heading {
-      font-family: var(--font-display);
-      font-size: var(--text-md);
-      font-weight: 700;
-      color: var(--color-ink);
-      margin-bottom: 2px;
-    }
-
-    .timeline-sub {
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      margin-bottom: var(--space-xs);
-    }
-
-    .timeline-text {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      line-height: 1.65;
-      max-width: 65ch;
-    }
-
-    /* ════════════════════════════════════════
-       CERTIFICATIONS
-    ════════════════════════════════════════ */
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--space-md);
-    }
-
-    .cert-box {
-      padding: var(--space-md);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .contact-card-box {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 16px 20px;
       text-decoration: none;
-      color: inherit;
-    }
-
-    .cert-issuer-tag {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-    }
-
-    .cert-name {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 700;
-      color: var(--color-ink);
-      line-height: 1.35;
-      margin-bottom: var(--space-xs);
-    }
-
-    .cert-summary {
-      font-family: var(--font-body);
-      font-size: var(--text-xs);
-      color: var(--color-ink-2);
-      line-height: 1.55;
-      flex: 1;
-      margin-bottom: var(--space-sm);
-    }
-
-    .cert-action {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-ink);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: color var(--dur-short) var(--ease-out);
-    }
-    .cert-box:hover .cert-action {
-      color: var(--color-accent-rose);
-    }
-
-    /* ════════════════════════════════════════
-       BIG IMPACT CTA ("Let’s talk.")
-    ════════════════════════════════════════ */
-    .cta-section {
-      background: var(--color-paper-2);
-      border-top: 1px solid var(--color-rule);
-      border-bottom: 1px solid var(--color-rule);
-      padding-block: var(--space-4xl);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-heading {
-      font-family: var(--font-display);
-      font-size: var(--text-display);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      color: var(--color-ink);
-      margin-bottom: var(--space-md);
-    }
-
-    .cta-sub {
-      font-family: var(--font-body);
-      font-size: var(--text-xl);
-      color: var(--color-ink-2);
-      max-width: 48ch;
-      margin-bottom: var(--space-2xl);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: var(--space-md);
-    }
-
-    .contact-card-link {
-      background: var(--color-paper);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-card);
-      padding: var(--space-lg);
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      transition: transform var(--dur-short) var(--ease-out),
-                  border-color var(--dur-short) var(--ease-out),
-                  box-shadow var(--dur-short) var(--ease-out);
-    }
-    .contact-card-link:hover {
-      transform: translateY(-3px);
-      border-color: var(--color-ink);
-      box-shadow: var(--card-shadow);
-    }
-
-    .contact-card-label {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .contact-card-value {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 700;
-      color: var(--color-ink);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.2s;
     }
-
-    /* ════════════════════════════════════════
-       FOOTER
-    ════════════════════════════════════════ */
-    .site-footer {
-      padding-block: var(--space-2xl);
+    .contact-card-box:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
     }
-
-    .footer-layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: var(--space-2xl);
-      margin-bottom: var(--space-2xl);
-    }
-
-    @media (max-width: 768px) {
-      .footer-layout { grid-template-columns: 1fr; gap: var(--space-xl); }
-    }
-
-    .footer-brand {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
-      font-weight: 800;
-      color: var(--color-ink);
-      margin-bottom: var(--space-xs);
-    }
-
-    .footer-bio {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      max-width: 40ch;
-    }
-
-    .footer-col-title {
+    .contact-label {
       font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-ink-muted);
+      font-size: 9.5px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: var(--space-md);
+      color: rgba(255, 255, 255, 0.45);
+    }
+    .contact-val {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-top: 2px;
     }
 
-    .footer-link-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .footer-link-list a {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      text-decoration: none;
-      transition: color var(--dur-short) var(--ease-out);
-    }
-    .footer-link-list a:hover {
-      color: var(--color-ink);
-    }
-
-    .footer-bottom-bar {
-      border-top: 1px solid var(--color-rule);
-      padding-top: var(--space-lg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--space-md);
+    /* Admin Link subtle floating pill */
+    .admin-float-pill {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      z-index: 35;
       font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--color-ink-muted);
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+    }
+    .admin-float-pill:hover {
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.25);
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Mesh Background -->
-  <div class="bg-mesh" aria-hidden="true">
-    <div class="bg-mesh-glow-1"></div>
-    <div class="bg-mesh-glow-2"></div>
-  </div>
+  <!-- 3D Spatial Canvas (Three.js WebGL) -->
+  <div id="spatialCanvasContainer"></div>
 
-  <!-- ══════════════ FLOATING NAVBAR ══════════════ -->
-  <div class="navbar-wrapper">
-    <nav class="nav-pill" aria-label="Main Navigation">
-      <a href="#" class="nav-brand" aria-label="Qois Abdul Qudus - Home">
-        <img src="assets/icons/icon-192.png" alt="Q Logo" class="nav-brand-logo" width="22" height="22" />
-        <span>Qois Abdul Qudus</span>
-      </a>
+  <!-- Ambient Glow Orbs -->
+  <div class="ambient-orb orb-cyan"></div>
+  <div class="ambient-orb orb-teal"></div>
 
-      <ul class="nav-menu" role="list">
-        <li><a href="#about" class="is-active">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-      </ul>
+  <!-- Virtual Scroll Spacer (Allows natural wheel & touch scroll to fly through 3D space) -->
+  <div id="virtualScrollSpacer"></div>
 
-      <div class="nav-actions">
-        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle dark/light theme">
-          <svg id="themeIcon" width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+  <!-- ══════════════ FLOATING TOP BAR ══════════════ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <!-- Left: Profile Brand Avatar & Name -->
+      <button type="button" class="topbar-brand" id="btnScrollToTop" aria-label="Kembali ke atas">
+        <span class="avatar-wrapper">
+          <img src="<?= h(!empty($profile['avatar']) ? $profile['avatar'] : 'assets/images/profile.png') ?>" alt="<?= h($profile['name'] ?? 'Qois') ?>" class="avatar-img" />
+        </span>
+        <span class="brand-name"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></span>
+      </button>
+
+      <!-- Center: Floating Pill (About & Credentials) -->
+      <div class="topbar-center">
+        <button type="button" class="glass-pill-btn" id="btnOpenAbout">
+          <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>About & Credentials</span>
+        </button>
+      </div>
+
+      <!-- Right: Floating Pill (Get in touch) -->
+      <div class="topbar-right">
+        <button type="button" class="pill-btn-solid" id="btnOpenContact">
+          <span>Get in touch</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
           </svg>
         </button>
-        <a href="#contact" class="nav-cta-btn">Let's talk ↗</a>
       </div>
-    </nav>
+
+    </div>
+  </header>
+
+  <!-- ══════════════ HERO SECTION OVERLAY ══════════════ -->
+  <div id="heroOverlay">
+    <div class="hero-top-container">
+      <h1 class="hero-name"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></h1>
+    </div>
+
+    <div class="hero-bottom-bar">
+      <div class="hero-fade-gradient"></div>
+      <div class="hero-bar-inner">
+
+        <div class="hero-desc-col">
+          <p class="hero-bio-snippet"><?= h($profile['bio'] ?? 'Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable, arsitektur jaringan industri 24/7, dan infrastruktur sistem berkeandalan tinggi.') ?></p>
+          <button type="button" class="hero-action-link" id="btnHeroReadMore">
+            Read full bio, education & achievements →
+          </button>
+        </div>
+
+        <div class="hero-cta-col">
+          <span class="scroll-hint-label">Scroll to fly through</span>
+          <button type="button" class="btn-explore-projects" id="btnExploreProjects">
+            <span>Explore <?= count($projects ?? []) ?> Projects</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
   </div>
 
-  <main>
+  <!-- ══════════════ BOTTOM PROJECT HUD BAR ══════════════ -->
+  <div id="projectHudBar">
+    <div class="hud-inner">
 
-    <!-- ══════════════ HERO SECTION ══════════════ -->
-    <section class="hero" id="about" aria-labelledby="hero-title">
-      <div class="container">
-
-        <!-- Top Tracked Meta Bar -->
-        <div class="hero-meta-bar reveal" style="--i:0">
-          <span>SOFTWARE ENGINEER & IT INFRASTRUCTURE</span>
-          <span>©2026</span>
-          <span>/CREATING SINCE 2020</span>
+      <div class="hud-left">
+        <!-- Stepper Arrows -->
+        <div class="stepper-group">
+          <button type="button" class="stepper-btn" id="btnPrevProject" aria-label="Previous project">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="stepper-btn" id="btnNextProject" aria-label="Next project">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
 
-        <div class="hero-layout">
-
-          <!-- Left Text Block -->
-          <div class="hero-text-block">
-            <div class="hero-intro-tag reveal" style="--i:1">Hey!</div>
-
-            <p class="hero-lede reveal" style="--i:2">
-              I’m <strong>Qois Abdul Qudus</strong>, a Software Engineer and IT Infrastructure specialist based in Indonesia, currently managing industrial network architectures & enterprise systems at PT CBA Chemical Industry.
-            </p>
-
-            <h1 class="hero-manifesto reveal" id="hero-title" style="--i:3">
-              Resilient IT infrastructure. Scalable software systems. Built to run 24/7, perform reliably, and scale.
-            </h1>
-
-            <div class="hero-actions reveal" style="--i:4">
-              <a href="#contact" class="btn-pill-dark">
-                Get in Touch
-                <span aria-hidden="true">↗</span>
-              </a>
-              <a href="#projects" class="btn-pill-outline">
-                Featured Projects
-                <span aria-hidden="true">↓</span>
-              </a>
-            </div>
-
-            <!-- Quick Stats -->
-            <div class="hero-quick-stats reveal" style="--i:5">
-              <div class="quick-stat-item">
-                <div class="quick-stat-val">3+ Years</div>
-                <div class="quick-stat-label">Software & Infra</div>
-              </div>
-              <div class="quick-stat-item">
-                <div class="quick-stat-val">11+ Systems</div>
-                <div class="quick-stat-label">Enterprise & Web</div>
-              </div>
-              <div class="quick-stat-item">
-                <div class="quick-stat-val">AWS Certified</div>
-                <div class="quick-stat-label">Cloud Practitioner</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right 3D Flip Profile Card (Clean & Aligned with Hey!) -->
-          <div class="hero-photo-wrapper reveal" id="heroPhotoCard" style="--i:1">
-            <div class="hero-flip-card">
-              <!-- Front Face: Photo -->
-              <div class="hero-flip-front">
-                <img src="assets/images/profile.png" alt="Qois Abdul Qudus" class="hero-photo-img" loading="eager" decoding="async" />
-                <span class="flip-pill-floating">↻ Flip Card</span>
-                <div class="hero-photo-caption">
-                  <div>
-                    <span class="status-dot" aria-hidden="true"></span>
-                    <span>Available for Opportunities</span>
-                  </div>
-                  <span>Serang, Banten</span>
-                </div>
-              </div>
-
-              <!-- Back Face: Technical ID Card -->
-              <div class="hero-flip-back">
-                <div class="id-card-header">
-                  <span class="id-chip">ENGINEER SPEC // ID-2026</span>
-                  <span class="id-badge-code">PT CBA / INFRA & DEV</span>
-                </div>
-
-                <div class="id-card-body">
-                  <div class="id-name">Qois Abdul Qudus</div>
-                  <div class="id-role">Software Engineer & IT Infrastructure</div>
-                  <ul class="id-spec-list">
-                    <li>24/7 Factory Network & CCTV Ops</li>
-                    <li>Laravel 12 & Next.js Fullstack</li>
-                    <li>Database & Enterprise Systems</li>
-                    <li>AWS Cloud Practitioner & Linux</li>
-                    <li>S1 Informatika · Univ Bina Bangsa</li>
-                  </ul>
-                </div>
-
-                <div class="id-card-footer">
-                  <span>STATUS: ACTIVE ONLINE</span>
-                  <span>TAP TO FLIP ↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <!-- Active Project Chip (Click to open modal) -->
+        <div class="active-project-pill" id="btnInspectCurrentProject" title="Klik untuk membuka detail proyek">
+          <span class="project-index-tag" id="hudProjectIndex">001</span>
+          <span class="project-hud-title" id="hudProjectTitle">Loading...</span>
+          <span class="inspect-chip">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Inspect
+          </span>
         </div>
       </div>
-    </section>
 
-    <!-- ══════════════ INFINITE TECH MARQUEE TICKER ══════════════ -->
-    <div class="marquee-container reveal" style="--i:1" aria-label="Core Technologies Marquee">
-      <div class="marquee-track">
-        <div class="marquee-item">Network Infrastructure</div>
-        <div class="marquee-item">IT Asset Management (ITAM)</div>
-        <div class="marquee-item">Enterprise Web Systems</div>
-        <div class="marquee-item">Laravel 12</div>
-        <div class="marquee-item">Next.js & React</div>
-        <div class="marquee-item">TypeScript</div>
-        <div class="marquee-item">Linux & Server Ops</div>
-        <div class="marquee-item">PostgreSQL & MySQL</div>
-        <div class="marquee-item">AWS Cloud</div>
-        <div class="marquee-item">Docker & CI/CD</div>
-        <div class="marquee-item">Leaflet GIS</div>
-        <div class="marquee-item">CCTV & Surveillance Ops</div>
-        <!-- Duplicate for infinite continuous flow -->
-        <div class="marquee-item">Network Infrastructure</div>
-        <div class="marquee-item">IT Asset Management (ITAM)</div>
-        <div class="marquee-item">Enterprise Web Systems</div>
-        <div class="marquee-item">Laravel 12</div>
-        <div class="marquee-item">Next.js & React</div>
-        <div class="marquee-item">TypeScript</div>
-        <div class="marquee-item">Linux & Server Ops</div>
-        <div class="marquee-item">PostgreSQL & MySQL</div>
-        <div class="marquee-item">AWS Cloud</div>
-        <div class="marquee-item">Docker & CI/CD</div>
-        <div class="marquee-item">Leaflet GIS</div>
-        <div class="marquee-item">CCTV & Surveillance Ops</div>
+      <div class="hud-right">
+        <!-- Counter & Progress -->
+        <div class="progress-counter-box">
+          <span id="hudCounterText"><strong>1</strong> of <?= count($projects ?? []) ?> projects</span>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="hudProgressBar"></div>
+          </div>
+        </div>
+
+        <!-- Back to Top Button -->
+        <button type="button" class="btn-back-home" id="btnHudBackHome">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+          <span>Home</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ ABOUT & CREDENTIALS MODAL ══════════════ -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="modal-backdrop" id="aboutBackdrop"></div>
+    <div class="modal-content-card">
+      <button type="button" class="modal-close-btn" id="btnCloseAbout" aria-label="Tutup modal">✕</button>
+
+      <div class="modal-scroll-body">
+        <!-- Header Banner -->
+        <div class="about-header-banner">
+          <img src="<?= h(!empty($profile['avatar']) ? $profile['avatar'] : 'assets/images/profile.png') ?>" alt="<?= h($profile['name'] ?? 'Qois') ?>" class="about-avatar-lg" />
+          <div class="about-header-text">
+            <h2 class="about-name-title"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></h2>
+            <div class="verified-pulse-badge">
+              <span class="pulse-dot"></span>
+              <span><?= h($profile['role'] ?? 'Software Engineer & IT Infrastructure') ?> · Serang, ID</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="modal-tabs-strip">
+          <button type="button" class="modal-tab-pill is-active" data-tab="about-bio">Biography & Focus</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-exp">Work Experience (<?= count($experience ?? []) ?>)</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-certs">Education & Certifications (<?= count($certifications ?? []) ?>)</button>
+        </div>
+
+        <!-- Tab 1: Biography & Focus Areas -->
+        <div class="about-tab-content is-active" id="tab-about-bio">
+          <div style="font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 24px;">
+            <p style="margin-bottom: 12px;"><?= nl2br(h($profile['bio'] ?? '')) ?></p>
+            <div style="padding: 16px 20px; border-radius: 16px; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); margin-top: 16px;">
+              <div style="font-family: var(--font-serif); font-style: italic; font-size: 16px; color: #FFFFFF; line-height: 1.4;">
+                "<?= h($profile['tagline'] ?? 'Membangun Aplikasi Enterprise Scalable & Infrastruktur Jaringan Industri Berkeandalan Tinggi') ?>"
+              </div>
+            </div>
+          </div>
+
+          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Pilar Spesialisasi & Layanan</h3>
+          <div class="focus-area-grid">
+            <?php foreach (($services ?? []) as $srv): ?>
+            <div class="focus-card">
+              <div class="focus-card-head">
+                <span class="focus-badge">⚡</span>
+                <span class="focus-title"><?= h($srv['title'] ?? '') ?></span>
+              </div>
+              <p class="focus-desc"><?= h($srv['desc'] ?? '') ?></p>
+              <?php if (!empty($srv['tags'])): ?>
+              <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;">
+                <?php foreach ($srv['tags'] as $t): ?>
+                <span style="font-family: var(--font-mono); font-size: 9.5px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7);"><?= h($t) ?></span>
+                <?php endforeach; ?>
+              </div>
+              <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <!-- Tab 2: Work Experience -->
+        <div class="about-tab-content" id="tab-about-exp" style="display: none;">
+          <?php foreach (($experience ?? []) as $exp): ?>
+          <div class="timeline-item">
+            <div class="timeline-role"><?= h($exp['role'] ?? '') ?></div>
+            <div class="timeline-company"><?= h($exp['company'] ?? '') ?></div>
+            <div class="timeline-meta"><?= h($exp['period'] ?? '') ?><?php if (!empty($exp['location'])): ?> · <?= h($exp['location']) ?><?php endif; ?></div>
+            <div class="timeline-desc"><?= $exp['desc'] ?? '' ?></div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+
+        <!-- Tab 3: Education & Certifications -->
+        <div class="about-tab-content" id="tab-about-certs" style="display: none;">
+          <!-- Education Card -->
+          <?php foreach (($education ?? []) as $edu): ?>
+          <div style="padding: 18px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 24px;">
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.08em;">Pendidikan Formal</div>
+            <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 4px 0 2px;"><?= h($edu['degree'] ?? '') ?></h4>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.85);"><?= h($edu['institution'] ?? '') ?> · <span style="color: var(--color-cyan); font-weight: 600;"><?= h($edu['period'] ?? '') ?></span></div>
+            <p style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; margin-top: 8px;"><?= h($edu['desc'] ?? '') ?></p>
+          </div>
+          <?php endforeach; ?>
+
+          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin: 24px 0 14px;">Sertifikasi & Lisensi Resmi (<?= count($certifications ?? []) ?>)</h3>
+          <div class="certs-grid">
+            <?php foreach (($certifications ?? []) as $cert): ?>
+            <a href="<?= h(!empty($cert['url']) ? $cert['url'] : '#') ?>" target="_blank" rel="noopener noreferrer" class="cert-item-box">
+              <div>
+                <span class="cert-issuer-label"><?= h($cert['issuer'] ?? '') ?></span>
+                <div class="cert-title-text"><?= h($cert['title'] ?? '') ?></div>
+                <div class="cert-summary-text"><?= h($cert['summary'] ?? '') ?></div>
+              </div>
+              <span class="cert-verify-link">
+                <span><?= h(!empty($cert['action_text']) ? $cert['action_text'] : 'Verify Credential ↗') ?></span>
+              </span>
+            </a>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
       </div>
     </div>
+  </div>
 
-    <!-- ══════════════ SERVICES / CAPABILITIES ══════════════ -->
-    <section class="section" id="services" aria-labelledby="services-title">
-      <div class="container">
-        <header class="section-header reveal" style="--i:0">
-          <span class="section-eyebrow">/Capabilities</span>
-          <h2 class="section-title" id="services-title">Services & Expertise</h2>
-          <p class="section-subtitle">Pondasi infrastruktur IT yang kokoh dan rekayasa perangkat lunak enterprise untuk efisiensi bisnis serta keandalan sistem tanpa downtime.</p>
-        </header>
+  <!-- ══════════════ PROJECT DETAIL MODAL ══════════════ -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal-backdrop" id="projectBackdrop"></div>
+    <div class="modal-content-card">
+      <button type="button" class="modal-close-btn" id="btnCloseProject" aria-label="Tutup modal proyek">✕</button>
 
-        <div class="services-grid">
-
-          <div class="spotlight-card service-card reveal" style="--i:1">
-            <div class="service-card__num">01 / IT INFRASTRUCTURE & NETWORK</div>
-            <div>
-              <h3 class="service-card__title">Industrial Network & Surveillance</h3>
-              <p class="service-card__desc">Perancangan arsitektur jaringan LAN industri, monitoring topologi perangkat real-time, manajemen bandwidth, SLA uptime tinggi, dan sistem pengawasan CCTV 24/7.</p>
-            </div>
-          </div>
-
-          <div class="spotlight-card service-card reveal" style="--i:2">
-            <div class="service-card__num">02 / ENTERPRISE SOFTWARE</div>
-            <div>
-              <h3 class="service-card__title">Enterprise Applications & ITAM</h3>
-              <p class="service-card__desc">Pengembangan platform web internal berskala pabrik seperti IT Asset Management (ITAM), sistem logistik armada, modul inventaris EHS/P3K digital, dan aplikasi evaluasi SDM.</p>
-            </div>
-          </div>
-
-          <div class="spotlight-card service-card reveal" style="--i:3">
-            <div class="service-card__num">03 / FULLSTACK DEVELOPMENT</div>
-            <div>
-              <h3 class="service-card__title">Scalable Web Apps & Clean APIs</h3>
-              <p class="service-card__desc">Aplikasi web modern berbasis Laravel 12, Next.js, React, dan TypeScript dengan arsitektur RESTful API yang aman, clean architecture, serta integrasi payment gateway.</p>
-            </div>
-          </div>
-
-          <div class="spotlight-card service-card reveal" style="--i:4">
-            <div class="service-card__num">04 / CLOUD & AUTOMATION</div>
-            <div>
-              <h3 class="service-card__title">Cloud Ops & Interactive GIS</h3>
-              <p class="service-card__desc">Implementasi komputasi awan AWS, otomatisasi alur kerja operasional pabrik, sistem pelaporan publik berbasis peta geospasial Leaflet, serta riset mobile game edukasi terindeks.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════ FEATURED PROJECTS ══════════════ -->
-    <section class="section" id="projects" aria-labelledby="projects-title">
-      <div class="container">
-        <header class="section-header reveal" style="--i:0">
-          <span class="section-eyebrow">/Selected Work</span>
-          <h2 class="section-title" id="projects-title">Featured Projects</h2>
-          <p class="section-subtitle">Koleksi sistem infrastruktur industri, aplikasi enterprise internal, dan platform web modern yang telah saya rancang serta kembangkan.</p>
-        </header>
-
-        <!-- Filter Bar -->
-        <div class="filter-bar reveal" style="--i:1" role="group" aria-label="Filter Projects">
-          <button class="filter-pill" aria-pressed="true" data-filter="all" id="filter-all">All Systems (13)</button>
-          <button class="filter-pill" aria-pressed="false" data-filter="enterprise" id="filter-enterprise">Infra & Enterprise</button>
-          <button class="filter-pill" aria-pressed="false" data-filter="web" id="filter-web">Web Applications</button>
-          <button class="filter-pill" aria-pressed="false" data-filter="mobile" id="filter-mobile">Mobile & Research</button>
+      <div class="modal-scroll-body">
+        <div class="proj-detail-hero">
+          <img src="" alt="" id="modalProjImg" class="proj-detail-img" />
         </div>
 
-        <!-- Projects Grid with 3D Flip Image Previews -->
-        <div class="projects-grid" id="projects-grid">
-          <?php 
-          $cardIdx = 1;
-          foreach ($projects as $proj): 
-              $cardIdx++;
-              $category = $proj['category'] ?? 'enterprise';
-              $badge = !empty($proj['period']) ? $proj['period'] : ($proj['badge'] ?? 'Active');
-              $image = !empty($proj['image']) ? $proj['image'] : 'assets/images/mapcba.png';
-              $demoUrl = $proj['demo_url'] ?? '';
-              $githubUrl = $proj['github_url'] ?? '';
-              $tags = $proj['tech_tags'] ?? [];
-          ?>
-          <!-- Project: <?= h($proj['title']) ?> -->
-          <article class="spotlight-card project-card reveal" data-category="<?= h($category) ?>" style="--i:<?= $cardIdx ?>">
-            <div class="project-thumb-box">
-              <span class="project-badge-pill"><?= h($badge) ?></span>
-              <div class="project-thumb-inner">
-                <div class="project-thumb-front">
-                  <img src="<?= h($image) ?>" alt="<?= h($proj['title']) ?>" loading="lazy" decoding="async" />
-                </div>
-                <div class="project-thumb-back">
-                  <div class="thumb-back-title"><?= h($proj['title']) ?></div>
-                  <?php if (!empty($demoUrl)): ?>
-                    <a href="<?= h($demoUrl) ?>" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">Open Application ↗</a>
-                  <?php elseif (!empty($githubUrl)): ?>
-                    <a href="<?= h($githubUrl) ?>" target="_blank" rel="noopener noreferrer" class="thumb-back-cta">View Source Code ↗</a>
-                  <?php else: ?>
-                    <span class="thumb-back-cta">Internal System</span>
-                  <?php endif; ?>
-                </div>
-              </div>
-            </div>
-            <div class="project-content-box">
-              <?php if (!empty($proj['org'])): ?>
-                <div class="project-org"><?= h($proj['org']) ?></div>
-              <?php endif; ?>
-              <h3 class="project-title"><?= h($proj['title']) ?></h3>
-              <p class="project-desc"><?= h($proj['desc']) ?></p>
-              <?php if (!empty($tags)): ?>
-                <ul class="project-tech-tags">
-                  <?php foreach ($tags as $t): ?>
-                    <li class="tech-pill"><?= h($t) ?></li>
-                  <?php endforeach; ?>
-                </ul>
-              <?php endif; ?>
-              <div class="project-actions">
-                <?php if (!empty($demoUrl)): ?>
-                  <a href="<?= h($demoUrl) ?>" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    Live Demo
-                  </a>
-                <?php elseif (!empty($githubUrl)): ?>
-                  <a href="<?= h($githubUrl) ?>" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                    Source Code
-                  </a>
-                <?php endif; ?>
-
-                <?php if (!empty($githubUrl) && !empty($demoUrl)): ?>
-                  <a href="<?= h($githubUrl) ?>" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                    Source Code
-                  </a>
-                <?php endif; ?>
-              </div>
-            </div>
-          </article>
-          <?php endforeach; ?>
-
+        <div class="proj-detail-header">
+          <div class="proj-category-eyebrow" id="modalProjCategory">CATEGORY</div>
+          <h2 class="proj-title-serif" id="modalProjTitle">Project Title</h2>
+          <div class="proj-org-period" id="modalProjOrgPeriod">Org · Period</div>
         </div>
-      </div>
-    </section>
 
-    <!-- ══════════════ WORK EXPERIENCE ══════════════ -->
-    <section class="section" id="experience" aria-labelledby="experience-title">
-      <div class="container">
-        <header class="section-header reveal" style="--i:0">
-          <span class="section-eyebrow">/Career Path</span>
-          <h2 class="section-title" id="experience-title">Work Experience</h2>
-        </header>
+        <div class="proj-metrics-row" id="modalProjMetrics"></div>
 
-        <div class="timeline-container">
-          <?php foreach (($experience ?? []) as $idx => $exp): ?>
-          <div class="timeline-row reveal" style="--i:<?= $idx + 1 ?>">
-            <div class="timeline-time"><?= h($exp['period'] ?? '') ?><?php if (!empty($exp['location'])): ?><br><span style="color:var(--color-ink-muted)"><?= h($exp['location']) ?></span><?php endif; ?></div>
-            <div>
-              <h3 class="timeline-heading"><?= h($exp['role'] ?? '') ?></h3>
-              <div class="timeline-sub"><?= h($exp['company'] ?? '') ?></div>
-              <p class="timeline-text"><?= $exp['desc'] ?? '' ?></p>
-            </div>
-          </div>
-          <?php endforeach; ?>
+        <div style="font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 18px;" id="modalProjDesc">
+          Description
         </div>
-      </div>
-    </section>
 
-    <!-- ══════════════ EDUCATION ══════════════ -->
-    <section class="section" id="education" aria-labelledby="education-title">
-      <div class="container">
-        <header class="section-header reveal" style="--i:0">
-          <span class="section-eyebrow">/Education</span>
-          <h2 class="section-title" id="education-title">Education</h2>
-        </header>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 16px;">Technologies & Stack:</div>
+        <div class="proj-tags-row" id="modalProjTags"></div>
 
-        <div class="timeline-container">
-          <?php foreach (($education ?? []) as $idx => $edu): ?>
-          <div class="timeline-row reveal" style="--i:<?= $idx + 1 ?>">
-            <div class="timeline-time"><?= h($edu['period'] ?? '') ?></div>
-            <div>
-              <h3 class="timeline-heading"><?= h($edu['degree'] ?? '') ?></h3>
-              <div class="timeline-sub"><?= h($edu['institution'] ?? '') ?></div>
-              <p class="timeline-text"><?= $edu['desc'] ?? '' ?></p>
-            </div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════ CERTIFICATIONS ══════════════ -->
-    <section class="section" id="certifications" aria-labelledby="cert-title">
-      <div class="container">
-        <header class="section-header reveal" style="--i:0">
-          <span class="section-eyebrow">/Credentials</span>
-          <h2 class="section-title" id="cert-title">Certifications & Licenses (<?= count($certifications ?? []) ?>)</h2>
-          <p class="section-subtitle">Sertifikasi resmi dan kredensial profesional yang telah divalidasi oleh institusi global & nasional.</p>
-        </header>
-
-        <div class="cert-grid">
-          <?php foreach (($certifications ?? []) as $idx => $cert): ?>
-          <a href="<?= h(!empty($cert['url']) ? $cert['url'] : '#') ?>" target="_blank" rel="noopener noreferrer" class="spotlight-card cert-box reveal" style="--i:<?= $idx + 1 ?>">
-            <div>
-              <div class="cert-issuer-tag"><?= h($cert['issuer'] ?? '') ?></div>
-              <h3 class="cert-name"><?= h($cert['title'] ?? '') ?></h3>
-              <p class="cert-summary"><?= h($cert['summary'] ?? '') ?></p>
-            </div>
-            <span class="cert-action"><?= h(!empty($cert['action_text']) ? $cert['action_text'] : 'Show Credential ↗') ?></span>
+        <div class="proj-actions-footer">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-explore-projects" id="modalProjDemoBtn" style="width: auto;">
+            <span>Live Demo ↗</span>
           </a>
-          <?php endforeach; ?>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="pill-btn-solid" id="modalProjGithubBtn">
+            <span>GitHub Repository ↗</span>
+          </a>
+          <button type="button" class="glass-pill-btn" id="modalProjDiscussBtn">
+            <span>Discuss this Project</span>
+          </button>
         </div>
-      </div>
-    </section>
-
-    <!-- ══════════════ BIG IMPACT CTA ("Let’s talk.") ══════════════ -->
-    <section class="cta-section" id="contact" aria-labelledby="cta-title">
-      <div class="container">
-        <span class="section-eyebrow reveal" style="--i:0">/Contact</span>
-        <h2 class="cta-heading reveal" id="cta-title" style="--i:1">Let’s talk.</h2>
-        <p class="cta-sub reveal" style="--i:2">Bridging scalable software engineering and reliable IT infrastructure. Open to engineering roles, technical consultations, and collaborations.</p>
-
-        <div class="contact-grid reveal" style="--i:3">
-
-          <a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
-            <span class="contact-card-label">LinkedIn</span>
-            <div class="contact-card-value">
-              Qois Abdul Qudus
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>" class="contact-card-link">
-            <span class="contact-card-label">Email</span>
-            <div class="contact-card-value">
-              <?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
-            <span class="contact-card-label">WhatsApp / Call</span>
-            <div class="contact-card-value">
-              <?= h(!empty($contact['whatsapp']) ? $contact['whatsapp'] : '+62 851-9530-0828') ?>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
-            <span class="contact-card-label">GitHub</span>
-            <div class="contact-card-value">
-              @<?= h(preg_replace('#^https?://github\.com/#i', '', rtrim($contact['github'] ?? 'asoyyparty', '/'))) ?>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <a href="<?= h(!empty($contact['telegram']) ? $contact['telegram'] : 'https://t.me/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
-            <span class="contact-card-label">Telegram</span>
-            <div class="contact-card-value">
-              @doelkussoy
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <a href="<?= h($contact['instagram'] ?? 'https://instagram.com/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-link">
-            <span class="contact-card-label">Instagram</span>
-            <div class="contact-card-value">
-              @<?= h(preg_replace('#^https?://instagram\.com/#i', '', rtrim($contact['instagram'] ?? 'doelkussoy', '/'))) ?>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ══════════════ FOOTER ══════════════ -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-layout">
-
-        <div>
-          <div class="footer-brand" style="display: inline-flex; align-items: center; gap: 10px;">
-            <img src="assets/icons/icon-192.png" alt="Q Logo" style="width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" />
-            <span>Qois Abdul Qudus</span>
-          </div>
-          <p class="footer-bio">
-            Software Engineer & IT Infrastructure Specialist. Membangun aplikasi enterprise yang scalable dan arsitektur infrastruktur jaringan industri dengan keandalan tinggi.
-          </p>
-        </div>
-
-        <div>
-          <div class="footer-col-title">/Quick Links</div>
-          <ul class="footer-link-list">
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#certifications">Certifications</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="footer-col-title">/Connect</div>
-          <ul class="footer-link-list">
-            <li><a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
-            <li><a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
-            <li><a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></li>
-            <li><a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>">Email ↗</a></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <div class="footer-bottom-bar">
-        <div>© 2026 Qois Abdul Qudus. All rights reserved.</div>
-        <div>Serang, Banten, Indonesia</div>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <!-- ══════════════ INTERACTION & MOTION SCRIPTS ══════════════ -->
+  <!-- ══════════════ CONTACT MODAL ══════════════ -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-backdrop" id="contactBackdrop"></div>
+    <div class="modal-content-card" style="max-width: 600px;">
+      <button type="button" class="modal-close-btn" id="btnCloseContact" aria-label="Tutup modal kontak">✕</button>
+
+      <div class="modal-scroll-body">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h2 style="font-family: var(--font-serif); font-style: italic; font-size: 32px; color: #FFFFFF; line-height: 1.1;">Let's talk.</h2>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 8px;">Open for enterprise software roles, industrial IT consultations, and collaborations.</p>
+        </div>
+
+        <div class="contact-links-grid">
+          <!-- Email -->
+          <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>" class="contact-card-box">
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-val" style="font-size: 12px;"><?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?></div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="<?= h($contact['whatsapp_url'] ?? 'https://wa.me/6285195300828') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
+            <div>
+              <div class="contact-label">WhatsApp / Call</div>
+              <div class="contact-val"><?= h(!empty($contact['whatsapp']) ? $contact['whatsapp'] : '+62 851-9530-0828') ?></div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+
+          <!-- GitHub -->
+          <a href="<?= h($contact['github'] ?? 'https://github.com/asoyyparty') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
+            <div>
+              <div class="contact-label">GitHub</div>
+              <div class="contact-val">@asoyyparty</div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="<?= h($contact['linkedin'] ?? 'https://www.linkedin.com/in/qoisabdulqudus') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-val">Qois Abdul Qudus</div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+
+          <!-- Instagram -->
+          <a href="<?= h($contact['instagram'] ?? 'https://instagram.com/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
+            <div>
+              <div class="contact-label">Instagram</div>
+              <div class="contact-val">@doelkussoy</div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Link subtle floating pill -->
+  <a href="/admin" class="admin-float-pill" title="Admin Control Center">CMS /admin</a>
+
+  <!-- ══════════════ CLIENT-SIDE LOGIC & 3D ENGINE ══════════════ -->
   <script>
-    // ── 3D Card Flip on Click / Touch for Mobile & Desktop ──
-    const heroCardWrapper = document.getElementById('heroPhotoCard');
-    if (heroCardWrapper) {
-      heroCardWrapper.addEventListener('click', () => {
-        heroCardWrapper.classList.toggle('is-flipped');
-      });
-    }
+    // Embed project data from PHP
+    const portfolioProjects = <?= json_encode($projects, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+    const accentColors = <?= json_encode($accentColors) ?>;
 
-    // ── Mouse Cursor Spotlight on Cards ──
-    const spotlightCards = document.querySelectorAll('.spotlight-card');
-    spotlightCards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
+    // Assign 3D coordinates & formatting to each project
+    portfolioProjects.forEach((p, idx) => {
+      p.indexNumber = idx + 1;
+      p.formattedIndex = String(idx + 1).padStart(3, '0');
+      p.accentColor = accentColors[idx % accentColors.length];
+      p.zPosition = -12 - (idx * 9.5); // Spaced nicely along Z axis
+      p.offsetX = (idx % 2 === 0) ? -0.4 : 0.4;
+      p.offsetY = 0.05;
     });
 
-    // ── Dark / Light Theme Toggle ──
-    const themeBtn = document.getElementById('themeToggleBtn');
-    const themeIcon = document.getElementById('themeIcon');
+    let currentActiveIndex = 0;
+    let scrollProgress = 0;
+    let targetCameraZ = 9.5;
+    let currentCameraZ = 9.5;
+    let targetPointerX = 0;
+    let targetPointerY = 0;
+    let currentPointerX = 0;
+    let currentPointerY = 0;
 
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      updateThemeIcon(true);
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      updateThemeIcon(false);
+    // ── Three.js Spatial Engine ──
+    let scene, camera, renderer, particlesMesh;
+    const projectMeshes = [];
+    const container = document.getElementById('spatialCanvasContainer');
+
+    function initThreeScene() {
+      if (!window.THREE) return;
+
+      const width = container.clientWidth || window.innerWidth;
+      const height = container.clientHeight || window.innerHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050505);
+      scene.fog = new THREE.FogExp2(0x050505, 0.022);
+
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.set(0, 0, 9.5);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.domElement.style.touchAction = 'pan-y';
+      container.appendChild(renderer.domElement);
+
+      // 1. Starfield Particles in 3D
+      const particleCount = 1800;
+      const particleGeo = new THREE.BufferGeometry();
+      const posArray = new Float32Array(particleCount * 3);
+      const colorArray = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        posArray[i] = (Math.random() - 0.5) * 36;
+        posArray[i + 1] = (Math.random() - 0.5) * 28;
+        posArray[i + 2] = (Math.random() - 0.5) * 120 - 40;
+
+        // Subtle cyan & white star glow
+        if (Math.random() > 0.4) {
+          colorArray[i] = 0.0;
+          colorArray[i + 1] = 0.94;
+          colorArray[i + 2] = 1.0;
+        } else {
+          colorArray[i] = 0.85;
+          colorArray[i + 1] = 0.9;
+          colorArray[i + 2] = 1.0;
+        }
+      }
+
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+      particleGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+      const particleMat = new THREE.PointsMaterial({
+        size: 0.1,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.65,
+        depthWrite: false
+      });
+
+      particlesMesh = new THREE.Points(particleGeo, particleMat);
+      scene.add(particlesMesh);
+
+      // 2. Interactive 3D Project Planes
+      const textureLoader = new THREE.TextureLoader();
+      const planeGeo = new THREE.PlaneGeometry(3.6, 2.25);
+
+      portfolioProjects.forEach((proj, idx) => {
+        // Fallback or real texture
+        const imgSrc = proj.image ? proj.image : 'assets/images/mapcba.png';
+        const texture = textureLoader.load(imgSrc);
+
+        const planeMat = new THREE.MeshBasicMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0,
+          depthWrite: false
+        });
+
+        const mesh = new THREE.Mesh(planeGeo, planeMat);
+        mesh.position.set(proj.offsetX, proj.offsetY, proj.zPosition);
+        mesh.userData = { project: proj, index: idx, isInteractable: false };
+
+        scene.add(mesh);
+        projectMeshes.push(mesh);
+      });
+
+      // Pointer Raycaster for 3D card clicks
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2(99, 99);
+
+      function checkIntersection(clientX, clientY) {
+        mouse.x = (clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+
+        const interactables = projectMeshes.filter(m => m.userData.isInteractable);
+        const hits = raycaster.intersectObjects(interactables);
+        return hits.length > 0 ? hits[0].object : null;
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        targetPointerX = (e.clientX / window.innerWidth) * 2 - 1;
+        targetPointerY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        const hit = checkIntersection(e.clientX, e.clientY);
+        if (hit) {
+          renderer.domElement.style.cursor = 'pointer';
+        } else {
+          renderer.domElement.style.cursor = 'auto';
+        }
+      });
+
+      window.addEventListener('click', (e) => {
+        // Only if clicking on canvas and not inside modal/header
+        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay')) return;
+        const hit = checkIntersection(e.clientX, e.clientY);
+        if (hit && hit.userData && hit.userData.project) {
+          openProjectModal(hit.userData.project);
+        }
+      });
+
+      // Window resize
+      window.addEventListener('resize', () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      // Render Loop with smooth lerping
+      let clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const delta = Math.min(clock.getDelta(), 0.05);
+
+        // Smooth camera gliding
+        currentCameraZ += (targetCameraZ - currentCameraZ) * 0.08;
+        currentPointerX += (targetPointerX - currentPointerX) * 0.05;
+        currentPointerY += (targetPointerY - currentPointerY) * 0.05;
+
+        camera.position.x = currentPointerX * 0.35;
+        camera.position.y = currentPointerY * 0.25;
+        camera.position.z = currentCameraZ;
+
+        // Subtle particle drift
+        if (particlesMesh) {
+          particlesMesh.rotation.y += 0.0003;
+          particlesMesh.rotation.x += 0.00015;
+        }
+
+        // Update Project planes opacity & scale based on camera distance
+        projectMeshes.forEach((mesh, i) => {
+          const dist = camera.position.z - mesh.position.z;
+          // In view when distance is between 3 and 16
+          if (dist > 2.5 && dist < 18) {
+            const factor = 1 - Math.abs(dist - 7.5) / 10;
+            mesh.material.opacity = Math.max(0, Math.min(1, factor * 1.3));
+            mesh.scale.setScalar(0.75 + Math.max(0, factor * 0.28));
+            mesh.userData.isInteractable = dist > 4 && dist < 12;
+          } else {
+            mesh.material.opacity = 0;
+            mesh.userData.isInteractable = false;
+          }
+        });
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
     }
 
-    themeBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const newTheme = isDark ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcon(!isDark);
-    });
+    // ── Virtual Scroll & HUD Control ──
+    const heroOverlay = document.getElementById('heroOverlay');
+    const projectHudBar = document.getElementById('projectHudBar');
+    const hudProjectIndex = document.getElementById('hudProjectIndex');
+    const hudProjectTitle = document.getElementById('hudProjectTitle');
+    const hudCounterText = document.getElementById('hudCounterText');
+    const hudProgressBar = document.getElementById('hudProgressBar');
 
-    function updateThemeIcon(isDark) {
-      if (isDark) {
-        themeIcon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+    function updateScrollState() {
+      const scrollY = window.scrollY;
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
+
+      const firstZ = 9.5;
+      const lastProj = portfolioProjects[portfolioProjects.length - 1];
+      const endZ = lastProj ? lastProj.zPosition - 10 : -95;
+
+      // Map scroll progress to camera Z position
+      targetCameraZ = firstZ + (endZ - firstZ) * scrollProgress;
+
+      // Hero overlay fade out
+      if (scrollProgress < 0.04) {
+        const heroAlpha = Math.max(0, 1 - scrollProgress / 0.035);
+        heroOverlay.style.opacity = heroAlpha;
+        heroOverlay.style.transform = `translate3d(0, ${scrollProgress * 400}px, 0)`;
+        heroOverlay.style.pointerEvents = heroAlpha > 0.2 ? 'auto' : 'none';
+        projectHudBar.classList.remove('is-visible');
       } else {
-        themeIcon.innerHTML = '<path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>';
+        heroOverlay.style.opacity = 0;
+        heroOverlay.style.pointerEvents = 'none';
+        projectHudBar.classList.add('is-visible');
+      }
+
+      // Determine active project based on proximity to camera
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      portfolioProjects.forEach((p, idx) => {
+        const idealCamZ = p.zPosition + 7.5;
+        const d = Math.abs(targetCameraZ - idealCamZ);
+        if (d < minDistance) {
+          minDistance = d;
+          closestIdx = idx;
+        }
+      });
+
+      if (closestIdx !== currentActiveIndex) {
+        currentActiveIndex = closestIdx;
+        updateHudUI();
       }
     }
 
-    // ── Scroll Reveal via IntersectionObserver ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
+    function updateHudUI() {
+      const activeProj = portfolioProjects[currentActiveIndex] || portfolioProjects[0];
+      if (!activeProj) return;
+
+      hudProjectIndex.innerText = activeProj.formattedIndex;
+      hudProjectIndex.style.color = activeProj.accentColor || '#00F0FF';
+      hudProjectTitle.innerText = activeProj.title;
+      hudCounterText.innerHTML = `<strong>${currentActiveIndex + 1}</strong> of ${portfolioProjects.length} projects`;
+      hudProgressBar.style.width = `${((currentActiveIndex + 1) / portfolioProjects.length) * 100}%`;
+
+      document.getElementById('btnPrevProject').disabled = currentActiveIndex <= 0;
+      document.getElementById('btnNextProject').disabled = currentActiveIndex >= portfolioProjects.length - 1;
+    }
+
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+
+    // Navigate to project index
+    function navigateToProjectIndex(index) {
+      if (index < 0 || index >= portfolioProjects.length) return;
+      const proj = portfolioProjects[index];
+      const targetZ = proj.zPosition + 7.5;
+
+      const firstZ = 9.5;
+      const lastProj = portfolioProjects[portfolioProjects.length - 1];
+      const endZ = lastProj ? lastProj.zPosition - 10 : -95;
+
+      const targetProgress = (targetZ - firstZ) / (endZ - firstZ);
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
+      window.scrollTo({
+        top: targetProgress * maxScroll,
+        behavior: 'smooth'
       });
-    }, { threshold: 0.08 });
+    }
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.getElementById('btnPrevProject').addEventListener('click', () => {
+      navigateToProjectIndex(currentActiveIndex - 1);
+    });
 
-    // ── Filter Projects with Smooth Transition ──
-    const filterBtns = document.querySelectorAll('.filter-pill');
-    const projectCards = document.querySelectorAll('.project-card[data-category]');
+    document.getElementById('btnNextProject').addEventListener('click', () => {
+      navigateToProjectIndex(currentActiveIndex + 1);
+    });
 
-    filterBtns.forEach(btn => {
+    document.getElementById('btnExploreProjects').addEventListener('click', () => {
+      navigateToProjectIndex(0);
+    });
+
+    document.getElementById('btnScrollToTop').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('btnHudBackHome').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ── Project Modal Logic ──
+    const projectModal = document.getElementById('projectModal');
+    let currentlySelectedProject = null;
+
+    function openProjectModal(proj) {
+      currentlySelectedProject = proj;
+      document.getElementById('modalProjImg').src = proj.image || 'assets/images/mapcba.png';
+      document.getElementById('modalProjCategory').innerText = (proj.category || 'ENTERPRISE').toUpperCase() + (proj.badge ? ' · ' + proj.badge.toUpperCase() : '');
+      document.getElementById('modalProjTitle').innerText = proj.title;
+      document.getElementById('modalProjOrgPeriod').innerText = (proj.org || 'PT Centa Brasindo Abadi Chemical Industry') + (proj.period ? ' · ' + proj.period : '');
+      document.getElementById('modalProjDesc').innerHTML = proj.desc || '';
+
+      // Metrics Chips
+      const metricsBox = document.getElementById('modalProjMetrics');
+      metricsBox.innerHTML = '';
+      if (proj.badge) {
+        metricsBox.innerHTML += `<div class="metric-chip">Status: <strong>${proj.badge}</strong></div>`;
+      }
+      if (proj.category) {
+        metricsBox.innerHTML += `<div class="metric-chip">Domain: <strong>${proj.category}</strong></div>`;
+      }
+      metricsBox.innerHTML += `<div class="metric-chip">Verified: <strong>Production System</strong></div>`;
+
+      // Tags
+      const tagsBox = document.getElementById('modalProjTags');
+      tagsBox.innerHTML = '';
+      (proj.tech_tags || []).forEach(t => {
+        tagsBox.innerHTML += `<span class="proj-tag-pill">${t}</span>`;
+      });
+
+      // Actions
+      const demoBtn = document.getElementById('modalProjDemoBtn');
+      if (proj.demo_url) {
+        demoBtn.href = proj.demo_url;
+        demoBtn.style.display = 'inline-flex';
+      } else {
+        demoBtn.style.display = 'none';
+      }
+
+      const githubBtn = document.getElementById('modalProjGithubBtn');
+      if (proj.github_url) {
+        githubBtn.href = proj.github_url;
+        githubBtn.style.display = 'inline-flex';
+      } else {
+        githubBtn.style.display = 'none';
+      }
+
+      projectModal.classList.add('is-open');
+    }
+
+    function closeProjectModal() {
+      projectModal.classList.remove('is-open');
+    }
+
+    document.getElementById('btnInspectCurrentProject').addEventListener('click', () => {
+      const activeProj = portfolioProjects[currentActiveIndex];
+      if (activeProj) openProjectModal(activeProj);
+    });
+
+    document.getElementById('btnCloseProject').addEventListener('click', closeProjectModal);
+    document.getElementById('projectBackdrop').addEventListener('click', closeProjectModal);
+
+    document.getElementById('modalProjDiscussBtn').addEventListener('click', () => {
+      closeProjectModal();
+      openContactModal();
+    });
+
+    // ── About Modal Logic ──
+    const aboutModal = document.getElementById('aboutModal');
+
+    function openAboutModal() {
+      aboutModal.classList.add('is-open');
+    }
+    function closeAboutModal() {
+      aboutModal.classList.remove('is-open');
+    }
+
+    document.getElementById('btnOpenAbout').addEventListener('click', openAboutModal);
+    document.getElementById('btnHeroReadMore').addEventListener('click', openAboutModal);
+    document.getElementById('btnCloseAbout').addEventListener('click', closeAboutModal);
+    document.getElementById('aboutBackdrop').addEventListener('click', closeAboutModal);
+
+    // Modal Tabs Switching
+    const tabButtons = document.querySelectorAll('.modal-tab-pill');
+    tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
+        tabButtons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
 
-        filterBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
-        btn.setAttribute('aria-pressed', 'true');
-
-        projectCards.forEach(card => {
-          if (filter === 'all' || card.dataset.category === filter) {
-            card.removeAttribute('data-hidden');
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
-            requestAnimationFrame(() => {
-              card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-              card.style.opacity = '1';
-              card.style.transform = 'none';
-            });
+        const tabTarget = btn.getAttribute('data-tab');
+        document.querySelectorAll('.about-tab-content').forEach(pane => {
+          if (pane.id === 'tab-' + tabTarget) {
+            pane.style.display = 'block';
           } else {
-            card.setAttribute('data-hidden', 'true');
+            pane.style.display = 'none';
           }
         });
       });
     });
 
-    // ── Active Nav on Scroll ──
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-menu a');
+    // ── Contact Modal Logic ──
+    const contactModal = document.getElementById('contactModal');
 
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => link.classList.remove('is-active'));
-          const active = document.querySelector(`.nav-menu a[href="#${entry.target.id}"]`);
-          if (active) active.classList.add('is-active');
-        }
-      });
-    }, { threshold: 0.3 });
-
-    sections.forEach(s => navObserver.observe(s));
-
-    // ── Register Service Worker for PWA / Add to Home Screen ──
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      });
+    function openContactModal() {
+      contactModal.classList.add('is-open');
     }
+    function closeContactModal() {
+      contactModal.classList.remove('is-open');
+    }
+
+    document.getElementById('btnOpenContact').addEventListener('click', openContactModal);
+    document.getElementById('btnCloseContact').addEventListener('click', closeContactModal);
+    document.getElementById('contactBackdrop').addEventListener('click', closeContactModal);
+
+    // Escape Key Handler for all modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeProjectModal();
+        closeAboutModal();
+        closeContactModal();
+      }
+    });
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      initThreeScene();
+      updateScrollState();
+      updateHudUI();
+    });
   </script>
 
 </body>
