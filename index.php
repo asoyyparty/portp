@@ -343,12 +343,15 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     .hero-name {
       font-family: var(--font-serif);
       font-style: italic;
-      font-weight: 400;
+      font-weight: 700;
       color: #FFFFFF;
-      font-size: clamp(2.8rem, 6.4vw, 5.8rem);
-      line-height: 0.98;
-      letter-spacing: -0.035em;
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
+      font-size: clamp(3.2rem, 7.8vw, 6.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      text-shadow: 0 4px 45px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 255, 255, 0.25);
+      -webkit-text-stroke: 1.5px #FFFFFF;
+      text-stroke: 1.5px #FFFFFF;
+      paint-order: stroke fill;
       user-select: none;
     }
 
@@ -1187,7 +1190,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
       <div class="modal-scroll-body">
         <div class="about-header-banner">
-          <img src="<?= h(!empty($profile['avatar']) ? $profile['avatar'] : 'assets/images/profile.png') ?>" alt="<?= h($profile['name'] ?? 'Qois') ?>" class="about-avatar-lg" />
+          <img src="<?= h(!empty($profile['avatar']) ? $profile['avatar'] : 'assets/images/profile_nobg.png') ?>" alt="<?= h($profile['name'] ?? 'Qois') ?>" class="about-avatar-lg" />
           <div class="about-header-text">
             <h2 class="about-name-title"><?= h($profile['name'] ?? 'Qois Abdul Qudus') ?></h2>
             <div class="verified-pulse-badge">
@@ -1197,24 +1200,107 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           </div>
         </div>
 
-        <div class="modal-tabs-strip">
-          <button type="button" class="modal-tab-pill is-active" data-tab="about-bio">Biography & Focus</button>
-          <button type="button" class="modal-tab-pill" data-tab="about-exp">Work Experience (<?= count($experience ?? []) ?>)</button>
-          <button type="button" class="modal-tab-pill" data-tab="about-certs">Education & Certifications (<?= count($certifications ?? []) ?>)</button>
+        <!-- Stat Metrics Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px;">
+          <?php foreach (($metrics ?? []) as $m): ?>
+          <div style="padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;">
+            <div style="font-family: var(--font-serif); font-style: italic; font-size: 24px; color: var(--color-cyan); line-height: 1.1;"><?= h($m['value'] ?? '') ?></div>
+            <div style="font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;"><?= h($m['label'] ?? '') ?></div>
+          </div>
+          <?php endforeach; ?>
         </div>
 
-        <!-- Tab 1: Biography & Focus Areas -->
+        <div class="modal-tabs-strip">
+          <button type="button" class="modal-tab-pill is-active" data-tab="about-bio">Biography</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-exp">Work Experience (<?= count($experience ?? []) ?>)</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-edu">Education & Honors (2)</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-certs">Certifications (<?= count($certifications ?? []) ?>)</button>
+          <button type="button" class="modal-tab-pill" data-tab="about-skills">Core Competencies</button>
+        </div>
+
+        <!-- Tab 1: Biography & Story -->
         <div class="about-tab-content is-active" id="tab-about-bio">
-          <div style="font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 24px;">
-            <p style="margin-bottom: 12px;"><?= nl2br(h($profile['bio'] ?? '')) ?></p>
-            <div style="padding: 16px 20px; border-radius: 16px; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); margin-top: 16px;">
+          <div style="font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,0.85);">
+            <p style="margin-bottom: 12px;">
+              Saya adalah <strong>Software Engineer & IT Infrastructure Specialist</strong> yang berfokus pada rekayasa aplikasi enterprise berskala besar, sistem otomasi industri, dan arsitektur jaringan berkeandalan tinggi dengan komitmen uptime 24/7 di <strong>PT Centa Brasindo Abadi Chemical Industry</strong>.
+            </p>
+            <p style="margin-bottom: 12px;">
+              Memiliki latar belakang pendidikan formal <strong>Sarjana Komputer (S.Kom)</strong> dari Universitas Bina Bangsa, lulusan program Studi Independen Bersertifikat (SIB) Dicoding Indonesia x Kemendikbudristek, serta telah mempublikasikan riset edukasi game di jurnal ilmiah nasional terakreditasi.
+            </p>
+            
+            <div style="padding: 16px 20px; border-radius: 18px; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.22); margin: 18px 0;">
+              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px;">Filosofi Engineering</div>
               <div style="font-family: var(--font-serif); font-style: italic; font-size: 16px; color: #FFFFFF; line-height: 1.4;">
                 "<?= h($profile['tagline'] ?? 'Membangun Aplikasi Enterprise Scalable & Infrastruktur Jaringan Industri Berkeandalan Tinggi') ?>"
               </div>
+              <p style="font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-top: 8px;">
+                Menggabungkan disiplin keandalan infrastruktur fisik tingkat industri dengan keanggunan modern full-stack software development untuk menghadirkan sistem teknologi yang tahan banting, aman, dan berdaya guna nyata.
+              </p>
             </div>
           </div>
+        </div>
 
-          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Pilar Spesialisasi & Layanan</h3>
+        <!-- Tab 2: Work Experience -->
+        <div class="about-tab-content" id="tab-about-exp" style="display: none;">
+          <?php foreach (($experience ?? []) as $exp): ?>
+          <div class="timeline-item">
+            <div class="timeline-role"><?= h($exp['role'] ?? '') ?></div>
+            <div class="timeline-company"><?= h($exp['company'] ?? '') ?></div>
+            <div class="timeline-meta"><?= h($exp['period'] ?? '') ?><?php if (!empty($exp['location'])): ?> · <?= h($exp['location']) ?><?php endif; ?></div>
+            <div class="timeline-desc"><?= $exp['desc'] ?? '' ?></div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+
+        <!-- Tab 3: Education & Honors -->
+        <div class="about-tab-content" id="tab-about-edu" style="display: none;">
+          <?php foreach (($education ?? []) as $edu): ?>
+          <div style="padding: 18px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 18px;">
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.08em;">Pendidikan Formal</div>
+            <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 4px 0 2px;"><?= h($edu['degree'] ?? '') ?></h4>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.85);"><?= h($edu['institution'] ?? '') ?> · <span style="color: var(--color-cyan); font-weight: 600;"><?= h($edu['period'] ?? '') ?></span></div>
+            <p style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; margin-top: 8px;"><?= h($edu['desc'] ?? '') ?></p>
+          </div>
+          <?php endforeach; ?>
+
+          <!-- Academic Publication -->
+          <div style="padding: 18px 20px; border-radius: 18px; background: rgba(0, 240, 255, 0.04); border: 1px solid rgba(0, 240, 255, 0.2); margin-top: 14px;">
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.08em;">Publikasi Ilmiah Nasional</div>
+            <h4 style="font-size: 15px; font-weight: 700; color: #FFFFFF; margin: 4px 0 2px;">Petualangan Barudak - Ethnomathematics Edu-Game</h4>
+            <div style="font-size: 12.5px; color: rgba(255,255,255,0.8);">Histogram: Jurnal Pendidikan Matematika · <span>2024</span></div>
+            <p style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; margin-top: 8px;">
+              Artikel ilmiah riset game edukasi berbasis Android untuk pembelajaran geometri etnomatematika kebudayaan lokal Banten. Terindeks resmi di Kemdiktisaintek Republik Indonesia.
+            </p>
+            <div style="margin-top: 12px;">
+              <a href="https://garuda.kemdiktisaintek.go.id/documents/detail/4509823" target="_blank" rel="noopener noreferrer" class="pill-btn-outline" style="display: inline-flex; font-size: 11px; padding: 6px 14px;">
+                <span>Lihat Dokumen Publikasi di Kemdiktisaintek ↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Certifications -->
+        <div class="about-tab-content" id="tab-about-certs" style="display: none;">
+          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;">Sertifikasi & Lisensi Resmi (<?= count($certifications ?? []) ?>)</h3>
+          <div class="certs-grid">
+            <?php foreach (($certifications ?? []) as $cert): ?>
+            <a href="<?= h(!empty($cert['url']) ? $cert['url'] : '#') ?>" target="_blank" rel="noopener noreferrer" class="cert-item-box">
+              <div>
+                <span class="cert-issuer-label"><?= h($cert['issuer'] ?? '') ?></span>
+                <div class="cert-title-text"><?= h($cert['title'] ?? '') ?></div>
+                <div class="cert-summary-text"><?= h($cert['summary'] ?? '') ?></div>
+              </div>
+              <span class="cert-verify-link">
+                <span><?= h(!empty($cert['action_text']) ? $cert['action_text'] : 'Verify Credential ↗') ?></span>
+              </span>
+            </a>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <!-- Tab 5: Core Competencies -->
+        <div class="about-tab-content" id="tab-about-skills" style="display: none;">
+          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;">Pilar Spesialisasi & Layanan</h3>
           <div class="focus-area-grid">
             <?php foreach (($services ?? []) as $srv): ?>
             <div class="focus-card">
@@ -1231,46 +1317,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
               </div>
               <?php endif; ?>
             </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
-
-        <!-- Tab 2: Work Experience -->
-        <div class="about-tab-content" id="tab-about-exp" style="display: none;">
-          <?php foreach (($experience ?? []) as $exp): ?>
-          <div class="timeline-item">
-            <div class="timeline-role"><?= h($exp['role'] ?? '') ?></div>
-            <div class="timeline-company"><?= h($exp['company'] ?? '') ?></div>
-            <div class="timeline-meta"><?= h($exp['period'] ?? '') ?><?php if (!empty($exp['location'])): ?> · <?= h($exp['location']) ?><?php endif; ?></div>
-            <div class="timeline-desc"><?= $exp['desc'] ?? '' ?></div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-
-        <!-- Tab 3: Education & Certifications -->
-        <div class="about-tab-content" id="tab-about-certs" style="display: none;">
-          <?php foreach (($education ?? []) as $edu): ?>
-          <div style="padding: 18px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 24px;">
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.08em;">Pendidikan Formal</div>
-            <h4 style="font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 4px 0 2px;"><?= h($edu['degree'] ?? '') ?></h4>
-            <div style="font-size: 13px; color: rgba(255,255,255,0.85);"><?= h($edu['institution'] ?? '') ?> · <span style="color: var(--color-cyan); font-weight: 600;"><?= h($edu['period'] ?? '') ?></span></div>
-            <p style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; margin-top: 8px;"><?= h($edu['desc'] ?? '') ?></p>
-          </div>
-          <?php endforeach; ?>
-
-          <h3 style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.08em; margin: 24px 0 14px;">Sertifikasi & Lisensi Resmi (<?= count($certifications ?? []) ?>)</h3>
-          <div class="certs-grid">
-            <?php foreach (($certifications ?? []) as $cert): ?>
-            <a href="<?= h(!empty($cert['url']) ? $cert['url'] : '#') ?>" target="_blank" rel="noopener noreferrer" class="cert-item-box">
-              <div>
-                <span class="cert-issuer-label"><?= h($cert['issuer'] ?? '') ?></span>
-                <div class="cert-title-text"><?= h($cert['title'] ?? '') ?></div>
-                <div class="cert-summary-text"><?= h($cert['summary'] ?? '') ?></div>
-              </div>
-              <span class="cert-verify-link">
-                <span><?= h(!empty($cert['action_text']) ? $cert['action_text'] : 'Verify Credential ↗') ?></span>
-              </span>
-            </a>
             <?php endforeach; ?>
           </div>
         </div>
@@ -2414,32 +2460,50 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     // ── About Modal Logic ──
     const aboutModal = document.getElementById('aboutModal');
 
-    function openAboutModal() {
+    function switchAboutTab(targetTab) {
+      const tabButtons = document.querySelectorAll('.modal-tab-pill');
+      tabButtons.forEach(btn => {
+        if (btn.getAttribute('data-tab') === targetTab) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+      document.querySelectorAll('.about-tab-content').forEach(pane => {
+        if (pane.id === 'tab-' + targetTab) {
+          pane.style.display = 'block';
+        } else {
+          pane.style.display = 'none';
+        }
+      });
+    }
+
+    function openAboutModal(targetTab = 'about-bio') {
       aboutModal.classList.add('is-open');
+      switchAboutTab(targetTab);
     }
     function closeAboutModal() {
       aboutModal.classList.remove('is-open');
     }
 
-    document.getElementById('btnOpenAbout').addEventListener('click', openAboutModal);
-    document.getElementById('btnHeroReadMore').addEventListener('click', openAboutModal);
+    document.getElementById('btnOpenAbout').addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openAboutModal('about-bio');
+    });
+    document.getElementById('btnHeroReadMore').addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openAboutModal('about-bio');
+    });
     document.getElementById('btnCloseAbout').addEventListener('click', closeAboutModal);
     document.getElementById('aboutBackdrop').addEventListener('click', closeAboutModal);
 
     const tabButtons = document.querySelectorAll('.modal-tab-pill');
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        tabButtons.forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-
         const tabTarget = btn.getAttribute('data-tab');
-        document.querySelectorAll('.about-tab-content').forEach(pane => {
-          if (pane.id === 'tab-' + tabTarget) {
-            pane.style.display = 'block';
-          } else {
-            pane.style.display = 'none';
-          }
-        });
+        switchAboutTab(tabTarget);
       });
     });
 
