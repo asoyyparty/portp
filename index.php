@@ -2182,6 +2182,13 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           hologramMaterial.uniforms.uMouseWorld.value.lerp(mouseWorld, 0.15);
         }
 
+        // When at hero section, projects are not in view and must NEVER be hovered or clicked
+        if (scrollProgress < 0.04) {
+          hoveredProjectMesh = null;
+          renderer.domElement.style.cursor = 'auto';
+          return;
+        }
+
         raycaster.setFromCamera(pointer, camera);
         const interactables = projectMeshObjects.filter(m => m.userData.isInteractable);
         const hits = raycaster.intersectObjects(interactables);
@@ -2211,7 +2218,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }, { passive: true });
 
       window.addEventListener('click', (e) => {
-        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay')) return;
+        // At hero view, projects are never active or clickable
+        if (scrollProgress < 0.04) return;
+        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('.btn-explore-projects')) return;
         if (hoveredProjectMesh && hoveredProjectMesh.userData && hoveredProjectMesh.userData.project) {
           openProjectModal(hoveredProjectMesh.userData.project);
         }
@@ -2479,6 +2488,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     function openAboutModal(targetTab = 'about-bio') {
+      closeProjectModal();
+      closeContactModal();
       aboutModal.classList.add('is-open');
       switchAboutTab(targetTab);
     }
