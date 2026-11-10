@@ -1400,70 +1400,135 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     // ── Holographic Micro-Card Atlas Generator ──
     const colorThemes = [
-      ["#00F0FF", "#06121A", "#3B82F6"],
-      ["#10B981", "#061510", "#6EE7B7"],
-      ["#38BDF8", "#07111E", "#BAE6FD"],
-      ["#8B5CF6", "#0E071B", "#C4B5FD"],
-      ["#F59E0B", "#160E05", "#FDE68A"],
-      ["#EC4899", "#160711", "#F472B6"],
-      ["#2DD4BF", "#051414", "#99F6E4"],
-      ["#6366F1", "#0A0A16", "#A5B4FC"]
+      ['#00F0FF', '#06121A', '#38BDF8'],
+      ['#10B981', '#061510', '#34D399'],
+      ['#F59E0B', '#160E05', '#FBBF24'],
+      ['#3B82F6', '#07111E', '#60A5FA'],
+      ['#EF4444', '#180708', '#F87171'],
+      ['#8B5CF6', '#0E071B', '#A78BFA'],
+      ['#2DD4BF', '#051414', '#5EEAD4'],
+      ['#EC4899', '#160711', '#F472B6'],
+      ['#F97316', '#140905', '#FB923C'],
+      ['#A855F7', '#10061A', '#C084FC'],
+      ['#06B6D4', '#051218', '#22D3EE'],
+      ['#F43F5E', '#18070B', '#FB7185'],
+      ['#84CC16', '#0C1405', '#A3E635'],
+      ['#EAB308', '#161305', '#FACC15'],
+      ['#6366F1', '#0A0A16', '#818CF8'],
+      ['#D946EF', '#150618', '#E879F9']
     ];
 
     function createMicroCardAtlas() {
-      const canvas = document.createElement("canvas");
-      canvas.width = 1024;
-      canvas.height = 1024;
-      const ctx = canvas.getContext("2d");
+      const canvas = document.createElement('canvas');
+      canvas.width = 2048;
+      canvas.height = 2048;
+      const ctx = canvas.getContext('2d');
       if (!ctx) return null;
 
-      ctx.fillStyle = "#09090C";
-      ctx.fillRect(0, 0, 1024, 1024);
+      ctx.fillStyle = '#09090B';
+      ctx.fillRect(0, 0, 2048, 2048);
 
-      for (let i = 0; i < 64; i++) {
-        const col = i % 8;
-        const row = Math.floor(i / 8);
-        const x = col * 128;
-        const y = row * 128;
-        const [accent, bg, light] = colorThemes[i % colorThemes.length];
+      for (let r = 0; r < 64; r++) {
+        const col = r % 8;
+        const row = Math.floor(r / 8);
+        const u = col * 256;
+        const d = row * 256;
+        const [accent, bgDark, accentLight] = colorThemes[r % colorThemes.length];
 
         ctx.save();
         ctx.beginPath();
-        ctx.rect(x, y, 128, 128);
+        ctx.rect(u, d, 256, 256);
         ctx.clip();
 
-        // Dark gradient
-        const grad = ctx.createLinearGradient(x, y, x + 128, y + 128);
-        grad.addColorStop(0, bg);
-        grad.addColorStop(1, "#030406");
+        // Saturated rich linear gradient background
+        const grad = ctx.createLinearGradient(u, d, u + 256, d + 256);
+        grad.addColorStop(0, bgDark);
+        grad.addColorStop(1, '#121217');
         ctx.fillStyle = grad;
-        ctx.fillRect(x, y, 128, 128);
+        ctx.fillRect(u, d, 256, 256);
 
-        // Tech accent lines
-        ctx.strokeStyle = accent;
-        ctx.globalAlpha = 0.45;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(x + 14, y + 24);
-        ctx.lineTo(x + 70, y + 24);
-        ctx.moveTo(x + 14, y + 36);
-        ctx.lineTo(x + 110, y + 36);
-        ctx.moveTo(x + 14, y + 48);
-        ctx.lineTo(x + 50, y + 48);
-        ctx.stroke();
+        const styleType = r % 6;
+        if (styleType === 0) {
+          // 1. Radial glowing neon orb
+          const radGrad = ctx.createRadialGradient(u + 128, d + 122.88, 10.24, u + 128, d + 122.88, 92.16);
+          radGrad.addColorStop(0, accentLight);
+          radGrad.addColorStop(0.45, accent);
+          radGrad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = radGrad;
+          ctx.beginPath();
+          ctx.arc(u + 128, d + 122.88, 92.16, 0, 2 * Math.PI);
+          ctx.fill();
+        } else if (styleType === 1) {
+          // 2. Bold accent banner & typography badge
+          ctx.fillStyle = accent;
+          ctx.fillRect(u + 20, d + 20, 216, 107.52);
+          ctx.fillStyle = '#F8FAFC';
+          ctx.font = 'bold 44px sans-serif';
+          ctx.fillText(String((r % 17) + 1).padStart(2, '0'), u + 24, d + 199.68);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.fillRect(u + 96, d + 168.96, 138, 8);
+          ctx.fillRect(u + 96, d + 192, 108, 8);
+        } else if (styleType === 2) {
+          // 3. UI Analytics Dashboard with colored histogram equalizer
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(u + 18, d + 22, 220, 212);
+          ctx.fillStyle = accent;
+          ctx.fillRect(u + 30, d + 38, 64, 12);
+          for (let y = 0; y < 6; y++) {
+            const barH = 32 + ((17 * r + 29 * y) % 85);
+            ctx.fillStyle = y === 4 ? accent : 'rgba(255, 255, 255, 0.22)';
+            ctx.fillRect(u + 34 + 32 * y, d + 256 - 38 - barH, 20, barH);
+          }
+        } else if (styleType === 3) {
+          // 4. Circular HUD neon gauge
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 14;
+          ctx.beginPath();
+          ctx.arc(u + 128, d + 128, 64, 0, 1.65 * Math.PI);
+          ctx.stroke();
+          ctx.fillStyle = accentLight;
+          ctx.beginPath();
+          ctx.arc(u + 166.4, d + 89.6, 16, 0, 2 * Math.PI);
+          ctx.fill();
+        } else if (styleType === 4) {
+          // 5. Cyber diagonal caution stripes
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 14;
+          for (let y = -2; y < 5; y++) {
+            ctx.beginPath();
+            ctx.moveTo(u + 56 * y, d + 256);
+            ctx.lineTo(u + 56 * y + 140, d);
+            ctx.stroke();
+          }
+          ctx.fillStyle = 'rgba(10, 10, 12, 0.78)';
+          ctx.fillRect(u + 24, d + 148.48, 208, 72);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(u + 36, d + 174.08, 110, 12);
+        } else {
+          // 6. Modern card mockup
+          ctx.fillStyle = '#F1F5F9';
+          ctx.fillRect(u + 22, d + 22, 212, 212);
+          ctx.fillStyle = '#09090B';
+          ctx.fillRect(u + 34, d + 34, 188, 133.12);
+          ctx.fillStyle = accent;
+          ctx.beginPath();
+          ctx.arc(u + 128, d + 107.52, 34, 0, 2 * Math.PI);
+          ctx.fill();
+        }
 
-        ctx.fillStyle = light;
-        ctx.globalAlpha = 0.7;
-        ctx.beginPath();
-        ctx.arc(x + 104, y + 24, 4, 0, Math.PI * 2);
-        ctx.fill();
-
+        // Outer card border
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(u + 3, d + 3, 250, 250);
         ctx.restore();
       }
 
       const texture = new THREE.CanvasTexture(canvas);
-      texture.wrapS = THREE.ClampToEdgeWrapping;
-      texture.wrapT = THREE.ClampToEdgeWrapping;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = true;
+      texture.needsUpdate = true;
       return texture;
     }
 
@@ -1589,8 +1654,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       return buildParticleData(samples, count);
     }
 
-    // ── Image Sampling: Converts Qois's Photo to 3D Particle Cloud ──
-    function samplePortraitPhoto(imageSrc = 'assets/images/profile.png', count = 2400) {
+    // ── Image Sampling: Converts Qois\'s Photo to 3D Particle Cloud ──
+    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 2400) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -1603,8 +1668,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             if (!ctx) return resolve(generateFallbackFaceData(count));
 
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, 300, 400);
+            // Start completely transparent so background pixels have alpha 0
+            ctx.clearRect(0, 0, 300, 400);
 
             // Maintain true aspect ratio (object-fit: cover) and center
             const nw = img.naturalWidth || 300;
@@ -1624,7 +1689,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                 let sumLuma = 0;
                 let maxLuma = 0;
                 let minLuma = 1;
-                let pxCount = 0;
+                let solidPxCount = 0;
 
                 const startX = col * 4;
                 const endX = (col + 1) * 4;
@@ -1634,36 +1699,46 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                 for (let py = startY; py < endY; py++) {
                   for (let px = startX; px < endX; px++) {
                     const idx = (py * 300 + px) * 4;
+                    const a = imgData[idx + 3] / 255;
+                    // Skip transparent background pixels
+                    if (a < 0.25) continue;
+
                     const r = imgData[idx] / 255;
                     const g = imgData[idx + 1] / 255;
                     const b = imgData[idx + 2] / 255;
+
+                    // Skip any light-grey studio backdrop borders
+                    const isBgGrey = (r > 0.60 && g > 0.62 && b > 0.62 && Math.abs(r - g) < 0.1 && Math.abs(g - b) < 0.1);
+                    if (isBgGrey) continue;
+
                     const lum = 0.299 * r + 0.587 * g + 0.114 * b;
                     sumLuma += lum;
                     if (lum > maxLuma) maxLuma = lum;
                     if (lum < minLuma) minLuma = lum;
-                    pxCount++;
+                    solidPxCount++;
                   }
                 }
 
-                const avgLuma = pxCount > 0 ? sumLuma / pxCount : 0;
+                // Require solid foreground pixels (eliminates background box!)
+                if (solidPxCount < 2) continue;
+
+                const avgLuma = sumLuma / solidPxCount;
                 const dynamicLuma = 0.55 * avgLuma + 0.45 * maxLuma;
                 const contrast = maxLuma - minLuma;
 
-                if (dynamicLuma > 0.035 || maxLuma > 0.12) {
-                  const u = (col + 0.5) / 75;
-                  const v = (row + 0.5) / 100;
-                  if (v > 0.84) continue; // Crop bottom edge
+                const u = (col + 0.5) / 75;
+                const v = (row + 0.5) / 100;
+                if (v > 0.84) continue; // Crop bottom edge
 
-                  const isCentralFace = u >= 0.26 && u <= 0.74 && v >= 0.1 && v <= 0.56;
-                  const priority = dynamicLuma * 1.25 + (isCentralFace ? 0.4 : 0.0) + (contrast > 0.15 ? 0.35 : 0.0);
-                  const cleanLuma = Math.min(1.0, 1.2 * Math.pow(dynamicLuma, 0.82));
+                const isCentralFace = u >= 0.26 && u <= 0.74 && v >= 0.1 && v <= 0.56;
+                const priority = dynamicLuma * 1.25 + (isCentralFace ? 0.45 : 0.0) + (contrast > 0.15 ? 0.35 : 0.0);
+                const cleanLuma = Math.min(1.0, 1.2 * Math.pow(Math.max(0.16, dynamicLuma), 0.82));
 
-                  samples.push({ u, v, luminance: cleanLuma, priority });
-                }
+                samples.push({ u, v, luminance: cleanLuma, priority });
               }
             }
 
-            if (samples.length < 200) return resolve(generateFallbackFaceData(count));
+            if (samples.length < 150) return resolve(generateFallbackFaceData(count));
             resolve(buildParticleData(samples, count));
           } catch (e) {
             resolve(generateFallbackFaceData(count));
@@ -1774,8 +1849,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
     `;
 
-    const HologramFragmentShader = `
+    const HologramFragmentShader = 
       uniform sampler2D uAtlas;
+      uniform float uTime;
       uniform float uCameraZ;
       uniform float uDimFactor;
       uniform float uIntro;
@@ -1805,17 +1881,26 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         vec4 texColor = texture2D(uAtlas, atlasUv);
 
-        // Portrait Mode: Crisp Black & White pointillist portrait
+        // Portrait Mode: Crisp Black & White pointillist portrait so facial features are brilliantly sharp
         float texLuma = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
-        vec3 bwShade = vec3(1.18 * vLuminance * (0.5 + 0.52 * texLuma));
+        vec3 bwShade = vec3(1.15 * vLuminance * (0.52 + 0.52 * texLuma));
 
-        // Tunnel Mode: Vibrant micro-card artwork
-        vec3 tunnelShade = texColor.rgb * 1.15 + vec3(0.04);
-        vec3 cardColor = mix(bwShade, tunnelShade, smoothstep(0.06, 0.62, vMorph));
+        // Tunnel Mode: Ultra-vibrant chromatic micro-card artwork
+        // Dynamic iridescent rainbow spectral hue based on card seed & time
+        vec3 spectralColor = 0.5 + 0.5 * cos(vSeed * 6.2831853 + vec3(0.0, 2.094, 4.188) + uTime * 0.35);
 
-        // Glass rim highlight
+        // Rich saturated color from texture atlas
+        vec3 vibrantTex = texColor.rgb * 1.45 + vec3(0.04);
+        vec3 tunnelShade = mix(vibrantTex, vibrantTex * spectralColor * 1.8 + spectralColor * 0.15, 0.42);
+
+        // Smooth transition from crisp black & white portrait into multi-colored tunnel on scroll
+        float colorMorph = smoothstep(0.025, 0.42, vMorph);
+        vec3 cardColor = mix(bwShade, tunnelShade, colorMorph);
+
+        // Glowing neon rim highlight on card edge that intensifies with vivid neon colors on scroll!
         float borderMask = smoothstep(-0.045, -0.005, sdf);
-        cardColor += vec3(0.22) * borderMask * (0.35 + 0.65 * vMorph);
+        vec3 rimGlow = mix(vec3(0.24), spectralColor * 1.6 + vec3(0.25), colorMorph);
+        cardColor += rimGlow * borderMask * (0.35 + 0.85 * colorMorph);
 
         // Distance fog fade
         float distToCam = abs(uCameraZ - vWorldZ);
@@ -1834,7 +1919,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         gl_FragColor = vec4(finalRgb, alpha);
       }
-    `;
+    ;
 
     // ── Shaders for 3D Project Planes (Rounded SDF & Glass Sheen) ──
     const ProjectCardVertexShader = `
@@ -1981,7 +2066,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       scene.add(hologramMesh);
 
       // Load actual profile photo and update particle points
-      samplePortraitPhoto('assets/images/profile.png', particleTotal).then((sampled) => {
+      samplePortraitPhoto('assets/images/profile_nobg.png', particleTotal).then((sampled) => {
         attrPortraitPos.copyArray(sampled.portraitPositions);
         attrPortraitPos.needsUpdate = true;
         attrTunnelPos.copyArray(sampled.tunnelPositions);
