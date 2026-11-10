@@ -318,9 +318,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       inset-inline: 0;
       bottom: 0;
       z-index: 20;
-      pointer-events: auto;
+      pointer-events: none;
       transition: opacity 0.25s ease, transform 0.25s ease;
       user-select: none;
+    }
+    .hero-action-link,
+    .btn-explore-projects,
+    .hero-name {
+      pointer-events: auto;
     }
 
     .hero-top-container {
@@ -1849,7 +1854,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
     `;
 
-    const HologramFragmentShader = 
+    const HologramFragmentShader = `
       uniform sampler2D uAtlas;
       uniform float uTime;
       uniform float uCameraZ;
@@ -1919,7 +1924,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         gl_FragColor = vec4(finalRgb, alpha);
       }
-    ;
+    `;
 
     // ── Shaders for 3D Project Planes (Rounded SDF & Glass Sheen) ──
     const ProjectCardVertexShader = `
@@ -2067,6 +2072,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
       // Load actual profile photo and update particle points
       samplePortraitPhoto('assets/images/profile_nobg.png', particleTotal).then((sampled) => {
+        if (!sampled || !sampled.portraitPositions) return;
         attrPortraitPos.copyArray(sampled.portraitPositions);
         attrPortraitPos.needsUpdate = true;
         attrTunnelPos.copyArray(sampled.tunnelPositions);
