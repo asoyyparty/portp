@@ -600,6 +600,8 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       cursor: pointer;
       transition: all 0.25s ease;
       max-width: 58vw;
+      text-align: left;
+      font-family: inherit;
     }
     @media (min-width: 640px) {
       .active-project-pill { max-width: 420px; }
@@ -607,6 +609,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     .active-project-pill:hover {
       border-color: rgba(0, 240, 255, 0.5);
       background: rgba(255, 255, 255, 0.12);
+      transform: scale(1.02);
+    }
+    .active-project-pill:active {
+      transform: scale(0.97);
     }
 
     .project-index-tag {
@@ -695,16 +701,22 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       border: 1px solid rgba(255, 255, 255, 0.15);
       background: #FFFFFF;
       color: #050505;
-      padding: 7px 14px;
-      font-size: 11px;
+      padding: 7px 16px;
+      font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s ease;
       white-space: nowrap;
+      font-family: inherit;
     }
     .btn-back-home:hover {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       transform: scale(1.03);
+      box-shadow: 0 10px 28px rgba(255, 255, 255, 0.25);
+    }
+    .btn-back-home:active {
+      transform: scale(0.96);
     }
 
     /* ── Modals / Drawers (Glass Overlays) ── */
@@ -1183,27 +1195,27 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           </button>
         </div>
 
-        <div class="active-project-pill" id="btnInspectCurrentProject" title="Klik untuk membuka detail proyek">
+        <button type="button" class="active-project-pill" id="btnInspectCurrentProject" title="Klik untuk membuka detail proyek">
           <span class="project-index-tag" id="hudProjectIndex">001</span>
           <span class="project-hud-title" id="hudProjectTitle">Loading...</span>
           <span class="inspect-chip">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             Inspect
           </span>
-        </div>
+        </button>
       </div>
 
       <div class="hud-right">
         <div class="progress-counter-box">
-          <span id="hudCounterText"><strong>1</strong> of <?= count($projects ?? []) ?> projects</span>
+          <span id="hudCounterText"><strong>1</strong> of <?= count($projects ?? []) ?> project</span>
           <div class="progress-bar-track">
             <div class="progress-bar-fill" id="hudProgressBar"></div>
           </div>
         </div>
 
-        <button type="button" class="btn-back-home" id="btnHudBackHome">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-          <span>Home</span>
+        <button type="button" class="btn-back-home" id="btnHudBackHome" aria-label="Back to home top">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Back to home</span>
         </button>
       </div>
 
@@ -1458,16 +1470,22 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     const portfolioProjects = <?= json_encode($projects, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
     const accentColors = <?= json_encode($accentColors) ?>;
 
+    const xOffsets = [0, 1.25, -1.35, 1.15, -1.2, 1.2, -1.25, 1.25, -1.2, 1.2];
+    const yOffsets = [0.04, -0.15, 0.18, 0.10, -0.05, 0.08, -0.06, 0.08, -0.05, 0.06];
+
     portfolioProjects.forEach((p, idx) => {
       p.indexNumber = idx + 1;
       p.formattedIndex = String(idx + 1).padStart(3, '0');
-      p.accentColor = accentColors[idx % accentColors.length];
-      p.zPosition = -14 - (idx * 10.5);
-      p.offsetX = (idx % 2 === 0) ? -0.5 : 0.5;
-      p.offsetY = 0.08;
+      p.accentColor = p.accent_color || accentColors[idx % accentColors.length];
+      p.zPosition = -12 - (idx * 13.0);
+      p.offsetX = xOffsets[idx % xOffsets.length];
+      p.offsetY = yOffsets[idx % yOffsets.length];
+      p.bgDark = '#070709';
     });
 
     let currentActiveIndex = 0;
+    let selectedProjectId = null;
+    let hoveredProjectId = null;
     let scrollProgress = 0;
     let targetCameraZ = 9.5;
     let currentCameraZ = 9.5;
@@ -1476,6 +1494,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     let currentPointerX = 0;
     let currentPointerY = 0;
     let introProgress = 0;
+    let lastProgrammaticScroll = 0;
 
     // ── Holographic Micro-Card Atlas Generator ──
     const colorThemes = [
@@ -2245,13 +2264,165 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         attrScale.needsUpdate = true;
       });
 
-      // 3. Interactive 3D Project Planes
-      const textureLoader = new THREE.TextureLoader();
-      const projectPlaneGeo = new THREE.PlaneGeometry(3.6, 2.25);
+      // 3. Interactive 3D Project Planes (Executive Cards & Cinematic Transitions)
+      const projectCardCache = new Map();
+
+      function createProjectCardTexture(proj) {
+        const cacheKey = `${proj.id || proj.title}_${proj.image || ''}`;
+        if (projectCardCache.has(cacheKey)) return projectCardCache.get(cacheKey);
+
+        const scale = 2;
+        const canvas = document.createElement('canvas');
+        canvas.width = 1024 * scale;
+        canvas.height = 660 * scale;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.generateMipmaps = false;
+
+        const renderCard = (img = null) => {
+          const w = canvas.width;
+          const h = canvas.height;
+
+          // Base Dark Card Background
+          ctx.fillStyle = proj.bgDark || '#070709';
+          ctx.fillRect(0, 0, w, h);
+
+          // If project mockup image is ready
+          if (img && img.complete && img.naturalWidth > 0) {
+            const imgAspect = img.naturalWidth / img.naturalHeight;
+            const canvasAspect = w / h;
+            let drawW = w;
+            let drawH = h;
+            let offX = 0;
+            let offY = 0;
+
+            if (imgAspect > canvasAspect) {
+              drawH = h;
+              drawW = h * imgAspect;
+              offX = (w - drawW) / 2;
+            } else {
+              drawW = w;
+              drawH = w / imgAspect;
+              offY = (h - drawH) / 2;
+            }
+
+            ctx.drawImage(img, offX, offY, drawW, drawH);
+
+            // Top subtle gradient vignette for header text legibility
+            const topGrad = ctx.createLinearGradient(0, 0, 0, 0.16 * h);
+            topGrad.addColorStop(0, 'rgba(5, 5, 8, 0.65)');
+            topGrad.addColorStop(1, 'rgba(5, 5, 8, 0.0)');
+            ctx.fillStyle = topGrad;
+            ctx.fillRect(0, 0, w, 0.16 * h);
+
+            // Bottom deep gradient for title legibility
+            const btmGrad = ctx.createLinearGradient(0, 0.65 * h, 0, h);
+            btmGrad.addColorStop(0, 'rgba(5, 5, 8, 0.0)');
+            btmGrad.addColorStop(0.4, 'rgba(5, 5, 8, 0.55)');
+            btmGrad.addColorStop(1, 'rgba(5, 5, 8, 0.88)');
+            ctx.fillStyle = btmGrad;
+            ctx.fillRect(0, 0.65 * h, w, 0.35 * h);
+
+            // Radial vibrant accent glow at bottom left
+            const accentGlow = ctx.createRadialGradient(0.15 * w, 0.88 * h, 10 * scale, 0.15 * w, 0.88 * h, 0.45 * w);
+            accentGlow.addColorStop(0, (proj.accentColor || '#00F0FF') + '30');
+            accentGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = accentGlow;
+            ctx.fillRect(0, 0.65 * h, w, 0.35 * h);
+          } else {
+            // Subtle radial background gradient while loading
+            const grad = ctx.createRadialGradient(0.68 * w, 0.42 * h, 0.04 * w, 0.62 * w, 0.48 * h, 0.68 * w);
+            grad.addColorStop(0, (proj.accentColor || '#00F0FF') + '66');
+            grad.addColorStop(1, 'rgba(5, 5, 5, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+          }
+
+          // 1. Top Header: "001  /  2026  /  PT Centa Brasindo Abadi"
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+          ctx.font = `600 ${20 * scale}px "Plus Jakarta Sans", system-ui, sans-serif`;
+          const headerOrg = proj.org || proj.client || 'Enterprise Solution';
+          const year = proj.year || (proj.period ? (proj.period.match(/\d{4}/) ? proj.period.match(/\d{4}/)[0] : '2026') : '2026');
+          ctx.fillText(`${proj.formattedIndex}  /  ${year}  /  ${headerOrg}`, 56 * scale, 68 * scale);
+
+          // 2. Top Right: "FEATURED WORK" Pill
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+          ctx.lineWidth = 1.5 * scale;
+          ctx.beginPath();
+          if (ctx.roundRect) {
+            ctx.roundRect(w - 220 * scale, 42 * scale, 164 * scale, 38 * scale, 19 * scale);
+          } else {
+            ctx.rect(w - 220 * scale, 42 * scale, 164 * scale, 38 * scale);
+          }
+          ctx.stroke();
+
+          // Glowing Accent Dot in Pill
+          ctx.fillStyle = proj.accentColor || '#00F0FF';
+          ctx.beginPath();
+          ctx.arc(w - 196 * scale, 61 * scale, 5 * scale, 0, 2 * Math.PI);
+          ctx.fill();
+
+          // Badge Text
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = `600 ${13 * scale}px "Plus Jakarta Sans", system-ui, sans-serif`;
+          ctx.fillText(proj.badge ? proj.badge.toUpperCase() : 'FEATURED WORK', w - 180 * scale, 66 * scale);
+
+          // 3. Bottom Left: Large Italic Serif Title (Instrument Serif)
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = `italic 700 ${46 * scale}px "Instrument Serif", Georgia, serif`;
+          ctx.fillText(proj.title, 56 * scale, h - 86 * scale);
+
+          // 4. Subtitle below title
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+          ctx.font = `500 ${18 * scale}px "Plus Jakarta Sans", system-ui, sans-serif`;
+          const rawDesc = (proj.desc || '').replace(/<[^>]*>/g, '').trim();
+          const subtitle = proj.category ? (proj.category.toUpperCase() + (rawDesc ? ' · ' + rawDesc.slice(0, 65) + '...' : '')) : (rawDesc.slice(0, 75) + '...');
+          ctx.fillText(subtitle, 56 * scale, h - 48 * scale);
+
+          // 5. Bottom Right: Circular Glass Arrow Button ->
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.14)';
+          ctx.beginPath();
+          ctx.arc(w - 70 * scale, h - 65 * scale, 26 * scale, 0, 2 * Math.PI);
+          ctx.fill();
+
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.lineWidth = 2.5 * scale;
+          ctx.beginPath();
+          ctx.moveTo(w - 78 * scale, h - 65 * scale);
+          ctx.lineTo(w - 62 * scale, h - 65 * scale);
+          ctx.moveTo(w - 68 * scale, h - 71 * scale);
+          ctx.lineTo(w - 62 * scale, h - 65 * scale);
+          ctx.lineTo(w - 68 * scale, h - 59 * scale);
+          ctx.stroke();
+
+          texture.needsUpdate = true;
+        };
+
+        renderCard();
+
+        if (proj.image) {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => renderCard(img);
+          img.src = proj.image;
+        }
+
+        projectCardCache.set(cacheKey, texture);
+        return texture;
+      }
+
+      const projectPlaneGeo = new THREE.PlaneGeometry(3.72, 2.4, 1, 1);
 
       portfolioProjects.forEach((proj, idx) => {
-        const imgSrc = proj.image ? proj.image : 'assets/images/mapcba.png';
-        const tex = textureLoader.load(imgSrc);
+        const tex = createProjectCardTexture(proj);
 
         const cardMat = new THREE.ShaderMaterial({
           vertexShader: ProjectCardVertexShader,
@@ -2270,11 +2441,15 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         const mesh = new THREE.Mesh(projectPlaneGeo, cardMat);
         mesh.position.set(proj.offsetX, proj.offsetY, proj.zPosition);
+        mesh.renderOrder = 50;
         mesh.userData = {
           project: proj,
           index: idx,
-          isInteractable: false,
-          currentHover: 0.0
+          currentOpacity: 0.0,
+          currentScale: 0.55,
+          currentHover: 0.0,
+          currentSelected: 0.0,
+          isInteractable: false
         };
 
         scene.add(mesh);
@@ -2290,10 +2465,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         pointer.x = (clientX / window.innerWidth) * 2 - 1;
         pointer.y = -(clientY / window.innerHeight) * 2 + 1;
 
+        const aspect = camera.aspect || 1.77;
         const fovRad = (camera.fov * Math.PI) / 180;
         const distZ = Math.abs(camera.position.z);
         const planeH = 2 * Math.tan(fovRad / 2) * distZ;
-        const planeW = planeH * camera.aspect;
+        const planeW = planeH * aspect;
 
         mouseWorld.set(pointer.x * (planeW / 2), pointer.y * (planeH / 2));
         if (hologramMaterial) {
@@ -2303,6 +2479,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         // When at hero section, projects are not in view and must NEVER be hovered or clicked
         if (scrollProgress < 0.04) {
           hoveredProjectMesh = null;
+          hoveredProjectId = null;
           renderer.domElement.style.cursor = 'auto';
           return;
         }
@@ -2313,9 +2490,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         if (hits.length > 0) {
           hoveredProjectMesh = hits[0].object;
+          hoveredProjectId = hoveredProjectMesh.userData.project.id;
           renderer.domElement.style.cursor = 'pointer';
         } else {
           hoveredProjectMesh = null;
+          hoveredProjectId = null;
           renderer.domElement.style.cursor = 'auto';
         }
       }
@@ -2340,10 +2519,49 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         if (scrollProgress < 0.045) return;
         if (aboutModal && aboutModal.classList.contains('is-open')) return;
         if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('#btnHeroReadMore') || e.target.closest('.btn-explore-projects')) return;
+
         if (hoveredProjectMesh && hoveredProjectMesh.userData && hoveredProjectMesh.userData.project) {
-          openProjectModal(hoveredProjectMesh.userData.project);
+          const proj = hoveredProjectMesh.userData.project;
+          if (selectedProjectId === proj.id) {
+            // Already focused -> open full detail modal!
+            openProjectModal(proj);
+          } else {
+            // Smoothly glide camera into view of this project
+            selectProject(proj.id);
+          }
+        } else if (selectedProjectId) {
+          // Clicking empty background releases project lock
+          selectProject(null);
         }
       });
+
+      function selectProject(id) {
+        selectedProjectId = id;
+        if (id) {
+          const idx = portfolioProjects.findIndex(p => p.id === id);
+          if (idx !== -1) {
+            currentActiveIndex = idx;
+            updateHudUI();
+
+            const proj = portfolioProjects[idx];
+            const firstZ = 9.5;
+            const lastProj = portfolioProjects[portfolioProjects.length - 1];
+            const endZ = lastProj ? lastProj.zPosition - 14 : -120;
+            const aspect = camera.aspect || 1.77;
+            const distInFront = aspect < 0.75 ? 8.6 : (aspect < 1.05 ? 7.2 : 6.15);
+            const targetZ = proj.zPosition + distInFront;
+
+            const targetProgress = (targetZ - firstZ) / (endZ - firstZ);
+            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const targetScrollY = Math.max(0, Math.min(maxScroll, targetProgress * maxScroll));
+            lastProgrammaticScroll = targetScrollY;
+            window.scrollTo({
+              top: targetScrollY,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
 
       window.addEventListener('resize', () => {
         const w = window.innerWidth;
@@ -2364,14 +2582,54 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         // Intro animation
         introProgress = Math.min(1.0, introProgress + 0.65 * delta);
 
-        // Smooth camera lerp
-        currentCameraZ += (targetCameraZ - currentCameraZ) * 0.08;
-        currentPointerX += (targetPointerX - currentPointerX) * 0.05;
-        currentPointerY += (targetPointerY - currentPointerY) * 0.05;
+        // Target Camera Calculation based on scroll & selection
+        const aspect = camera.aspect || 1.77;
+        const lastProj = portfolioProjects[portfolioProjects.length - 1];
+        const endZ = lastProj ? lastProj.zPosition - 14 : -120;
+        
+        let targetCamZ = THREE.MathUtils.lerp(9.5, endZ, scrollProgress);
+        let targetCamX = currentPointerX * (selectedProjectId ? 0.08 : 0.45);
+        let targetCamY = currentPointerY * (selectedProjectId ? 0.06 : 0.30);
 
-        camera.position.x = currentPointerX * 0.42;
-        camera.position.y = currentPointerY * 0.28;
+        if (selectedProjectId) {
+          const selProj = portfolioProjects.find(p => p.id === selectedProjectId);
+          if (selProj) {
+            const distInFront = aspect < 0.75 ? 8.6 : (aspect < 1.05 ? 7.2 : 6.15);
+            targetCamZ = selProj.zPosition + distInFront;
+            targetCamX = (aspect < 0.75 ? 0 : selProj.offsetX) + currentPointerX * 0.05;
+            targetCamY = selProj.offsetY + currentPointerY * 0.05;
+          }
+        }
+
+        // Exponential framerate-independent smooth camera motion (Endang's formula)
+        currentCameraZ = THREE.MathUtils.lerp(currentCameraZ, targetCamZ, 1 - Math.exp(-7.0 * delta));
+        currentPointerX = THREE.MathUtils.lerp(currentPointerX, targetPointerX, 1 - Math.exp(-5.0 * delta));
+        currentPointerY = THREE.MathUtils.lerp(currentPointerY, targetPointerY, 1 - Math.exp(-5.0 * delta));
+
+        camera.position.x = THREE.MathUtils.lerp(camera.position.x, targetCamX, 1 - Math.exp(-5.0 * delta));
+        camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCamY, 1 - Math.exp(-5.0 * delta));
         camera.position.z = currentCameraZ;
+
+        // Auto-detect active project during scroll (when no specific project is locked)
+        if (!selectedProjectId && scrollProgress > 0.035) {
+          let closestIdx = 0;
+          let minDistance = Infinity;
+          const focusDist = aspect < 0.75 ? 8.6 : (aspect < 1.05 ? 7.2 : 6.35);
+
+          for (let i = 0; i < portfolioProjects.length; i++) {
+            const idealZ = portfolioProjects[i].zPosition + focusDist;
+            const d = Math.abs(camera.position.z - idealZ);
+            if (d < minDistance) {
+              minDistance = d;
+              closestIdx = i;
+            }
+          }
+
+          if (closestIdx !== currentActiveIndex) {
+            currentActiveIndex = closestIdx;
+            updateHudUI();
+          }
+        }
 
         // Update Starfield
         if (starfieldPoints) {
@@ -2384,33 +2642,69 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         // Update Holographic Portrait Uniforms
         if (hologramMaterial) {
           hologramMaterial.uniforms.uTime.value = elapsed;
-          hologramMaterial.uniforms.uMorph.value = THREE.MathUtils.lerp(hologramMaterial.uniforms.uMorph.value, morphProgress, 0.1);
+          hologramMaterial.uniforms.uMorph.value = THREE.MathUtils.lerp(hologramMaterial.uniforms.uMorph.value, morphProgress, 1 - Math.exp(-6.5 * delta));
           hologramMaterial.uniforms.uIntro.value = introProgress;
           hologramMaterial.uniforms.uCameraZ.value = camera.position.z;
-          hologramMaterial.uniforms.uMouseWorld.value.lerp(mouseWorld, 0.12);
+          hologramMaterial.uniforms.uDimFactor.value = selectedProjectId ? 0.35 : 1.0;
+          hologramMaterial.uniforms.uMouseWorld.value.lerp(mouseWorld, 1 - Math.exp(-10.0 * delta));
         }
 
-        // Update Project planes
+        // Update Project planes with Endang's exact fly-through transition mathematics
         projectMeshObjects.forEach((mesh) => {
-          const dist = camera.position.z - mesh.position.z;
-          const isTarget = hoveredProjectMesh === mesh;
+          const proj = mesh.userData.project;
+          const dist = camera.position.z - proj.zPosition;
+          const isSelected = (selectedProjectId === proj.id);
+          const isAnySelected = (selectedProjectId !== null);
+          const isHovered = (hoveredProjectId === proj.id);
 
-          // Target hover state lerp
-          mesh.userData.currentHover = THREE.MathUtils.lerp(mesh.userData.currentHover, isTarget ? 1.0 : 0.0, 0.15);
-          mesh.material.uniforms.uHover.value = mesh.userData.currentHover;
-          mesh.material.uniforms.uTime.value = elapsed;
+          let targetOpacity = 0.0;
+          let targetScale = 0.55;
 
-          // In view distance range
-          if (dist > 2.5 && dist < 19) {
-            const factor = 1.0 - Math.abs(dist - 8.0) / 10.5;
-            const op = Math.max(0.0, Math.min(1.0, factor * 1.35));
-            mesh.material.uniforms.uOpacity.value = op;
-            mesh.scale.setScalar(0.78 + Math.max(0.0, factor * 0.26) + mesh.userData.currentHover * 0.05);
-            mesh.userData.isInteractable = dist > 4.0 && dist < 13.0;
-          } else {
-            mesh.material.uniforms.uOpacity.value = 0.0;
+          if (isSelected) {
+            targetOpacity = 1.0;
+            targetScale = 1.04;
+            mesh.userData.isInteractable = true;
+          } else if (scrollProgress < 0.02) {
+            targetOpacity = 0.0;
+            targetScale = 0.45;
             mesh.userData.isInteractable = false;
+          } else {
+            // Distance-based fly-through opacity
+            const distFadeIn = 1.0 - THREE.MathUtils.smoothstep(dist, 14.0, 38.0);
+            const distFadeOut = THREE.MathUtils.smoothstep(dist, -0.4, 1.2);
+            const scrollIntro = THREE.MathUtils.smoothstep(scrollProgress, 0.01, 0.04);
+            
+            targetOpacity = distFadeIn * distFadeOut * scrollIntro * (isAnySelected ? 0.08 : 1.0);
+            targetScale = 0.55 + 0.45 * (1.0 - THREE.MathUtils.clamp((dist - 5.5) / 22.0, 0.0, 1.0)) + (isHovered ? 0.05 : 0.0);
+            if (aspect < 0.75) targetScale *= 0.78;
+
+            mesh.userData.isInteractable = (!isAnySelected && dist > (aspect < 0.75 ? 1.0 : 1.4) && dist < 24.0 && targetOpacity > 0.2);
           }
+
+          mesh.userData.currentOpacity = THREE.MathUtils.lerp(mesh.userData.currentOpacity, targetOpacity, 1 - Math.exp(-7.5 * delta));
+          mesh.userData.currentScale   = THREE.MathUtils.lerp(mesh.userData.currentScale, targetScale, 1 - Math.exp(-7.5 * delta));
+          mesh.userData.currentHover   = THREE.MathUtils.lerp(mesh.userData.currentHover, isHovered ? 1.0 : 0.0, 1 - Math.exp(-10.0 * delta));
+          mesh.userData.currentSelected = THREE.MathUtils.lerp(mesh.userData.currentSelected, isSelected ? 1.0 : 0.0, 1 - Math.exp(-8.0 * delta));
+
+          mesh.visible = mesh.userData.currentOpacity > 0.012;
+          mesh.scale.setScalar(mesh.userData.currentScale);
+
+          // Floating gentle levitation
+          const floatY = 0.045 * Math.sin(1.1 * elapsed + 1.3 * mesh.userData.index);
+          const posX = aspect < 0.75 ? 0 : proj.offsetX;
+          mesh.position.set(posX, proj.offsetY + floatY, proj.zPosition);
+
+          // 3D Parallax tilt
+          const tiltStrength = isSelected ? 0.14 : (isHovered ? 0.08 : 0.025);
+          const targetRotY = -currentPointerX * tiltStrength;
+          const targetRotX = currentPointerY * tiltStrength * 0.75;
+          mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, targetRotY, 1 - Math.exp(-6.0 * delta));
+          mesh.rotation.x = THREE.MathUtils.lerp(mesh.rotation.x, targetRotX, 1 - Math.exp(-6.0 * delta));
+
+          mesh.material.uniforms.uOpacity.value = mesh.userData.currentOpacity;
+          mesh.material.uniforms.uHover.value = mesh.userData.currentHover;
+          mesh.material.uniforms.uSelected.value = mesh.userData.currentSelected;
+          mesh.material.uniforms.uTime.value = elapsed;
         });
 
         renderer.render(scene, camera);
@@ -2432,11 +2726,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
 
-      const firstZ = 9.5;
-      const lastProj = portfolioProjects[portfolioProjects.length - 1];
-      const endZ = lastProj ? lastProj.zPosition - 10 : -110;
-
-      targetCameraZ = firstZ + (endZ - firstZ) * scrollProgress;
+      // If user manually scrolls away from programmed position, release selection lock
+      if (selectedProjectId && Math.abs(scrollY - lastProgrammaticScroll) > 15) {
+        selectedProjectId = null;
+      }
 
       if (scrollProgress < 0.035) {
         const heroAlpha = Math.max(0, Math.min(1, 1 - scrollProgress / 0.03));
@@ -2451,23 +2744,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         heroOverlay.style.pointerEvents = 'none';
         projectHudBar.classList.add('is-visible');
       }
-
-      let closestIdx = 0;
-      let minDistance = Infinity;
-
-      portfolioProjects.forEach((p, idx) => {
-        const idealCamZ = p.zPosition + 8.0;
-        const d = Math.abs(targetCameraZ - idealCamZ);
-        if (d < minDistance) {
-          minDistance = d;
-          closestIdx = idx;
-        }
-      });
-
-      if (closestIdx !== currentActiveIndex) {
-        currentActiveIndex = closestIdx;
-        updateHudUI();
-      }
     }
 
     function updateHudUI() {
@@ -2477,7 +2753,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       hudProjectIndex.innerText = activeProj.formattedIndex;
       hudProjectIndex.style.color = activeProj.accentColor || '#00F0FF';
       hudProjectTitle.innerText = activeProj.title;
-      hudCounterText.innerHTML = `<strong>${currentActiveIndex + 1}</strong> of ${portfolioProjects.length} projects`;
+      hudCounterText.innerHTML = `<strong>${currentActiveIndex + 1}</strong> of ${portfolioProjects.length} project`;
       hudProgressBar.style.width = `${((currentActiveIndex + 1) / portfolioProjects.length) * 100}%`;
 
       document.getElementById('btnPrevProject').disabled = currentActiveIndex <= 0;
@@ -2488,20 +2764,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     function navigateToProjectIndex(index) {
       if (index < 0 || index >= portfolioProjects.length) return;
+      currentActiveIndex = index;
       const proj = portfolioProjects[index];
-      const targetZ = proj.zPosition + 8.0;
-
-      const firstZ = 9.5;
-      const lastProj = portfolioProjects[portfolioProjects.length - 1];
-      const endZ = lastProj ? lastProj.zPosition - 10 : -110;
-
-      const targetProgress = (targetZ - firstZ) / (endZ - firstZ);
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-
-      window.scrollTo({
-        top: targetProgress * maxScroll,
-        behavior: 'smooth'
-      });
+      selectProject(proj.id);
     }
 
     document.getElementById('btnPrevProject').addEventListener('click', () => {
