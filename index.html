@@ -1085,7 +1085,7 @@
       <!-- Left: Profile Brand Avatar & Name -->
       <button type="button" class="topbar-brand" id="btnScrollToTop" aria-label="Kembali ke atas">
         <span class="avatar-wrapper">
-          <img src="assets/images/profile_nobg.png" alt="Qois Abdul Qudus" class="avatar-img" />
+          <img src="assets/images/profile.png" alt="Qois Abdul Qudus" class="avatar-img" />
         </span>
         <span class="brand-name">Qois Abdul Qudus</span>
       </button>
@@ -1197,7 +1197,7 @@
 
       <div class="modal-scroll-body">
         <div class="about-header-banner">
-          <img src="assets/images/profile_nobg.png" alt="Qois Abdul Qudus" class="about-avatar-lg" />
+          <img src="assets/images/profile.png" alt="Qois Abdul Qudus" class="about-avatar-lg" />
           <div class="about-header-text">
             <h2 class="about-name-title">Qois Abdul Qudus</h2>
             <div class="verified-pulse-badge">
@@ -1895,7 +1895,7 @@
             const drawW = nw * ratio;
             const drawH = nh * ratio;
             const shiftX = (300 - drawW) / 2;
-            const shiftY = 14;
+            const shiftY = (400 - drawH) / 2;
             ctx.drawImage(img, 0, 0, nw, nh, shiftX, shiftY, drawW, drawH);
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;

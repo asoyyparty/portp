@@ -1778,7 +1778,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             const drawW = nw * ratio;
             const drawH = nh * ratio;
             const shiftX = (300 - drawW) / 2;
-            const shiftY = 14;
+            const shiftY = (400 - drawH) / 2;
             ctx.drawImage(img, 0, 0, nw, nh, shiftX, shiftY, drawW, drawH);
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;
