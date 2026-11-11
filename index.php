@@ -1629,7 +1629,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       const pool = [];
 
       if (sorted.length >= count) {
-        const topRatio = Math.floor(0.68 * count);
+        const topRatio = Math.floor(0.70 * count);
         for (let i = 0; i < topRatio; i++) pool.push(sorted[i]);
         const rem = sorted.slice(topRatio);
         const needed = count - topRatio;
@@ -1645,7 +1645,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           pool.push({
             u: s.u + (prng() - 0.5) * 0.008,
             v: s.v + (prng() - 0.5) * 0.008,
-            luminance: s.luminance * (0.9 + 0.15 * prng()),
+            luminance: s.luminance * (0.92 + 0.12 * prng()),
             priority: s.priority
           });
           idx++;
@@ -1662,21 +1662,46 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       for (let i = 0; i < count; i++) {
         const item = pool[i] || { u: 0.5, v: 0.5, luminance: 0.5 };
         const seed = prng();
-        const jitterX = (prng() - 0.5) * 0.042;
-        const jitterY = (prng() - 0.5) * 0.042;
+        const jitterX = (prng() - 0.5) * 0.025;
+        const jitterY = (prng() - 0.5) * 0.025;
 
         // 3D Portrait position
         const posX = (item.u - 0.5) * 5.85 + jitterX;
         const posY = (0.5 - item.v) * 7.3 + 0.14 + jitterY;
 
-        // Depth curvature based on facial geometry & brightness (Endang's exact formula)
+        // True 3D Anatomical Sculpting (Sculpted Facial Relief)
         const normU = (item.u - 0.5) / 0.19;
-        const normV = (item.v - 0.32) / 0.19;
+        const normV = (item.v - 0.31) / 0.20;
         const rSq = normU * normU + normV * normV;
-        const domeZ = rSq < 1.0 ? 0.42 * Math.sqrt(1.0 - rSq) : 0.0;
+        const craniumDome = rSq < 1.0 ? 0.44 * Math.sqrt(1.0 - rSq) : 0.0;
+
+        // Nose bridge & tip: projects prominently forward
+        const noseU = Math.abs(item.u - 0.50) / 0.045;
+        const noseV = (item.v - 0.34) / 0.065;
+        const noseDist = noseU * noseU + noseV * noseV;
+        const noseProtrusion = noseDist < 1.0 ? 0.28 * Math.pow(1.0 - noseDist, 0.75) : 0.0;
+
+        // Eye sockets: recede gently inward for anatomical depth
+        const eye1Dist = Math.hypot((item.u - 0.415) / 0.05, (item.v - 0.285) / 0.035);
+        const eye2Dist = Math.hypot((item.u - 0.585) / 0.05, (item.v - 0.285) / 0.035);
+        const eyeRecess = (eye1Dist < 1.0 ? (1.0 - eye1Dist) * -0.12 : 0.0) +
+                          (eye2Dist < 1.0 ? (1.0 - eye2Dist) * -0.12 : 0.0);
+
+        // Chin protrusion: projects forward
+        const chinDist = Math.hypot((item.u - 0.50) / 0.07, (item.v - 0.455) / 0.04);
+        const chinProtrusion = chinDist < 1.0 ? 0.14 * (1.0 - chinDist) : 0.0;
+
+        // Neck recession: sits behind jawline
+        const isNeck = item.v >= 0.48 && item.v <= 0.57 && Math.abs(item.u - 0.5) < 0.18;
+        const neckRecess = isNeck ? -0.15 * Math.sin(((item.v - 0.48) / 0.09) * Math.PI) : 0.0;
+
+        // Torso / Chest forward arch
         const normChest = (item.u - 0.5) / 0.46;
-        const chestZ = item.v > 0.52 && Math.abs(normChest) < 1.0 ? 0.22 * Math.sqrt(1.0 - normChest * normChest) : 0.0;
-        const posZ = domeZ + chestZ + (item.luminance - 0.35) * 0.28 + (prng() - 0.5) * 0.05;
+        const chestDome = item.v > 0.53 && Math.abs(normChest) < 1.0 ? 0.26 * Math.sqrt(1.0 - normChest * normChest) : 0.0;
+
+        // Combined Z position with micro-depth relief
+        const posZ = craniumDome + noseProtrusion + eyeRecess + chinProtrusion + neckRecess + chestDome + 
+                     (item.luminance - 0.40) * 0.18 + (prng() - 0.5) * 0.025;
 
         portraitPositions[i * 3]     = posX;
         portraitPositions[i * 3 + 1] = posY;
@@ -1691,11 +1716,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         tunnelPositions[i * 3 + 1] = Math.sin(spiralAngle) * radius * 1.1;
         tunnelPositions[i * 3 + 2] = tunnelZ;
 
-        const finalLuma = Math.min(1.0, Math.max(0.2, 1.12 * Math.pow(item.luminance, 0.82)));
+        const finalLuma = Math.min(1.0, Math.max(0.06, item.luminance));
         luminances[i]   = finalLuma;
         atlasIndices[i] = i % 64;
         randomSeeds[i]  = seed;
-        scales[i]       = 0.82 + 0.35 * finalLuma;
+        scales[i]       = 0.75 + 0.35 * finalLuma;
       }
 
       return {
@@ -1710,7 +1735,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     // ── Generate Procedural Face Fallback (Endang's Anatomical Sculpt) ──
-    function generateFallbackFaceData(count = 2400) {
+    function generateFallbackFaceData(count = 3800) {
       const samples = [];
       const prng = createPRNG(9001);
       for (let r = 0; r < 102; r++) {
@@ -1753,7 +1778,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     // ── Image Sampling: Converts Qois's Photo to 3D Particle Cloud ──
-    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 2400) {
+    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 3800) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -1783,59 +1808,93 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;
             const samples = [];
+            const cols = 105;
+            const rows = 140;
 
-            for (let row = 0; row < 100; row++) {
-              for (let col = 0; col < 75; col++) {
-                let sumLuma = 0;
-                let maxLuma = 0;
-                let minLuma = 1;
-                let solidPxCount = 0;
+            for (let r = 0; r < rows; r++) {
+              const v = (r + 0.5) / rows;
+              if (v > 0.82) continue;
 
-                const startX = col * 4;
-                const endX = (col + 1) * 4;
-                const startY = row * 4;
-                const endY = (row + 1) * 4;
+              const py = Math.min(399, Math.max(0, Math.floor(v * 400)));
 
-                for (let py = startY; py < endY; py++) {
-                  for (let px = startX; px < endX; px++) {
-                    const idx = (py * 300 + px) * 4;
-                    const a = imgData[idx + 3] / 255;
-                    if (a < 0.15) continue;
+              for (let c = 0; c < cols; c++) {
+                const u = (c + 0.5) / cols;
+                const distU = Math.abs(u - 0.5);
 
-                    const r = imgData[idx] / 255;
-                    const g = imgData[idx + 1] / 255;
-                    const b = imgData[idx + 2] / 255;
-                    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-                    sumLuma += lum;
-                    if (lum > maxLuma) maxLuma = lum;
-                    if (lum < minLuma) minLuma = lum;
-                    solidPxCount++;
+                // Tapered anatomical shoulder silhouette to eliminate flat shelf cutoffs
+                const shoulderThreshold = 0.52 + 0.22 * Math.pow(distU / 0.46, 1.35);
+                if (v < 0.50 && distU > 0.30) continue;
+                if (v >= 0.50 && v < shoulderThreshold && distU > 0.22) continue;
+                if (distU > 0.46) continue;
+
+                const px = Math.min(299, Math.max(0, Math.floor(u * 300)));
+                const idx = (py * 300 + px) * 4;
+                const a = imgData[idx + 3] / 255;
+                if (a < 0.18) continue;
+
+                const red = imgData[idx] / 255;
+                const grn = imgData[idx + 1] / 255;
+                const blu = imgData[idx + 2] / 255;
+                const lum = 0.299 * red + 0.587 * grn + 0.114 * blu;
+
+                // Micro-contrast / edge gradient calculation
+                const xL = Math.max(0, px - 2);
+                const xR = Math.min(299, px + 2);
+                const yT = Math.max(0, py - 2);
+                const yB = Math.min(399, py + 2);
+
+                const idxL = (py * 300 + xL) * 4;
+                const idxR = (py * 300 + xR) * 4;
+                const idxT = (yT * 300 + px) * 4;
+                const idxB = (yB * 300 + px) * 4;
+
+                const lumL = 0.299 * (imgData[idxL]/255) + 0.587 * (imgData[idxL+1]/255) + 0.114 * (imgData[idxL+2]/255);
+                const lumR = 0.299 * (imgData[idxR]/255) + 0.587 * (imgData[idxR+1]/255) + 0.114 * (imgData[idxR+2]/255);
+                const lumT = 0.299 * (imgData[idxT]/255) + 0.587 * (imgData[idxT+1]/255) + 0.114 * (imgData[idxT+2]/255);
+                const lumB = 0.299 * (imgData[idxB]/255) + 0.587 * (imgData[idxB+1]/255) + 0.114 * (imgData[idxB+2]/255);
+
+                const edgeEnergy = Math.max(Math.abs(lumR - lumL), Math.abs(lumB - lumT));
+
+                // Facial feature detection zones based on Qois's anatomy:
+                const isEyes = (v >= 0.24 && v <= 0.33 && u >= 0.35 && u <= 0.65);
+                const isNose = (v >= 0.30 && v <= 0.40 && u >= 0.44 && u <= 0.56);
+                const isMouth = (v >= 0.40 && v <= 0.49 && u >= 0.41 && u <= 0.59);
+                const isFace = (v >= 0.14 && v <= 0.54 && u >= 0.28 && u <= 0.72);
+                const isTie = (v >= 0.56 && distU <= 0.055);
+
+                // High-fidelity priority calculation:
+                let priority = 0.5 + edgeEnergy * 2.8;
+                if (isEyes) {
+                  // Eyes and pupils get paramount priority
+                  priority += (lum < 0.25 ? 3.0 : 2.2);
+                } else if (isMouth) {
+                  priority += (lum < 0.35 ? 2.2 : 1.6);
+                } else if (isNose) {
+                  priority += 1.8 + edgeEnergy * 1.5;
+                } else if (isTie) {
+                  priority += 1.5;
+                } else if (isFace) {
+                  priority += 1.2 + (edgeEnergy > 0.10 ? 1.0 : 0.0);
+                }
+
+                // Tonal calibration:
+                // Prevent white shirt from blinding the composition while retaining crisp collar lines
+                let calibratedLuma = lum;
+                if (v > 0.54 && !isTie) {
+                  // White shirt tonal compression: soft silver matte
+                  calibratedLuma = 0.65 + Math.min(0.25, (lum - 0.70) * 0.45);
+                } else if (isFace) {
+                  // Enhanced photographic chiaroscuro for facial features
+                  if (lum < 0.25) {
+                    calibratedLuma = lum * 0.85; // deep velvety pupils and shadow crevices
+                  } else if (lum < 0.70) {
+                    calibratedLuma = 0.21 + (lum - 0.25) * 1.05; // rich anatomical midtones
+                  } else {
+                    calibratedLuma = 0.68 + (lum - 0.70) * 0.65; // clean silver highlights without blowout
                   }
                 }
 
-                if (solidPxCount < 1) continue;
-
-                const avgLuma = sumLuma / solidPxCount;
-                const dynamicLuma = 0.55 * avgLuma + 0.45 * maxLuma;
-                const contrast = maxLuma - minLuma;
-
-                const u = (col + 0.5) / 75;
-                const v = (row + 0.5) / 100;
-
-                if (v > 0.81) continue;
-
-                // Tapered anatomical shoulder silhouette to eliminate any flat shelf
-                const distFromCenter = Math.abs(u - 0.5);
-                const shoulderThreshold = 0.52 + 0.22 * Math.pow(distFromCenter / 0.46, 1.35);
-                if (v < 0.50 && distFromCenter > 0.30) continue;
-                if (v >= 0.50 && v < shoulderThreshold && distFromCenter > 0.22) continue;
-                if (distFromCenter > 0.46) continue;
-
-                const isCentralFace = u >= 0.28 && u <= 0.72 && v >= 0.12 && v <= 0.54;
-                const priority = dynamicLuma * 1.2 + (isCentralFace ? 0.35 : 0.0) + (contrast > 0.14 ? 0.45 : 0.0);
-                const cleanLuma = Math.min(1.0, 1.2 * Math.pow(Math.max(0.12, dynamicLuma), 0.82));
-
-                samples.push({ u, v, luminance: cleanLuma, priority });
+                samples.push({ u, v, luminance: calibratedLuma, priority });
               }
             }
 
@@ -1929,9 +1988,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
           centerPos.xy += dirFromCenter * (1.0 - currentRadius) * 2.8 * corridorClear;
         }
 
-        // Particle tile scale
-        float portraitTileSize = 0.082 * aScale * (0.4 + 0.6 * introEase);
-        float tunnelTileSize = 0.38 * (0.75 + aSeed * 0.55);
+        // Particle tile scale: Refined high-density micro-cards with hairline negative space
+        float portraitTileSize = 0.046 * aScale * (0.4 + 0.6 * introEase);
+        float tunnelTileSize = 0.36 * (0.75 + aSeed * 0.55);
         float cardScale = mix(portraitTileSize, tunnelTileSize, localMorph);
 
         float tiltAngle = (aSeed - 0.5) * 0.36 * localMorph + burstArc * (aSeed - 0.5) * 1.2;
@@ -1970,10 +2029,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
 
       void main() {
+        // Crisp rounded micro-card corners with airy negative space
         vec2 centered = vUv - 0.5;
-        float sdf = roundedBoxSDF(centered, vec2(0.48, 0.48), 0.08);
+        float sdf = roundedBoxSDF(centered, vec2(0.46, 0.46), 0.09);
         if (sdf > 0.0) discard;
 
+        // Sample 8x8 micro-card atlas tile
         float idx = floor(vAtlasIndex + 0.5);
         float col = mod(idx, 8.0);
         float row = floor(idx / 8.0);
@@ -1982,9 +2043,15 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         vec4 texColor = texture2D(uAtlas, atlasUv);
 
-        // Portrait Mode: Crisp Black & White pointillist portrait so facial features are brilliantly sharp
+        // Portrait Mode: Pure photographic chiaroscuro silver-on-black
+        // High-fidelity luminance response: darks stay velvety dark, midtones form smooth anatomical gradients, highlights gleam
         float texLuma = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
-        vec3 bwShade = vec3(1.15 * vLuminance * (0.52 + 0.52 * texLuma));
+        float dynamicContrast = pow(vLuminance, 1.15);
+        vec3 bwDark = vec3(dynamicContrast * (0.48 + 0.52 * texLuma));
+
+        // Subtle edge rim on each micro-card for high-tech holographic texture
+        float borderMask = smoothstep(-0.045, -0.005, sdf);
+        bwDark += vec3(0.09) * borderMask * smoothstep(0.12, 0.85, vLuminance);
 
         // Tunnel Mode: Ultra-vibrant chromatic micro-card artwork
         // Dynamic iridescent rainbow spectral hue based on card seed & time
@@ -1996,11 +2063,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
         // Smooth transition from crisp black & white portrait into multi-colored tunnel on scroll
         float colorMorph = smoothstep(0.025, 0.42, vMorph);
-        vec3 cardColor = mix(bwShade, tunnelShade, colorMorph);
+        vec3 cardColor = mix(bwDark, tunnelShade, colorMorph);
 
         // Glowing neon rim highlight on card edge that intensifies with vivid neon colors on scroll!
-        float borderMask = smoothstep(-0.045, -0.005, sdf);
-        vec3 rimGlow = mix(vec3(0.24), spectralColor * 1.6 + vec3(0.25), colorMorph);
+        vec3 rimGlow = mix(vec3(0.0), spectralColor * 1.6 + vec3(0.25), colorMorph);
         cardColor += rimGlow * borderMask * (0.35 + 0.85 * colorMorph);
 
         // Distance fog fade
@@ -2119,7 +2185,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       scene.add(starfieldPoints);
 
       // 2. 3D Holographic Particle Portrait (The Signature Visual)
-      const particleTotal = 2400;
+      const particleTotal = 3800;
       const microAtlas = createMicroCardAtlas();
       const initialData = generateFallbackFaceData(particleTotal);
 
