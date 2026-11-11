@@ -83,7 +83,7 @@
                 "ReactFlow Topology",
                 "Impact Simulation"
             ],
-            "demo_url": "",
+            "demo_url": "https://mappabrik.asoyydev.id",
             "github_url": "https://github.com/asoyyparty/map-cba.git",
             "badge": "Active",
             "featured": true
@@ -197,7 +197,7 @@
                 "Evaluation Workflow",
                 "PDF Reporting"
             ],
-            "demo_url": "https://eraport.asoyydev.id/",
+            "demo_url": "https://eraport.cbapabrik.com/",
             "github_url": "https://github.com/asoyyparty/eraport",
             "badge": "Active",
             "featured": true

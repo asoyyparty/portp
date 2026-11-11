@@ -1774,9 +1774,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         const isNeck = item.v >= 0.48 && item.v <= 0.57 && Math.abs(item.u - 0.5) < 0.18;
         const neckRecess = isNeck ? -0.15 * Math.sin(((item.v - 0.48) / 0.09) * Math.PI) : 0.0;
 
-        // Torso / Chest forward arch
-        const normChest = (item.u - 0.5) / 0.46;
-        const chestDome = item.v > 0.53 && Math.abs(normChest) < 1.0 ? 0.26 * Math.sqrt(1.0 - normChest * normChest) : 0.0;
+        // Torso / Chest forward arch with smooth vertical blending
+        const chestBlend = Math.min(1.0, Math.max(0.0, (item.v - 0.50) / 0.10));
+        const normChest = (item.u - 0.5) / 0.50;
+        const chestDome = chestBlend * (Math.abs(normChest) < 1.0 ? 0.25 * Math.sqrt(1.0 - normChest * normChest) : 0.0);
 
         // Combined Z position with micro-depth relief
         const posZ = craniumDome + noseProtrusion + eyeRecess + chinProtrusion + neckRecess + chestDome + 
@@ -1799,7 +1800,18 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         luminances[i]   = finalLuma;
         atlasIndices[i] = i % 64;
         randomSeeds[i]  = seed;
-        scales[i]       = 0.92 + 0.18 * finalLuma;
+
+        // Organic edge tapering: cards gently shrink near lower torso and outer shoulders to dissolve into space
+        let edgeTaper = 1.0;
+        if (item.v > 0.78) {
+          edgeTaper *= Math.max(0.24, (0.95 - item.v) / (0.95 - 0.78));
+        }
+        const distU = Math.abs(item.u - 0.5);
+        if (distU > 0.42) {
+          edgeTaper *= Math.max(0.35, (0.50 - distU) / (0.50 - 0.42));
+        }
+
+        scales[i]       = (0.92 + 0.18 * finalLuma) * edgeTaper;
       }
 
       return {
@@ -1887,12 +1899,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;
             const samples = [];
-            const cols = 106;
-            const rows = 142;
+            const cols = 104;
+            const rows = 138;
 
             for (let r = 0; r < rows; r++) {
               const v = (r + 0.5) / rows;
-              if (v > 0.88) continue;
+              if (v > 0.94) continue;
 
               const py = Math.min(399, Math.max(0, Math.floor(v * 400)));
 
@@ -1900,16 +1912,24 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                 const u = (c + 0.5) / cols;
                 const distU = Math.abs(u - 0.5);
 
-                // Tapered anatomical shoulder silhouette to eliminate flat shelf cutoffs while preserving full torso
-                const shoulderThreshold = 0.52 + 0.24 * Math.pow(distU / 0.48, 1.35);
-                if (v < 0.50 && distU > 0.30) continue;
-                if (v >= 0.50 && v < shoulderThreshold && distU > 0.22) continue;
-                if (distU > 0.48) continue;
-
                 const px = Math.min(299, Math.max(0, Math.floor(u * 300)));
                 const idx = (py * 300 + px) * 4;
                 const a = imgData[idx + 3] / 255;
-                if (a < 0.16) continue;
+                if (a < 0.18) continue;
+
+                // Organic stochastic dissolve at lower torso to eliminate hard table cut
+                if (v > 0.79) {
+                  const bottomFade = (0.94 - v) / (0.94 - 0.79);
+                  const pseudoRnd = ((Math.sin(r * 12.9898 + c * 78.233) * 43758.5453) % 1 + 1) % 1;
+                  if (pseudoRnd > bottomFade) continue;
+                }
+
+                // Soft dispersion on outer shoulder perimeter
+                if (distU > 0.44) {
+                  const sideFade = (0.50 - distU) / (0.50 - 0.44);
+                  const pseudoRnd2 = ((Math.sin(c * 26.12 + r * 54.34) * 31234.12) % 1 + 1) % 1;
+                  if (pseudoRnd2 > sideFade) continue;
+                }
 
                 const red = imgData[idx] / 255;
                 const grn = imgData[idx + 1] / 255;
@@ -2159,7 +2179,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         float corridorDist = length(vec2(vWorldCoord.x / 2.5, vWorldCoord.y / 1.65));
         float corridorMask = mix(1.0, smoothstep(0.70, 1.15, corridorDist), smoothstep(0.05, 0.28, vMorph));
 
-        float alpha = nearLensFade * smoothstep(0.0, 0.25, uIntro) * clamp(fogFactor + 0.08, 0.0, 1.0) * corridorMask;
+        // Soft organic vignette at lower torso and outer flanks in portrait mode to dissolve naturally into space
+        float bottomVignette = smoothstep(-3.15, -2.10, vWorldCoord.y);
+        float sideVignette = smoothstep(2.95, 2.50, abs(vWorldCoord.x));
+        float portraitDissolve = mix(bottomVignette * sideVignette, 1.0, smoothstep(0.0, 0.18, vMorph));
+
+        float alpha = nearLensFade * smoothstep(0.0, 0.25, uIntro) * clamp(fogFactor + 0.08, 0.0, 1.0) * corridorMask * portraitDissolve;
         if (alpha < 0.01) discard;
 
         gl_FragColor = vec4(finalRgb, alpha);
