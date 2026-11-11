@@ -317,7 +317,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       position: fixed;
       inset-inline: 0;
       bottom: 0;
-      z-index: 20;
+      z-index: 35;
       pointer-events: none;
       transition: opacity 0.25s ease, transform 0.25s ease;
       user-select: none;
@@ -372,6 +372,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background: #050505;
       box-shadow: 0 -20px 40px rgba(5, 5, 5, 1);
+      pointer-events: auto;
     }
 
     .hero-fade-gradient {
@@ -430,7 +431,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       align-items: center;
       gap: 4px;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
       color: #22d3ee;
       text-decoration: underline;
       text-underline-offset: 4px;
@@ -438,10 +439,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       cursor: pointer;
       background: none;
       border: none;
-      padding: 0;
+      padding: 6px 0;
       pointer-events: auto !important;
       position: relative;
-      z-index: 30;
+      z-index: 40;
     }
     @media (min-width: 640px) {
       .hero-action-link { font-size: 12px; }
@@ -517,8 +518,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       pointer-events: none;
       padding: 12px 16px;
       opacity: 0;
+      visibility: hidden;
       transform: translateY(20px);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
     }
     @media (min-width: 640px) {
       #projectHudBar { padding: 18px 32px; }
@@ -529,7 +531,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     #projectHudBar.is-visible {
       opacity: 1;
+      visibility: visible;
       transform: translateY(0);
+      pointer-events: auto;
+    }
+    #projectHudBar:not(.is-visible) * {
+      pointer-events: none !important;
     }
 
     .hud-inner {
@@ -1079,16 +1086,16 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
     .admin-float-pill {
       position: fixed;
-      bottom: 16px;
-      left: 16px;
-      z-index: 35;
+      bottom: 8px;
+      left: 12px;
+      z-index: 20;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       color: rgba(255, 255, 255, 0.35);
       text-decoration: none;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 9999px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(8px);
       transition: all 0.2s;
@@ -1494,6 +1501,41 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     let currentPointerY = 0;
     let introProgress = 0;
     let lastProgrammaticScroll = 0;
+
+    // ── Global Modal Controllers (Immediate Definition) ──
+    window.switchAboutTab = function(targetTab) {
+      document.querySelectorAll('.modal-tab-pill').forEach(btn => {
+        if (btn.getAttribute('data-tab') === targetTab) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+      document.querySelectorAll('.about-tab-content').forEach(pane => {
+        if (pane.id === 'tab-' + targetTab) {
+          pane.style.display = 'block';
+        } else {
+          pane.style.display = 'none';
+        }
+      });
+    };
+
+    window.openAboutModal = function(targetTab = 'about-bio') {
+      const pm = document.getElementById('projectModal');
+      const cm = document.getElementById('contactModal');
+      const am = document.getElementById('aboutModal');
+      if (pm) pm.classList.remove('is-open');
+      if (cm) cm.classList.remove('is-open');
+      if (am) {
+        am.classList.add('is-open');
+        window.switchAboutTab(targetTab);
+      }
+    };
+
+    window.closeAboutModal = function() {
+      const am = document.getElementById('aboutModal');
+      if (am) am.classList.remove('is-open');
+    };
 
     // ── Holographic Micro-Card Atlas Generator ──
     const colorThemes = [
@@ -2160,10 +2202,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     let starfieldPoints = null;
     const projectMeshObjects = [];
     const container = document.getElementById('spatialCanvasContainer');
-    const mouseWorld = new THREE.Vector2(99, 99);
+    let mouseWorld = (typeof THREE !== 'undefined' && THREE.Vector2) ? new THREE.Vector2(99, 99) : { x: 99, y: 99, set(x, y) { this.x = x; this.y = y; } };
 
     async function initThreeScene() {
       if (!window.THREE) return;
+      if (THREE.Vector2) mouseWorld = new THREE.Vector2(99, 99);
 
       const width = container.clientWidth || window.innerWidth;
       const height = container.clientHeight || window.innerHeight;
