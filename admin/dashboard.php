@@ -1177,6 +1177,17 @@ $flash = get_flash();
                 <input type="url" class="form-control" name="instagram" value="<?= htmlspecialchars($content['contact']['instagram'] ?? '') ?>" />
               </div>
             </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Telegram Link (t.me)</label>
+                <input type="url" class="form-control" name="telegram" value="<?= htmlspecialchars($content['contact']['telegram'] ?? 'https://t.me/doelkussoy') ?>" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telegram Username (@username)</label>
+                <input type="text" class="form-control" name="telegram_username" value="<?= htmlspecialchars($content['contact']['telegram_username'] ?? '@doelkussoy') ?>" />
+              </div>
+            </div>
           </form>
         </div>
       </section>

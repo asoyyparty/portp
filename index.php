@@ -1436,10 +1436,10 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         </div>
 
         <div class="contact-links-grid">
-          <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?>" class="contact-card-box">
+          <a href="mailto:<?= h($contact['email'] ?? 'qoisabdulqudus@asoyydev.id') ?>" class="contact-card-box">
             <div>
               <div class="contact-label">Email</div>
-              <div class="contact-val" style="font-size: 12px;"><?= h($contact['email'] ?? 'qoisabdulquduss@gmail.com') ?></div>
+              <div class="contact-val" style="font-size: 11.5px;"><?= h($contact['email'] ?? 'qoisabdulqudus@asoyydev.id') ?></div>
             </div>
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
@@ -1448,6 +1448,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <div>
               <div class="contact-label">WhatsApp / Call</div>
               <div class="contact-val"><?= h(!empty($contact['whatsapp']) ? $contact['whatsapp'] : '+62 851-9530-0828') ?></div>
+            </div>
+            <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
+          </a>
+
+          <a href="<?= h($contact['telegram'] ?? 'https://t.me/doelkussoy') ?>" target="_blank" rel="noopener noreferrer" class="contact-card-box">
+            <div>
+              <div class="contact-label">Telegram</div>
+              <div class="contact-val"><?= h(!empty($contact['telegram_username']) ? $contact['telegram_username'] : '@doelkussoy') ?></div>
             </div>
             <span style="color: var(--color-cyan); font-size: 14px;">↗</span>
           </a>
