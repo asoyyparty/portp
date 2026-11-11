@@ -1345,7 +1345,6 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
             <?php foreach (($services ?? []) as $srv): ?>
             <div class="focus-card">
               <div class="focus-card-head">
-                <span class="focus-badge">⚡</span>
                 <span class="focus-title"><?= h($srv['title'] ?? '') ?></span>
               </div>
               <p class="focus-desc"><?= h($srv['desc'] ?? '') ?></p>
