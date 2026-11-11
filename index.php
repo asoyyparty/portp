@@ -1644,27 +1644,26 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     // ── Build Particle Data from Sampled Pixels ──
     function buildParticleData(samples, count) {
       const prng = createPRNG(1338042);
-      const sorted = [...samples].sort((a, b) => b.priority - a.priority);
       const pool = [];
 
-      if (sorted.length >= count) {
-        const topRatio = Math.floor(0.70 * count);
-        for (let i = 0; i < topRatio; i++) pool.push(sorted[i]);
-        const rem = sorted.slice(topRatio);
-        const needed = count - topRatio;
-        for (let i = 0; i < needed; i++) {
-          const pick = Math.min(rem.length - 1, Math.floor((i / needed) * rem.length));
-          pool.push(rem[pick]);
+      if (samples.length >= count) {
+        // Uniform spatial sub-sampling so every section (face, neck, tie, chest, shoulders) gets proportional representation
+        const step = samples.length / count;
+        for (let i = 0; i < count; i++) {
+          pool.push(samples[Math.min(samples.length - 1, Math.floor(i * step))]);
         }
       } else {
-        pool.push(...sorted);
+        // All spatial candidate cells are preserved (100% full coverage without any gaps)
+        pool.push(...samples);
+        // Duplicate top anatomical facial details (eyes, nose, mouth) for high-definition sharpness
+        const sorted = [...samples].sort((a, b) => b.priority - a.priority);
         let idx = 0;
         while (pool.length < count && sorted.length > 0) {
           const s = sorted[idx % sorted.length];
           pool.push({
-            u: s.u + (prng() - 0.5) * 0.008,
-            v: s.v + (prng() - 0.5) * 0.008,
-            luminance: s.luminance * (0.92 + 0.12 * prng()),
+            u: s.u + (prng() - 0.5) * 0.003,
+            v: s.v + (prng() - 0.5) * 0.003,
+            luminance: s.luminance,
             priority: s.priority
           });
           idx++;
@@ -1681,8 +1680,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       for (let i = 0; i < count; i++) {
         const item = pool[i] || { u: 0.5, v: 0.5, luminance: 0.5 };
         const seed = prng();
-        const jitterX = (prng() - 0.5) * 0.025;
-        const jitterY = (prng() - 0.5) * 0.025;
+        // Subtle micro-jitter to prevent mechanical banding while maintaining snug tessellation
+        const jitterX = (prng() - 0.5) * 0.006;
+        const jitterY = (prng() - 0.5) * 0.006;
 
         // 3D Portrait position
         const posX = (item.u - 0.5) * 5.85 + jitterX;
@@ -1735,11 +1735,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         tunnelPositions[i * 3 + 1] = Math.sin(spiralAngle) * radius * 1.1;
         tunnelPositions[i * 3 + 2] = tunnelZ;
 
-        const finalLuma = Math.min(1.0, Math.max(0.06, item.luminance));
+        const finalLuma = Math.min(1.0, Math.max(0.08, item.luminance));
         luminances[i]   = finalLuma;
         atlasIndices[i] = i % 64;
         randomSeeds[i]  = seed;
-        scales[i]       = 0.75 + 0.35 * finalLuma;
+        scales[i]       = 0.92 + 0.18 * finalLuma;
       }
 
       return {
@@ -1754,7 +1754,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     // ── Generate Procedural Face Fallback (Endang's Anatomical Sculpt) ──
-    function generateFallbackFaceData(count = 3800) {
+    function generateFallbackFaceData(count = 6400) {
       const samples = [];
       const prng = createPRNG(9001);
       for (let r = 0; r < 102; r++) {
@@ -1797,7 +1797,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
     }
 
     // ── Image Sampling: Converts Qois's Photo to 3D Particle Cloud ──
-    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 3800) {
+    function samplePortraitPhoto(imageSrc = 'assets/images/profile_nobg.png', count = 6400) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -1827,12 +1827,12 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
 
             const imgData = ctx.getImageData(0, 0, 300, 400).data;
             const samples = [];
-            const cols = 105;
-            const rows = 140;
+            const cols = 106;
+            const rows = 142;
 
             for (let r = 0; r < rows; r++) {
               const v = (r + 0.5) / rows;
-              if (v > 0.82) continue;
+              if (v > 0.88) continue;
 
               const py = Math.min(399, Math.max(0, Math.floor(v * 400)));
 
@@ -1840,16 +1840,16 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                 const u = (c + 0.5) / cols;
                 const distU = Math.abs(u - 0.5);
 
-                // Tapered anatomical shoulder silhouette to eliminate flat shelf cutoffs
-                const shoulderThreshold = 0.52 + 0.22 * Math.pow(distU / 0.46, 1.35);
+                // Tapered anatomical shoulder silhouette to eliminate flat shelf cutoffs while preserving full torso
+                const shoulderThreshold = 0.52 + 0.24 * Math.pow(distU / 0.48, 1.35);
                 if (v < 0.50 && distU > 0.30) continue;
                 if (v >= 0.50 && v < shoulderThreshold && distU > 0.22) continue;
-                if (distU > 0.46) continue;
+                if (distU > 0.48) continue;
 
                 const px = Math.min(299, Math.max(0, Math.floor(u * 300)));
                 const idx = (py * 300 + px) * 4;
                 const a = imgData[idx + 3] / 255;
-                if (a < 0.18) continue;
+                if (a < 0.16) continue;
 
                 const red = imgData[idx] / 255;
                 const grn = imgData[idx + 1] / 255;
@@ -1881,23 +1881,22 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
                 const isFace = (v >= 0.14 && v <= 0.54 && u >= 0.28 && u <= 0.72);
                 const isTie = (v >= 0.56 && distU <= 0.055);
 
-                // High-fidelity priority calculation:
-                let priority = 0.5 + edgeEnergy * 2.8;
+                // High-fidelity priority calculation with guaranteed high base floor for dense coverage:
+                let priority = 1.0 + edgeEnergy * 2.2;
                 if (isEyes) {
                   // Eyes and pupils get paramount priority
-                  priority += (lum < 0.25 ? 3.0 : 2.2);
+                  priority += (lum < 0.25 ? 2.6 : 2.0);
                 } else if (isMouth) {
-                  priority += (lum < 0.35 ? 2.2 : 1.6);
+                  priority += (lum < 0.35 ? 2.0 : 1.5);
                 } else if (isNose) {
-                  priority += 1.8 + edgeEnergy * 1.5;
+                  priority += 1.6 + edgeEnergy * 1.5;
                 } else if (isTie) {
-                  priority += 1.5;
+                  priority += 1.4;
                 } else if (isFace) {
-                  priority += 1.2 + (edgeEnergy > 0.10 ? 1.0 : 0.0);
+                  priority += 1.0 + (edgeEnergy > 0.10 ? 0.8 : 0.0);
                 }
 
                 // Tonal calibration:
-                // Prevent white shirt from blinding the composition while retaining crisp collar lines
                 let calibratedLuma = lum;
                 if (v > 0.54 && !isTie) {
                   // White shirt tonal compression: soft silver matte
@@ -2008,7 +2007,7 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         }
 
         // Particle tile scale: Refined high-density micro-cards with hairline negative space
-        float portraitTileSize = 0.046 * aScale * (0.4 + 0.6 * introEase);
+        float portraitTileSize = 0.058 * aScale * (0.4 + 0.6 * introEase);
         float tunnelTileSize = 0.36 * (0.75 + aSeed * 0.55);
         float cardScale = mix(portraitTileSize, tunnelTileSize, localMorph);
 
@@ -2048,9 +2047,9 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       }
 
       void main() {
-        // Crisp rounded micro-card corners with airy negative space
+        // Crisp rounded micro-card corners with hairline negative space
         vec2 centered = vUv - 0.5;
-        float sdf = roundedBoxSDF(centered, vec2(0.46, 0.46), 0.09);
+        float sdf = roundedBoxSDF(centered, vec2(0.47, 0.47), 0.05);
         if (sdf > 0.0) discard;
 
         // Sample 8x8 micro-card atlas tile
@@ -2063,14 +2062,14 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
         vec4 texColor = texture2D(uAtlas, atlasUv);
 
         // Portrait Mode: Pure photographic chiaroscuro silver-on-black
-        // High-fidelity luminance response: darks stay velvety dark, midtones form smooth anatomical gradients, highlights gleam
+        // Solid micro-card response: dark hair and tie stay visible as sleek metallic graphite, midtones form smooth anatomical gradients, highlights gleam
         float texLuma = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
-        float dynamicContrast = pow(vLuminance, 1.15);
-        vec3 bwDark = vec3(dynamicContrast * (0.48 + 0.52 * texLuma));
+        float lumaResponse = 0.14 + 0.86 * pow(vLuminance, 0.95);
+        vec3 bwDark = vec3(lumaResponse * (0.48 + 0.52 * texLuma));
 
         // Subtle edge rim on each micro-card for high-tech holographic texture
         float borderMask = smoothstep(-0.045, -0.005, sdf);
-        bwDark += vec3(0.09) * borderMask * smoothstep(0.12, 0.85, vLuminance);
+        bwDark += vec3(0.08) * borderMask;
 
         // Tunnel Mode: Ultra-vibrant chromatic micro-card artwork
         // Dynamic iridescent rainbow spectral hue based on card seed & time
@@ -2204,11 +2203,11 @@ $accentColors = ['#00F0FF', '#38BDF8', '#818CF8', '#34D399', '#F472B6', '#FBBF24
       scene.add(starfieldPoints);
 
       // 2. 3D Holographic Particle Portrait (The Signature Visual)
-      const particleTotal = 3800;
+      const particleTotal = 6400;
       const microAtlas = createMicroCardAtlas();
       const initialData = generateFallbackFaceData(particleTotal);
 
-      const basePlane = new THREE.PlaneGeometry(1, 0.76, 1, 1);
+      const basePlane = new THREE.PlaneGeometry(1, 0.92, 1, 1);
       const instancedGeo = new THREE.InstancedBufferGeometry();
       instancedGeo.index = basePlane.index;
       instancedGeo.attributes.position = basePlane.attributes.position;
