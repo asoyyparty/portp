@@ -406,6 +406,7 @@
 
     .hero-action-link {
       margin-top: 8px;
+      margin-left: 78px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -422,6 +423,9 @@
       pointer-events: auto !important;
       position: relative;
       z-index: 40;
+    }
+    @media (max-width: 639px) {
+      .hero-action-link { margin-left: 82px; }
     }
     @media (min-width: 640px) {
       .hero-action-link { font-size: 12px; }
@@ -1065,23 +1069,30 @@
 
     .admin-float-pill {
       position: fixed;
-      bottom: 8px;
-      left: 12px;
-      z-index: 20;
+      bottom: 16px;
+      left: 16px;
+      z-index: 50;
       font-family: var(--font-mono);
-      font-size: 9.5px;
-      color: rgba(255, 255, 255, 0.35);
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.45);
       text-decoration: none;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 9999px;
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 10, 14, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       transition: all 0.2s;
+      cursor: pointer;
+      pointer-events: auto !important;
+      display: inline-flex;
+      align-items: center;
     }
     .admin-float-pill:hover {
-      color: #FFFFFF;
-      border-color: rgba(255, 255, 255, 0.25);
+      color: #00F0FF;
+      border-color: rgba(0, 240, 255, 0.45);
+      background: rgba(0, 240, 255, 0.12);
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -2674,7 +2685,7 @@
         // At hero view or when about modal is active, projects are never active or clickable
         if (scrollProgress < 0.045) return;
         if (aboutModal && aboutModal.classList.contains('is-open')) return;
-        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('#btnHeroReadMore') || e.target.closest('.btn-explore-projects')) return;
+        if (e.target.closest('.modal-overlay') || e.target.closest('.topbar') || e.target.closest('#projectHudBar') || e.target.closest('#heroOverlay') || e.target.closest('.hero-action-link') || e.target.closest('#btnHeroReadMore') || e.target.closest('.btn-explore-projects') || e.target.closest('.admin-float-pill')) return;
 
         if (hoveredProjectMesh && hoveredProjectMesh.userData && hoveredProjectMesh.userData.project) {
           const proj = hoveredProjectMesh.userData.project;
